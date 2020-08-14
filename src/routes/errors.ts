@@ -1,11 +1,7 @@
 import { Router } from "express";
+import { errorsController } from "../middlewares/errors";
 
-const router = Router();
+export const errorsRouter = Router();
 
-const errors = [1, 2, 3, 4];
-
-router.get("/", (req, res, next) => {
-    res.status(200).json({ errors: errors });
-});
-
-export default router;
+// GET /errors
+errorsRouter.get("/errors", errorsController);
