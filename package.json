@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "Basic Node Server",
     "scripts": {
+        "start": "npm run compile-watch & npm run start-nodemon",
+        "start-nodemon": "nodemon ./dist/app.js",
+        "compile-watch": "tsc --watch",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -24,6 +27,7 @@
         "@typescript-eslint/parser": "^3.9.0",
         "eslint": "^7.6.0",
         "eslint-config-prettier": "^6.11.0",
+        "nodemon": "^2.0.4",
         "typescript": "^3.9.7"
     },
     "dependencies": {
