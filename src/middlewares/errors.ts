@@ -1,6 +1,12 @@
 import { ErrorRequestHandler } from "express";
+import { CustomError } from "../utils/interfaces";
 
-export const errorsController: ErrorRequestHandler = (err, req, res, next) => {
+export const errorsController: ErrorRequestHandler = (
+    err: CustomError,
+    req,
+    res,
+    next
+) => {
     // Read or set default error status code
     const statusCode = err.statusCode || 500;
     // Return error response
