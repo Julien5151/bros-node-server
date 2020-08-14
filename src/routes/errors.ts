@@ -3,5 +3,5 @@ import { errorsRouteController } from "../controllers/errors";
 
 export const errorsRouter = Router();
 
-// GET /errors/all
-errorsRouter.get("/all", errorsRouteController);
+// POST /errors/throw
+errorsRouter.post("/throw", errorsRouteController);
