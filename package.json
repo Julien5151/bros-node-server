@@ -1,14 +1,20 @@
 {
-  "name": "basic-node-server",
-  "version": "1.0.0",
-  "description": "Basic Node Server",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Julien5151/basic-node-server.git"
-  },
-  "author": "Julien CLAUDEL",
-  "license": "MIT"
+    "name": "basic-node-server",
+    "version": "1.0.0",
+    "description": "Basic Node Server",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Julien5151/basic-node-server.git"
+    },
+    "author": "Julien CLAUDEL",
+    "license": "MIT",
+    "prettier": {
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "semi": true,
+        "singleQuote": false
+    }
 }
