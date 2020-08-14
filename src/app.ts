@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import { errorsController } from "./middlewares/errors";
 import { errorsRouter } from "./routes/errors";
+import { authController } from "./middlewares/auth";
 
 // Create express application
 const app = express();
@@ -17,6 +18,9 @@ app.use((req, res, next) => {
     );
     next();
 });
+
+// Auth route
+app.use(authController);
 
 // Error routes
 app.use("/errors", errorsRouter);
