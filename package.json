@@ -16,5 +16,11 @@
         "tabWidth": 4,
         "semi": true,
         "singleQuote": false
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^3.9.0",
+        "@typescript-eslint/parser": "^3.9.0",
+        "eslint": "^7.6.0",
+        "typescript": "^3.9.7"
     }
 }
