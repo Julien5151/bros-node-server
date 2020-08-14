@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { errorsController } from "../middlewares/errors";
+import { errorsRouteController } from "../controllers/errors";
 
 export const errorsRouter = Router();
 
-// GET /errors
-errorsRouter.get("/errors", errorsController);
+// GET /errors/all
+errorsRouter.get("/all", errorsRouteController);

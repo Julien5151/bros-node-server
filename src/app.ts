@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 // Error routes
-app.use(errorsRouter);
+app.use("/errors", errorsRouter);
 
 // Error handling middleware
 app.use(errorsController);
