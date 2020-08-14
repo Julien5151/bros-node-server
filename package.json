@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "description": "Basic Node Server",
     "scripts": {
-        "start": "concurrently 'npm run compile-watch' 'npm run start-nodemon'",
+        "start": "node ./dist/app.js",
+        "start-dev": "concurrently 'npm run compile-watch' 'npm run start-nodemon'",
         "start-nodemon": "nodemon ./dist/app.js",
         "compile-watch": "tsc --watch",
         "test": "echo \"Error: no test specified\" && exit 1"
