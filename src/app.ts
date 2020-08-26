@@ -10,17 +10,8 @@ const app = express();
 
 // Body parsing middleware
 app.use(bodyParser.json()); // application/json
-// CORS headers middleware
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, PATCH, PUT, DELETE, OPTIONS"
-    );
-    next();
-});
-// Pre-flight request (OPTIONS) authorization
-app.options("*", cors());
+// Allow all CORS requests
+app.use(cors());
 
 // Auth route
 app.use(authController);

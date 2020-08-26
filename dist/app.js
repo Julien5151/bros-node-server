@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const errors_1 = require("./middlewares/errors");
 const errors_2 = require("./routes/errors");
@@ -12,12 +13,8 @@ const auth_1 = require("./middlewares/auth");
 const app = express_1.default();
 // Body parsing middleware
 app.use(body_parser_1.default.json()); // application/json
-// CORS headers middleware
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE");
-    next();
-});
+// Allow all CORS requests
+app.use(cors_1.default());
 // Auth route
 app.use(auth_1.authController);
 // Error routes
