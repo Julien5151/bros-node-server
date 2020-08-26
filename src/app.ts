@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import { errorsController } from "./middlewares/errors";
 import { errorsRouter } from "./routes/errors";
@@ -9,6 +10,8 @@ const app = express();
 
 // Body parsing middleware
 app.use(bodyParser.json()); // application/json
+// Pre-flight request (OPTIONS) authorization
+app.options("*", cors());
 // CORS headers middleware
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
