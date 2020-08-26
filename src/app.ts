@@ -10,8 +10,6 @@ const app = express();
 
 // Body parsing middleware
 app.use(bodyParser.json()); // application/json
-// Pre-flight request (OPTIONS) authorization
-app.options("*", cors());
 // CORS headers middleware
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -21,6 +19,8 @@ app.use((req, res, next) => {
     );
     next();
 });
+// Pre-flight request (OPTIONS) authorization
+app.options("*", cors());
 
 // Auth route
 app.use(authController);
