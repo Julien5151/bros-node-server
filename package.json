@@ -1,7 +1,7 @@
 {
-    "name": "basic-node-server",
-    "version": "1.0.0",
-    "description": "Basic Node Server",
+    "name": "bros-node-server",
+    "version": "0.0.1",
+    "description": "Bros - NodeJS backend server",
     "scripts": {
         "start": "node ./dist/app.js",
         "start-dev": "concurrently 'npm run compile-watch' 'npm run start-nodemon'",
@@ -12,7 +12,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Julien5151/basic-node-server.git"
+        "url": "git+https://github.com/Julien5151/bros-node-server.git"
     },
     "author": "Julien CLAUDEL",
     "license": "MIT",
