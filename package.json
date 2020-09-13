@@ -8,7 +8,8 @@
         "start-nodemon": "nodemon ./dist/app.js",
         "compile-watch": "tsc --watch",
         "compile": "tsc",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "deploy": "npm run compile && git push heroku master"
     },
     "repository": {
         "type": "git",
