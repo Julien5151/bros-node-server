@@ -1,5 +1,6 @@
 {
     "env": {
-        "TOKEN": "magic_token"
+        "PORT": 3000,
+        "TOKEN": "my_dev_token"
     }
 }

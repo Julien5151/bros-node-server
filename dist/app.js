@@ -22,4 +22,4 @@ app.use("/errors", errors_2.errorsRouter);
 // Error handling middleware
 app.use(errors_1.errorsController);
 // Start express app on port 3000
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT);
