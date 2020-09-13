@@ -1,6 +1,7 @@
 {
     "env": {
         "PORT": 3000,
-        "TOKEN": "my_dev_token"
+        "TOKEN": "my_dev_token",
+        "DEV_DB_PASSWORD": "§fzjioFh65l@lMkf!-fIpmù_8ç"
     }
 }

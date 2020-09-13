@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import { errorsController } from "./middlewares/errors";
 import { errorsRouter } from "./routes/errors";
 import { authController } from "./middlewares/auth";
+import { connection } from "./utils/database";
 
 // Create express application
 const app = express();
