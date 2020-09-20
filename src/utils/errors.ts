@@ -10,7 +10,7 @@ export const errorsController: ErrorRequestHandler = (
     // Read or set default error status code
     const statusCode = err.statusCode || 500;
     // Return error response
-    res.status(statusCode).json({
+    return res.status(statusCode).json({
         message: err.message,
     });
 };

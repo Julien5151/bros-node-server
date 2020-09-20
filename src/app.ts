@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { errorsController } from "./utils/errors";
-import { errorsRouter } from "./routes/errors";
-import { authController } from "./middlewares/auth";
+import { usersRouter } from "./routes/users";
+import { authController } from "./utils/auth";
 
 // Create express application
 const app = express();
@@ -16,8 +16,8 @@ app.use(cors());
 // Auth route
 app.use(authController);
 
-// Error routes
-app.use("/errors", errorsRouter);
+// Users routes
+app.use("/users", usersRouter);
 
 // Error handling middleware
 app.use(errorsController);

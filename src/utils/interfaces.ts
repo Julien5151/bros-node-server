@@ -3,6 +3,19 @@ export interface CustomError {
     message: string;
 }
 
+export interface User {
+    id?: number;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+    zipcode?: number;
+    password?: string;
+    role?: UserRole;
+    createdAt?: Date;
+}
+
 export enum UserRole {
     visitor = "visitor",
     bro = "bro",
