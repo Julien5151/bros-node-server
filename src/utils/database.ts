@@ -1,18 +1,13 @@
-import mysql, { MysqlError } from "mysql";
+import mysql, { PoolOptions } from "mysql2";
 
-export const connection = mysql.createConnection({
+// Pool configuration object
+// Casting is mandatory as PoolOptions definition doesn't allow "host" key
+// Which seems to be an error as it's used in the official documentation
+const poolOptions = {
     host: "localhost",
     user: "root",
     database: "bros-mysql-database",
     password: process.env.DEV_DB_PASSWORD,
-});
+} as PoolOptions;
 
-connection.connect((err: MysqlError) => {
-    // If an error is returned, connection failed
-    if (err) {
-        console.error("error connecting: " + err.stack);
-        return;
-    }
-    // Otherwise, connection to DB is successfull
-    console.log("connected as id " + connection.threadId);
-});
+export const connectionPool = mysql.createPool(poolOptions).promise();
