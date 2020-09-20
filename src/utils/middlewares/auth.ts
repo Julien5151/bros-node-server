@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { CustomError } from "../utils/interfaces";
+import { CustomError } from "../types/interfaces";
 
 export const authController: RequestHandler = (req, res, next) => {
     if (req.headers.token === process.env.TOKEN) next();

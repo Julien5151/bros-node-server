@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postUsersRouteController = void 0;
-const database_1 = require("../utils/database");
+const connectionPool_1 = require("../utils/database/connectionPool");
 exports.postUsersRouteController = (req, res, next) => {
     // Extract user from body
     const reqBody = req.body;
     // Insert user into table
-    database_1.connectionPool
+    connectionPool_1.connectionPool
         .execute("INSERT INTO users (first_name, last_name, email, phone, zipcode, password, role, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?);", [
         reqBody.firstName,
         reqBody.lastName,

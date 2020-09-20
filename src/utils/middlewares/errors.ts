@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from "express";
-import { CustomError } from "./interfaces";
+import { CustomError } from "../types/interfaces";
 
 export const errorsController: ErrorRequestHandler = (
     err: CustomError,

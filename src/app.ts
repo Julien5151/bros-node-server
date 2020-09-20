@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { errorsController } from "./utils/errors";
-import { usersRouter } from "./routes/users";
-import { authController } from "./utils/auth";
+import { errorsController } from "./utils/middlewares/errors";
+import { usersRouter } from "./users/users.routes";
+import { authController } from "./utils/middlewares/auth";
 
 // Create express application
 const app = express();

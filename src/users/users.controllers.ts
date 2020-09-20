@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { MysqlError } from "mysql2";
-import { connectionPool } from "../utils/database";
-import { CustomError, User } from "../utils/interfaces";
+import { connectionPool } from "../utils/database/connectionPool";
+import { CustomError, User } from "../utils/types/interfaces";
 
 export const postUsersRouteController: RequestHandler = (req, res, next) => {
     // Extract user from body
