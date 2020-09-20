@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { errorsController } from "./middlewares/errors";
+import { errorsController } from "./utils/errors";
 import { errorsRouter } from "./routes/errors";
 import { authController } from "./middlewares/auth";
 
