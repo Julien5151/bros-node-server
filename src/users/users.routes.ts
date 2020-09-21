@@ -1,7 +1,13 @@
 import { Router } from "express";
-import { postUsersRouteController } from "./users.controllers";
+import {
+    deleteUsersRouteController,
+    postUsersRouteController,
+} from "./users.controllers";
 
 export const usersRouter = Router();
 
+// DELETE /users/userId
+usersRouter.delete("/:id", deleteUsersRouteController);
+
 // POST /users
-usersRouter.post("", postUsersRouteController);
+usersRouter.post("/", postUsersRouteController);
