@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { errorsController } from "./utils/middlewares/errors";
 import { usersRouter } from "./users/users.routes";
-import { authController } from "./utils/middlewares/auth";
+import { authRouter } from "./auth/auth.routes";
 
 // Create express application
 const app = express();
@@ -13,8 +13,8 @@ app.use(bodyParser.json()); // application/json
 // Allow all CORS requests
 app.use(cors());
 
-// Auth route
-app.use(authController);
+// Authentication routes
+app.use("/auth", authRouter);
 
 // Users routes
 app.use("/users", usersRouter);
