@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signinRouteController = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const connectionPool_1 = require("../../utils/database/connectionPool");
 exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
@@ -32,9 +33,14 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
             const isPasswordCorrect = yield bcryptjs_1.default.compare(password, user.password);
             // If password is correct, generate a token and return it to the user
             if (isPasswordCorrect) {
+                // Generate token with user data
+                const token = jsonwebtoken_1.default.sign({
+                    id: user.id,
+                    email: user.email,
+                }, process.env.TOKEN_SECRET, { expiresIn: "1h" });
                 // Create response object
                 const response = {
-                    token: "toto",
+                    token: token,
                 };
                 return res.status(200).json(response);
             }

@@ -7,7 +7,7 @@ const poolOptions = {
     host: "localhost",
     user: "root",
     database: "bros-mysql-database",
-    password: process.env.DEV_DB_PASSWORD,
+    password: process.env.DB_PASSWORD,
 } as PoolOptions;
 
 export const connectionPool = mysql.createPool(poolOptions).promise();

@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import bcrypt from "bcryptjs";
+import jwt, { Secret } from "jsonwebtoken";
 import { User } from "../../models/user";
 import { connectionPool } from "../../utils/database/connectionPool";
 import { CustomError } from "../../utils/types/interfaces";
@@ -28,9 +29,18 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
             );
             // If password is correct, generate a token and return it to the user
             if (isPasswordCorrect) {
+                // Generate token with user data
+                const token = jwt.sign(
+                    {
+                        id: user.id,
+                        email: user.email,
+                    },
+                    process.env.TOKEN_SECRET as Secret,
+                    { expiresIn: "1h" }
+                );
                 // Create response object
                 const response: SigninResponse = {
-                    token: "toto",
+                    token: token,
                 };
                 return res.status(200).json(response);
             } else {
