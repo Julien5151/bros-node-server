@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signinRouteController = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const connectionPool_1 = require("../../utils/database/connectionPool");
 exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
@@ -24,11 +28,24 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
             // User found
             // Extract user from mysql response
             const user = mysqlResponse[0][0];
-            // Create response object
-            const response = {
-                token: "toto",
-            };
-            return res.status(200).json(response);
+            // Compare passwords
+            const isPasswordCorrect = yield bcryptjs_1.default.compare(password, user.password);
+            // If password is correct, generate a token and return it to the user
+            if (isPasswordCorrect) {
+                // Create response object
+                const response = {
+                    token: "toto",
+                };
+                return res.status(200).json(response);
+            }
+            else {
+                // Create custom error message from mysql error
+                const error = {
+                    statusCode: 401,
+                    message: "Email or password is incorrect",
+                };
+                throw error;
+            }
         }
         else {
             // Create custom error message from mysql error

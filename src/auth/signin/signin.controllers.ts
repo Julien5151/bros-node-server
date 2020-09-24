@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { OkPacket } from "mysql2";
+import bcrypt from "bcryptjs";
 import { User } from "../../models/user";
 import { connectionPool } from "../../utils/database/connectionPool";
 import { CustomError } from "../../utils/types/interfaces";
@@ -21,11 +21,26 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
             // User found
             // Extract user from mysql response
             const user = mysqlResponse[0][0] as User;
-            // Create response object
-            const response: SigninResponse = {
-                token: "toto",
-            };
-            return res.status(200).json(response);
+            // Compare passwords
+            const isPasswordCorrect = await bcrypt.compare(
+                password,
+                user.password
+            );
+            // If password is correct, generate a token and return it to the user
+            if (isPasswordCorrect) {
+                // Create response object
+                const response: SigninResponse = {
+                    token: "toto",
+                };
+                return res.status(200).json(response);
+            } else {
+                // Create custom error message from mysql error
+                const error: CustomError = {
+                    statusCode: 401,
+                    message: "Email or password is incorrect",
+                };
+                throw error;
+            }
         } else {
             // Create custom error message from mysql error
             const error: CustomError = {
