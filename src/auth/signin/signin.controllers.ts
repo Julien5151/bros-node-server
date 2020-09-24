@@ -1,0 +1,41 @@
+import { RequestHandler } from "express";
+import { OkPacket } from "mysql2";
+import { User } from "../../models/user";
+import { connectionPool } from "../../utils/database/connectionPool";
+import { CustomError } from "../../utils/types/interfaces";
+import { SigninRequest, SigninResponse } from "./signin.types";
+
+export const signinRouteController: RequestHandler = async (req, res, next) => {
+    // Extract data from body
+    const reqBody = req.body as SigninRequest;
+    // Extract data and email
+    const email = reqBody.email;
+    const password = reqBody.password;
+    try {
+        // Check that this user exists in database
+        const mysqlResponse: any = await connectionPool.execute(
+            "SELECT * FROM users WHERE email = ?;",
+            [email]
+        );
+        if (mysqlResponse[0].length > 0) {
+            // User found
+            // Extract user from mysql response
+            const user = mysqlResponse[0][0] as User;
+            // Create response object
+            const response: SigninResponse = {
+                token: "toto",
+            };
+            return res.status(200).json(response);
+        } else {
+            // Create custom error message from mysql error
+            const error: CustomError = {
+                statusCode: 404,
+                message: "User not found",
+            };
+            throw error;
+        }
+    } catch (err) {
+        // Pass error to error handler middleware
+        next(err);
+    }
+};
