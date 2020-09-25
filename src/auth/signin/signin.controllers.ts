@@ -61,6 +61,6 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
         }
     } catch (err) {
         // Pass error to error handler middleware
-        next(err);
+        return next(err);
     }
 };

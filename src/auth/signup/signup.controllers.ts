@@ -35,7 +35,7 @@ export const signupRouteController: RequestHandler = async (req, res, next) => {
                 message: err.message,
             };
             // Pass error to error handler middleware
-            next(error);
+            return next(error);
         }
     } else {
         // If passwords don't match, send 400 error
@@ -44,6 +44,6 @@ export const signupRouteController: RequestHandler = async (req, res, next) => {
             message: "Passwords don't match",
         };
         // Pass error to error handler middleware
-        next(error);
+        return next(error);
     }
 };

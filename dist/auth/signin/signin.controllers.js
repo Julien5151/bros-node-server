@@ -64,6 +64,6 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
     }
     catch (err) {
         // Pass error to error handler middleware
-        next(err);
+        return next(err);
     }
 });

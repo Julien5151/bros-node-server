@@ -44,7 +44,7 @@ exports.signupRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
                 message: err.message,
             };
             // Pass error to error handler middleware
-            next(error);
+            return next(error);
         }
     }
     else {
@@ -54,6 +54,6 @@ exports.signupRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
             message: "Passwords don't match",
         };
         // Pass error to error handler middleware
-        next(error);
+        return next(error);
     }
 });
