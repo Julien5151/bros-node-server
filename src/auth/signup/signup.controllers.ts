@@ -10,7 +10,7 @@ export const signupRouteController: RequestHandler = async (req, res, next) => {
     // Extract data from body
     const reqBody = req.body as SignupRequest;
     // Create new user object (visitor at signup)
-    const newUser: User = {
+    const newUser = {
         email: reqBody.email,
         role: UserRole.visitor,
         createdAt: new Date(),
