@@ -11,13 +11,16 @@ exports.authController = (req, res, next) => {
     const token = (_a = req.get("Authorization")) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
     // If a token is found, verify it
     if (token) {
-        // Create decoded token variable
-        let decodedToken;
+        // Try to verify the token
         try {
             const decodedToken = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-            res.status(200).json({ message: "token valid !" });
+            // Add user id from token to the request
+            req.userId = decodedToken.id;
+            // Proceed to next middlewares
+            next();
         }
         catch (err) {
+            // If token couldn't be verified, throw 401 error
             const verifyError = {
                 statusCode: 401,
                 message: "Invalid token",
@@ -26,6 +29,7 @@ exports.authController = (req, res, next) => {
         }
     }
     else {
+        // If token or Authorization header is missing, throw 401 error
         const missingTokenError = {
             statusCode: 401,
             message: "No token provided",
