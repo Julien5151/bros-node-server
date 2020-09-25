@@ -16,8 +16,6 @@ app.use(cors());
 // Authentication routes
 app.use("/auth", authRouter);
 
-app.use("/auth/test", authController);
-
 // Error handling middleware
 app.use(errorsController);
 
