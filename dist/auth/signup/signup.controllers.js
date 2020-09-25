@@ -19,27 +19,39 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 exports.signupRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
     const reqBody = req.body;
-    // Create new user object (visitor at signup)
-    const newUser = {
-        email: reqBody.email,
-        role: enums_1.UserRole.visitor,
-        createdAt: new Date(),
-    };
-    try {
-        // Hash password using bcrypt
-        const hashedPassword = yield bcryptjs_1.default.hash(reqBody.password, 12);
-        yield connectionPool_1.connectionPool.execute("INSERT INTO users (email, password, role, created_at) VALUES (?, ?, ?, ?);", [newUser.email, hashedPassword, newUser.role, newUser.createdAt]);
-        // Create response object
-        const response = {
-            message: "Signup successfull",
+    // Check if passwords match
+    if (reqBody.password === reqBody.confirmedPassword) {
+        // Create new user object (visitor at signup)
+        const newUser = {
+            email: reqBody.email,
+            role: enums_1.UserRole.visitor,
+            createdAt: new Date(),
         };
-        return res.status(201).json(response);
+        try {
+            // Hash password using bcrypt
+            const hashedPassword = yield bcryptjs_1.default.hash(reqBody.password, 12);
+            yield connectionPool_1.connectionPool.execute("INSERT INTO users (email, password, role, created_at) VALUES (?, ?, ?, ?);", [newUser.email, hashedPassword, newUser.role, newUser.createdAt]);
+            // Create response object
+            const response = {
+                message: "Signup successfull",
+            };
+            return res.status(201).json(response);
+        }
+        catch (err) {
+            // Create custom error message from mysql error
+            const error = {
+                statusCode: 500,
+                message: err.message,
+            };
+            // Pass error to error handler middleware
+            next(error);
+        }
     }
-    catch (err) {
-        // Create custom error message from mysql error
+    else {
+        // If passwords don't match, send 400 error
         const error = {
-            statusCode: 500,
-            message: err.message,
+            statusCode: 400,
+            message: "Passwords don't match",
         };
         // Pass error to error handler middleware
         next(error);
