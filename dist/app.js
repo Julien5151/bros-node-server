@@ -8,12 +8,15 @@ const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const errors_1 = require("./utils/middlewares/errors");
 const auth_routes_1 = require("./auth/auth.routes");
+const escape_html_1 = require("./utils/middlewares/escape-html");
 // Create express application
 const app = express_1.default();
 // Body parsing middleware
 app.use(body_parser_1.default.json()); // application/json
 // Allow all CORS requests
 app.use(cors_1.default());
+// Html special chars escaping route
+app.use(escape_html_1.escapeHtmlController);
 // Authentication routes
 app.use("/auth", auth_routes_1.authRouter);
 // Error handling middleware

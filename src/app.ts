@@ -3,7 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { errorsController } from "./utils/middlewares/errors";
 import { authRouter } from "./auth/auth.routes";
-import { authController } from "./utils/middlewares/auth";
+import { escapeHtmlController } from "./utils/middlewares/escape-html";
 
 // Create express application
 const app = express();
@@ -12,6 +12,9 @@ const app = express();
 app.use(bodyParser.json()); // application/json
 // Allow all CORS requests
 app.use(cors());
+
+// Html special chars escaping route
+app.use(escapeHtmlController);
 
 // Authentication routes
 app.use("/auth", authRouter);
