@@ -15,7 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.signinRouteController = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const connectionPool_1 = require("../../utils/database/connectionPool");
+const sql_queries_1 = require("../../utils/database/sql-queries");
+const enums_1 = require("../../utils/types/enums");
 exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
     const reqBody = req.body;
@@ -23,8 +24,11 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
     const email = reqBody.email;
     const password = reqBody.password;
     try {
-        // Check that this user exists in database
-        const mysqlResponse = yield connectionPool_1.connectionPool.execute("SELECT * FROM users WHERE email = ?;", [email]);
+        const mysqlResponse = yield sql_queries_1.SqlQueries.selectFrom("users", undefined, [
+            "email",
+            enums_1.SqlOperator["="],
+            email,
+        ]);
         if (mysqlResponse[0].length > 0) {
             // User found
             // Extract user from mysql response

@@ -5,6 +5,8 @@ import { User } from "../../models/user";
 import { connectionPool } from "../../utils/database/connectionPool";
 import { CustomError } from "../../utils/types/interfaces";
 import { SigninRequest, SigninResponse } from "./signin.types";
+import { SqlQueries } from "../../utils/database/sql-queries";
+import { SqlOperator } from "../../utils/types/enums";
 
 export const signinRouteController: RequestHandler = async (req, res, next) => {
     // Extract data from body
@@ -13,11 +15,11 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
     const email = reqBody.email;
     const password = reqBody.password;
     try {
-        // Check that this user exists in database
-        const mysqlResponse: any = await connectionPool.execute(
-            "SELECT * FROM users WHERE email = ?;",
-            [email]
-        );
+        const mysqlResponse = await SqlQueries.selectFrom("users", undefined, [
+            "email",
+            SqlOperator["="],
+            email,
+        ]);
         if (mysqlResponse[0].length > 0) {
             // User found
             // Extract user from mysql response

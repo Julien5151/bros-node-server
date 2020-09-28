@@ -18,16 +18,24 @@ export class SqlQueries {
     ): Promise<any> {
         // Construct field names string
         const fieldsString = tableFieldNames ? tableFieldNames.join(", ") : "*";
-        // Construct conditions string
-        const conditionsString = conditions
-            ? "WHERE ".concat(conditions.join(" "))
-            : "";
+        // Construct base query
+        let sqlQuery = `SELECT ${fieldsString} FROM ${fromTable}`;
+        // Initiliaze conditions inputs to be used in prepared statements
+        const conditionsInputs = [];
+        if (conditions) {
+            let conditionsString = " WHERE ";
+            for (let i = 0; i < conditions.length; i += 4) {
+                // Concatenate conditions
+                conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${
+                    conditions[i + 3] ?? ""
+                }`;
+                // Push field value to be used in placeholder
+                conditionsInputs.push(conditions[i + 2]);
+            }
+            sqlQuery += conditionsString;
+        }
         // Check that this user exists in database
-        return await connectionPool.execute("SELECT ? FROM ? ?;", [
-            fieldsString,
-            fromTable,
-            conditionsString,
-        ]);
+        return await connectionPool.execute(sqlQuery, conditionsInputs);
     }
     // Update
     // Delete
