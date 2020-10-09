@@ -6,9 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 exports.authController = (req, res, next) => {
-    var _a;
     // Extract token from request
-    const token = (_a = req.get("Authorization")) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
+    const token = req.get("Authorization");
     // If a token is found, verify it
     if (token) {
         // Try to verify the token

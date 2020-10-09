@@ -5,6 +5,7 @@ import { errorsController } from "./utils/middlewares/errors";
 import { authRouter } from "./auth/auth.routes";
 import { escapeHtmlController } from "./utils/middlewares/escape-html";
 import { usersRouter } from "./users/users.routes";
+import { authController } from "./utils/middlewares/auth";
 
 // Create express application
 const app = express();
@@ -21,7 +22,7 @@ app.use(escapeHtmlController);
 app.use("/auth", authRouter);
 
 // Users routes
-app.use("/users", usersRouter);
+app.use("/users", authController, usersRouter);
 
 // Error handling middleware
 app.use(errorsController);

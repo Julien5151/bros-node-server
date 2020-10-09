@@ -4,7 +4,7 @@ import { CustomError } from "../types/interfaces";
 
 export const authController: RequestHandler = (req, res, next) => {
     // Extract token from request
-    const token = req.get("Authorization")?.split(" ")[1] as string;
+    const token = req.get("Authorization");
     // If a token is found, verify it
     if (token) {
         // Try to verify the token

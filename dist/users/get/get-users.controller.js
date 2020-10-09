@@ -11,6 +11,5 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUsersRouteController = void 0;
 exports.getUsersRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("Hey");
     return res.status(200).json({ message: "Hey !" });
 });
