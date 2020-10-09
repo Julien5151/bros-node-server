@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signupRouteController = void 0;
-const connectionPool_1 = require("../../utils/database/connectionPool");
 const enums_1 = require("../../utils/types/enums");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const sql_queries_1 = require("../../utils/database/sql-queries");
 exports.signupRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
     const reqBody = req.body;
@@ -30,7 +30,7 @@ exports.signupRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
         try {
             // Hash password using bcrypt
             const hashedPassword = yield bcryptjs_1.default.hash(reqBody.password, 12);
-            yield connectionPool_1.connectionPool.execute("INSERT INTO users (email, password, role, created_at) VALUES (?, ?, ?, ?);", [newUser.email, hashedPassword, newUser.role, newUser.createdAt]);
+            yield sql_queries_1.SqlQueries.insertInto("users", ["email", "password", "role", "created_at"], [newUser.email, hashedPassword, newUser.role, newUser.createdAt]);
             // Create response object
             const response = {
                 message: "Signup successfull",
