@@ -11,13 +11,13 @@ export const validationErrorsController: RequestHandler = (req, res, next) => {
         // Make a list of failed parameters
         const failedParams = validationErrors
             .array()
-            .map((validationError) => validationError.param)
-            .join();
-        const errorMessage = `Parameters [${failedParams}] are invalid`;
+            .map((validationError) => validationError.param);
+        const errorMessage = `Invalid request body`;
         // Return custom error
         const validationError: CustomError = {
             statusCode: 400,
             message: errorMessage,
+            fields: failedParams
         };
         return next(validationError);
     } else {
