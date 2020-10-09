@@ -2,7 +2,6 @@ import { RequestHandler } from "express";
 import bcrypt from "bcryptjs";
 import jwt, { Secret } from "jsonwebtoken";
 import { User } from "../../models/user";
-import { connectionPool } from "../../utils/database/connectionPool";
 import { CustomError } from "../../utils/types/interfaces";
 import { SigninRequest, SigninResponse } from "./signin.types";
 import { SqlQueries } from "../../utils/database/sql-queries";
