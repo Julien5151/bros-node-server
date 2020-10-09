@@ -10,4 +10,4 @@ exports.authRouter = express_1.Router();
 // POST /auth/signup
 exports.authRouter.post("/signup", [express_validator_1.body("email").isEmail(), express_validator_1.body("password").isLength({ min: 9 })], validation_errors_1.validationErrorsController, signup_controllers_1.signupRouteController);
 // POST /auth/signin
-exports.authRouter.post("/signin", signin_controllers_1.signinRouteController);
+exports.authRouter.post("/signin", [express_validator_1.body("email").isEmail(), express_validator_1.body("password").isLength({ min: 9 })], validation_errors_1.validationErrorsController, signin_controllers_1.signinRouteController);

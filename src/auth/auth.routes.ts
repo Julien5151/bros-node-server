@@ -15,4 +15,9 @@ authRouter.post(
 );
 
 // POST /auth/signin
-authRouter.post("/signin", signinRouteController);
+authRouter.post(
+    "/signin",
+    [body("email").isEmail(), body("password").isLength({ min: 9 })],
+    validationErrorsController,
+    signinRouteController
+);
