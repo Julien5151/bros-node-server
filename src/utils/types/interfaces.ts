@@ -1,5 +1,6 @@
 export interface CustomError {
     statusCode: number;
     message: string;
-    fields?: Array<string>
+    invalidFields?: Array<string>;
+    missingFields?: Array<string>;
 }
