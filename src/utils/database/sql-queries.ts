@@ -112,4 +112,31 @@ export class SqlQueries {
     }
 
     // Delete
+    /**
+     *
+     * @param table table name from which data are deleted updated - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param conditions array of values listing conditions, must respect the following pattern :
+     * [fieldName, SqlOperator, fieldValue, SqlChainingOperator,fieldName, SqlOperator, fieldValue, ...]
+     * Example : ["email", SqlOperator["="], "jclenovacom@gmail.com", SqlChainingOperator["AND"], "age", SqlOperator["<="], 12]
+     */
+    static async deleteFrom(
+        table: string,
+        conditions: Array<any>
+    ): Promise<any> {
+        // Initiliaze conditions inputs to be used in prepared statements
+        const conditionsInputs = [];
+        let conditionsString = "";
+        for (let i = 0; i < conditions.length; i += 4) {
+            // Concatenate conditions
+            conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${
+                conditions[i + 3] ?? ""
+            }`;
+            // Push field value to be used in placeholder
+            conditionsInputs.push(conditions[i + 2]);
+        }
+        // Construct query
+        const sqlQuery = `DELETE FROM ${table} WHERE ${conditionsString}`;
+        // Check that this user exists in database
+        return await connectionPool.execute(sqlQuery, conditionsInputs);
+    }
 }
