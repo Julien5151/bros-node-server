@@ -2,7 +2,7 @@ import { Router } from "express";
 import { getUsersRouteController } from "./get/get-users.controller";
 import { patchUserRouteController } from "./patch/patch-user.controller";
 import { body } from "express-validator";
-import { validationErrorsController } from "../utils/middlewares/validation-errors";
+import { partialValidationErrorsController } from "../utils/middlewares/partial-validation-errors";
 
 export const usersRouter = Router();
 
@@ -10,7 +10,7 @@ export const usersRouter = Router();
 usersRouter.patch(
     "/:id",
     [body("email").isEmail(), body("password").isLength({ min: 9 })],
-    validationErrorsController,
+    partialValidationErrorsController,
     patchUserRouteController
 );
 

@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import { CustomError } from "../types/interfaces";
 
 // Handle validation errors and return 400 will relevant error message
+// Validates ALL request fields : invalid and missing fields result in an error
 export const validationErrorsController: RequestHandler = (req, res, next) => {
     // Extract validation errors from request
     const validationErrors = validationResult(req);
