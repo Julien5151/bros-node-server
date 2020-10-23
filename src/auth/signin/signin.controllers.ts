@@ -50,7 +50,7 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
                     statusCode: 401,
                     message: "Email or password is incorrect",
                 };
-                throw error;
+                next(error);
             }
         } else {
             // Create custom error message from mysql error
@@ -58,7 +58,7 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
                 statusCode: 404,
                 message: "User not found",
             };
-            throw error;
+            next(error);
         }
     } catch (error) {
         // In case of SQL error, log the error

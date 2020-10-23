@@ -54,7 +54,7 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
                     statusCode: 401,
                     message: "Email or password is incorrect",
                 };
-                throw error;
+                next(error);
             }
         }
         else {
@@ -63,7 +63,7 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
                 statusCode: 404,
                 message: "User not found",
             };
-            throw error;
+            next(error);
         }
     }
     catch (error) {
