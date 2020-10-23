@@ -44,7 +44,7 @@ class SqlQueries {
      *
      * @param fromTable table name from which data are extracted - /!\ DIRECTLY INSERTED INTO QUERY /!\
      * @param tableFieldNames field names which should be retrieved from table, "*" if argument is omitted - /!\ DIRECTLY INSERTED INTO QUERY /!\
-     * @param conditions array of string listing conditions, must respect the following pattern :
+     * @param conditions array of values listing conditions, must respect the following pattern :
      * [fieldName, SqlOperator, fieldValue, SqlChainingOperator,fieldName, SqlOperator, fieldValue, ...]
      * Example : ["email", SqlOperator["="], "jclenovacom@gmail.com", SqlChainingOperator["AND"], "age", SqlOperator["<="], 12]
      */
@@ -69,6 +69,47 @@ class SqlQueries {
             }
             // Check that this user exists in database
             return yield connectionPool_1.connectionPool.execute(sqlQuery, conditionsInputs);
+        });
+    }
+    // Update
+    /**
+     *
+     * @param table table name into which data are updated - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param tableFieldNames field names to update - array order must match values array - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param values field values to fill updated rows - array order must match tableFieldNames array
+     * @param conditions array of values listing conditions, must respect the following pattern :
+     * [fieldName, SqlOperator, fieldValue, SqlChainingOperator,fieldName, SqlOperator, fieldValue, ...]
+     * Example : ["email", SqlOperator["="], "jclenovacom@gmail.com", SqlChainingOperator["AND"], "age", SqlOperator["<="], 12]
+     */
+    static update(table, tableFieldNames, values, conditions) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            // Construct values string which only holds the relevant number of placeholders
+            let fieldsString = "";
+            for (let i = 0; i < tableFieldNames.length; i++) {
+                if (i < values.length - 1) {
+                    fieldsString += `${tableFieldNames[i]} = ?, `;
+                }
+                else {
+                    fieldsString += `${tableFieldNames[i]} = ?`;
+                }
+            }
+            // Initiliaze conditions inputs to be used in prepared statements
+            const conditionsInputs = [];
+            let conditionsString = "";
+            for (let i = 0; i < conditions.length; i += 4) {
+                // Concatenate conditions
+                conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${(_a = conditions[i + 3]) !== null && _a !== void 0 ? _a : ""}`;
+                // Push field value to be used in placeholder
+                conditionsInputs.push(conditions[i + 2]);
+            }
+            // Construct query
+            const sqlQuery = `UPDATE ${table} SET ${fieldsString} WHERE ${conditionsString}`;
+            // Check that this user exists in database
+            return yield connectionPool_1.connectionPool.execute(sqlQuery, [
+                ...values,
+                ...conditionsInputs,
+            ]);
         });
     }
 }
