@@ -11,6 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.patchUserRouteController = void 0;
 exports.patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    // Extract data from body and user id from params
+    const reqBody = req.body;
     const userId = req.params["id"];
     return res
         .status(200)

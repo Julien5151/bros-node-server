@@ -9,7 +9,12 @@ export const usersRouter = Router();
 // PATCH /users/:id
 usersRouter.patch(
     "/:id",
-    [body("email").isEmail(), body("password").isLength({ min: 9 })],
+    [
+        body("email").isEmail(),
+        body("phone").isMobilePhone("fr-FR"),
+        body("zipcode").isPostalCode("FR"),
+        body("password").isLength({ min: 9 }),
+    ],
     partialValidationErrorsController,
     patchUserRouteController
 );
