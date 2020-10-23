@@ -24,15 +24,15 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
     const email = reqBody.email;
     const password = reqBody.password;
     try {
-        const mysqlResponse = yield sql_queries_1.SqlQueries.selectFrom("users", undefined, [
+        const [rows] = yield sql_queries_1.SqlQueries.selectFrom("users", undefined, [
             "email",
             enums_1.SqlOperator["="],
             email,
         ]);
-        if (mysqlResponse[0].length > 0) {
+        if (rows.length > 0) {
             // User found
             // Extract user from mysql response
-            const user = mysqlResponse[0][0];
+            const user = rows[0];
             // Compare passwords
             const isPasswordCorrect = yield bcryptjs_1.default.compare(password, user.password);
             // If password is correct, generate a token and return it to the user
@@ -66,8 +66,14 @@ exports.signinRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
             throw error;
         }
     }
-    catch (err) {
-        // Pass error to error handler middleware
-        return next(err);
+    catch (error) {
+        // In case of SQL error, log the error
+        console.error(error.message);
+        // Return a generic message to client
+        const customError = {
+            statusCode: 500,
+            message: "Something went wrong",
+        };
+        return next(customError);
     }
 });

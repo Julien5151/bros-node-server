@@ -14,15 +14,15 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
     const email = reqBody.email;
     const password = reqBody.password;
     try {
-        const mysqlResponse = await SqlQueries.selectFrom("users", undefined, [
+        const [rows] = await SqlQueries.selectFrom("users", undefined, [
             "email",
             SqlOperator["="],
             email,
         ]);
-        if (mysqlResponse[0].length > 0) {
+        if (rows.length > 0) {
             // User found
             // Extract user from mysql response
-            const user = mysqlResponse[0][0] as User;
+            const user = rows[0] as User;
             // Compare passwords
             const isPasswordCorrect = await bcrypt.compare(
                 password,
@@ -60,8 +60,14 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
             };
             throw error;
         }
-    } catch (err) {
-        // Pass error to error handler middleware
-        return next(err);
+    } catch (error) {
+        // In case of SQL error, log the error
+        console.error(error.message);
+        // Return a generic message to client
+        const customError: CustomError = {
+            statusCode: 500,
+            message: "Something went wrong",
+        };
+        return next(customError);
     }
 };

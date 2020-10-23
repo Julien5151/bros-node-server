@@ -19,20 +19,25 @@ export const signupRouteController: RequestHandler = async (req, res, next) => {
         try {
             // Hash password using bcrypt
             const hashedPassword = await bcrypt.hash(reqBody.password, 12);
-            await SqlQueries.insertInto("users", ["email", "password", "role", "created_at"], [newUser.email, hashedPassword, newUser.role, newUser.createdAt]);
+            await SqlQueries.insertInto(
+                "users",
+                ["email", "password", "role", "created_at"],
+                [newUser.email, hashedPassword, newUser.role, newUser.createdAt]
+            );
             // Create response object
             const response: SignupResponse = {
                 message: "Signup successfull",
             };
             return res.status(201).json(response);
-        } catch (err) {
-            // Create custom error message from mysql error
-            const error: CustomError = {
+        } catch (error) {
+            // In case of SQL error, log the error
+            console.error(error.message);
+            // Return a generic message to client
+            const customError: CustomError = {
                 statusCode: 500,
-                message: err.message,
+                message: "Something went wrong",
             };
-            // Pass error to error handler middleware
-            return next(error);
+            return next(customError);
         }
     } else {
         // If passwords don't match, send 400 error

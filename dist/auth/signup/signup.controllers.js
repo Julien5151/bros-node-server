@@ -37,14 +37,15 @@ exports.signupRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
             };
             return res.status(201).json(response);
         }
-        catch (err) {
-            // Create custom error message from mysql error
-            const error = {
+        catch (error) {
+            // In case of SQL error, log the error
+            console.error(error.message);
+            // Return a generic message to client
+            const customError = {
                 statusCode: 500,
-                message: err.message,
+                message: "Something went wrong",
             };
-            // Pass error to error handler middleware
-            return next(error);
+            return next(customError);
         }
     }
     else {
