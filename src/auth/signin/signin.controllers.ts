@@ -26,7 +26,7 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
             // Compare passwords
             const isPasswordCorrect = await bcrypt.compare(
                 password,
-                user.password
+                user.password as string
             );
             // If password is correct, generate a token and return it to the user
             if (isPasswordCorrect) {
