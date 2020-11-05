@@ -12,11 +12,19 @@ exports.authController = (req, res, next) => {
     if (token) {
         // Try to verify the token
         try {
-            const decodedToken = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-            // Add user id from token to the request
-            req.userId = decodedToken.id;
-            // Proceed to next middlewares
-            next();
+            // If environment variable DEV_TOKEN exists we're not in prod
+            if (process.env.DEV_TOKEN && token === process.env.DEV_TOKEN) {
+                // If correct dev token is used, proceed to next middlewares
+                next();
+            }
+            else {
+                // We're in production, verify token
+                const decodedToken = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
+                // Add user id from token to the request
+                req.userId = decodedToken.id;
+                // Proceed to next middlewares
+                next();
+            }
         }
         catch (err) {
             // If token couldn't be verified, throw 401 error
