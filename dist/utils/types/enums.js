@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SqlChainingOperator = exports.SqlOperator = exports.GroupType = exports.UserRole = void 0;
+exports.SqlChainingOperator = exports.SqlOperator = exports.groupTypeRegex = exports.GroupType = exports.UserRole = void 0;
 var UserRole;
 (function (UserRole) {
     UserRole["visitor"] = "visitor";
@@ -13,6 +13,7 @@ var GroupType;
     GroupType["friends"] = "friends";
     GroupType["himym"] = "himym";
 })(GroupType = exports.GroupType || (exports.GroupType = {}));
+exports.groupTypeRegex = new RegExp(`^(${GroupType.friends}|${GroupType.himym})$`);
 var SqlOperator;
 (function (SqlOperator) {
     SqlOperator["="] = "=";

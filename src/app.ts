@@ -6,6 +6,7 @@ import { authRouter } from "./auth/auth.routes";
 import { escapeHtmlController } from "./utils/middlewares/escape-html";
 import { usersRouter } from "./users/users.routes";
 import { authController } from "./utils/middlewares/auth";
+import { groupsRouter } from "./groups/groups.routes";
 
 // Create express application
 const app = express();
@@ -23,6 +24,9 @@ app.use("/auth", authRouter);
 
 // Users routes
 app.use("/users", authController, usersRouter);
+
+// Groups routes
+app.use("/groups", authController, groupsRouter);
 
 // Error handling middleware
 app.use(errorsController);

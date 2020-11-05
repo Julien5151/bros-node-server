@@ -11,6 +11,7 @@ const auth_routes_1 = require("./auth/auth.routes");
 const escape_html_1 = require("./utils/middlewares/escape-html");
 const users_routes_1 = require("./users/users.routes");
 const auth_1 = require("./utils/middlewares/auth");
+const groups_routes_1 = require("./groups/groups.routes");
 // Create express application
 const app = express_1.default();
 // Body parsing middleware
@@ -23,6 +24,8 @@ app.use(escape_html_1.escapeHtmlController);
 app.use("/auth", auth_routes_1.authRouter);
 // Users routes
 app.use("/users", auth_1.authController, users_routes_1.usersRouter);
+// Groups routes
+app.use("/groups", auth_1.authController, groups_routes_1.groupsRouter);
 // Error handling middleware
 app.use(errors_1.errorsController);
 // Start express app on port 3000

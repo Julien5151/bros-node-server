@@ -10,6 +10,10 @@ export enum GroupType {
     himym = "himym",
 }
 
+export const groupTypeRegex = new RegExp(
+    `^(${GroupType.friends}|${GroupType.himym})$`
+);
+
 export enum SqlOperator {
     "=" = "=",
     "<>" = "<>",
