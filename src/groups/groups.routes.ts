@@ -6,6 +6,9 @@ import { postGroupRouteController } from "./post/post-group.controller";
 
 export const groupsRouter = Router();
 
+// GET /groups
+groupsRouter.get("/");
+
 // POST /groups
 groupsRouter.post(
     "/",
@@ -13,3 +16,9 @@ groupsRouter.post(
     validationErrorsController,
     postGroupRouteController
 );
+
+// PATCH /groups/:id
+groupsRouter.patch("/:id");
+
+// DELETE /groups/:id
+groupsRouter.delete("/:id");
