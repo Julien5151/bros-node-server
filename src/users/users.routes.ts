@@ -6,7 +6,6 @@ import { partialValidationErrorsController } from "../utils/middlewares/partial-
 import { deleteUserRouteController } from "./delete/delete-user.controller";
 import { postUserRouteController } from "./post/post-user.controller";
 import { validationErrorsController } from "../utils/middlewares/validation-errors";
-import { authController } from "../utils/middlewares/auth";
 
 export const usersRouter = Router();
 
