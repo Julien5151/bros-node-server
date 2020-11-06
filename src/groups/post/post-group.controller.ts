@@ -13,7 +13,7 @@ export const postGroupRouteController: RequestHandler = async (
     // Extract data from body
     const reqBody = req.body as GroupPostRequest;
     // Create new group object
-    const newGroup = {
+    const newGroup: Group = {
         name: reqBody.name,
         type: reqBody.type,
         createdAt: new Date(),
@@ -27,7 +27,7 @@ export const postGroupRouteController: RequestHandler = async (
         );
         // If group is created successfully, get its id
         const createdGroupId = insertResponse.insertId;
-        // Fetched created group and return it as a response
+        // Fetch created group and return it as a response
         const [rows] = await SqlQueries.selectFrom("friend_groups", undefined, [
             "id",
             SqlOperator["="],
