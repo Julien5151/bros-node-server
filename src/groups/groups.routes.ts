@@ -3,6 +3,7 @@ import { body } from "express-validator";
 import { partialValidationErrorsController } from "../utils/middlewares/partial-validation-errors";
 import { validationErrorsController } from "../utils/middlewares/validation-errors";
 import { groupTypeRegex } from "../utils/types/enums";
+import { deleteGroupRouteController } from "./delete/delete-group.controller";
 import { getGroupsRouteController } from "./get/get-groups.controller";
 import { patchGroupRouteController } from "./patch/patch-group.controller";
 import { postGroupRouteController } from "./post/post-group.controller";
@@ -29,4 +30,4 @@ groupsRouter.patch(
 );
 
 // DELETE /groups/:id
-groupsRouter.delete("/:id");
+groupsRouter.delete("/:id", deleteGroupRouteController);
