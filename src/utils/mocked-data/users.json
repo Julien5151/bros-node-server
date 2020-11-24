@@ -1,0 +1,101 @@
+[
+    {
+        "firstName": "Joey",
+        "lastName": "TRIBIANI",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "joey.tribiani@friends.com",
+        "phone": "+33606060608",
+        "zipcode": 95150
+    },
+    {
+        "firstName": "Ross",
+        "lastName": "GELLER",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "ross.geller@friends.com",
+        "phone": "+33606060608",
+        "zipcode": 95150
+    },
+    {
+        "firstName": "Chandler",
+        "lastName": "BING",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "chandler.bing@friends.com",
+        "phone": "+33606060608",
+        "zipcode": 95150
+    },
+    {
+        "firstName": "Monica",
+        "lastName": "GALLER",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "monica.geller@friends.com",
+        "phone": "+33606060608",
+        "zipcode": 95150
+    },
+    {
+        "firstName": "Phoebe",
+        "lastName": "BUFFAY",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "phoebe.buffay@friends.com",
+        "phone": "+33606060608",
+        "zipcode": 95150
+    },
+    {
+        "firstName": "Rachel",
+        "lastName": "GREEN",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "rachel.green@friends.com",
+        "phone": "+33606060608",
+        "zipcode": 95150
+    },
+    {
+        "firstName": "Barney",
+        "lastName": "STINSON",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "barney.strinson@himym.com",
+        "phone": "+33606060608",
+        "zipcode": 78120
+    },
+    {
+        "firstName": "Marshall",
+        "lastName": "ERIKSEN",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "marshall.eriksen@himym.com",
+        "phone": "+33606060608",
+        "zipcode": 78120
+    },
+    {
+        "firstName": "Teodore-Evilyn",
+        "lastName": "MOSBY",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "ted.mosby@himym.com",
+        "phone": "+33606060608",
+        "zipcode": 78120
+    },
+    {
+        "firstName": "Lily",
+        "lastName": "ALDRIN",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "lily.aldrin@himym.com",
+        "phone": "+33606060608",
+        "zipcode": 78120
+    },
+    {
+        "firstName": "Robin",
+        "lastName": "SCHERBATSKY",
+        "password": "123456789",
+        "confirmedPassword": "123456789",
+        "email": "robin.scherbatsky@himym.com",
+        "phone": "+33606060608",
+        "zipcode": 78120
+    }
+]
