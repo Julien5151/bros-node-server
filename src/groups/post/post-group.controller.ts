@@ -45,7 +45,9 @@ export const postGroupRouteController: RequestHandler = async (
                 ["name", "type", "created_at"],
                 [[newGroup.name, newGroup.type, newGroup.createdAt]]
             );
-            console.log(usersFound);
+            // Extract inserted id and set this id as group foreign key in for newly grouped users
+            const newGroupId = insertResponse.insertId;
+            console.log(newGroupId);
         } else {
             // Respond with a 404, not enough people
             return res
