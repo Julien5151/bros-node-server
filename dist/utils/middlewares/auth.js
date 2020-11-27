@@ -25,7 +25,9 @@ exports.authController = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         try {
             // If environment variable DEV_TOKEN exists we're not in prod
             if (process.env.DEV_TOKEN && token === process.env.DEV_TOKEN) {
-                // If correct dev token is used, proceed to next middlewares
+                // If correct dev token is used, proceed to next middlewares with dev admin role
+                res.locals.userId = "dev-admin";
+                res.locals.userRole = enums_1.UserRole.admin;
                 next();
             }
             else {
