@@ -11,5 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postMockedUsersRouteController = void 0;
 exports.postMockedUsersRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    // Type request using custom interface
+    const reqCustom = req;
+    console.log(reqCustom.userId);
+    console.log(reqCustom.userRole);
     return res.status(200).json({ message: "Mocked users created" });
 });

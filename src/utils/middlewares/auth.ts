@@ -1,8 +1,10 @@
 import { RequestHandler } from "express";
 import jwt, { Secret } from "jsonwebtoken";
+import { SqlQueries } from "../database/sql-queries";
+import { SqlOperator } from "../types/enums";
 import { CustomError } from "../types/interfaces";
 
-export const authController: RequestHandler = (req, res, next) => {
+export const authController: RequestHandler = async (req, res, next) => {
     // Extract token from request
     const token = req.get("Authorization");
     // If a token is found, verify it
@@ -19,8 +21,19 @@ export const authController: RequestHandler = (req, res, next) => {
                     token,
                     process.env.TOKEN_SECRET as Secret
                 );
-                // Add user id from token to the request
-                (req as any).userId = (decodedToken as any).id;
+                // Extract user id to fetch role from DB
+                const userId = (decodedToken as any).id;
+                // Extract rows from DB
+                const [rows] = await SqlQueries.selectFrom(
+                    "users",
+                    ["role"],
+                    ["id", SqlOperator["="], userId]
+                );
+                // Extract user role
+                const userRole = rows[0].role;
+                // Add user id and role from to the request to make it a CustomRequest
+                (req as any).userId = userId;
+                (req as any).userRole = userRole;
                 // Proceed to next middlewares
                 next();
             }
