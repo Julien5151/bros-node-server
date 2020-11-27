@@ -7,6 +7,7 @@ import { escapeHtmlController } from "./utils/middlewares/escape-html";
 import { usersRouter } from "./users/users.routes";
 import { authController } from "./utils/middlewares/auth";
 import { groupsRouter } from "./groups/groups.routes";
+import { adminRouter } from "./admin/admin.routes";
 
 // Create express application
 const app = express();
@@ -27,6 +28,9 @@ app.use("/users", authController, usersRouter);
 
 // Groups routes
 app.use("/groups", authController, groupsRouter);
+
+// Admin routes
+app.use("/admin", authController, adminRouter);
 
 // Error handling middleware
 app.use(errorsController);
