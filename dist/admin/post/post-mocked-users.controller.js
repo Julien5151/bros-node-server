@@ -34,7 +34,6 @@ exports.postMockedUsersRouteController = (req, res, next) => __awaiter(void 0, v
             // Add each array of value to be inserted into DB
             userValuesArray.push(Object.values(user));
         });
-        console.log(userValuesArray);
         // Insert new user in DB
         const [insertResponse] = yield sql_queries_1.SqlQueries.insertInto("users", [
             "first_name",
