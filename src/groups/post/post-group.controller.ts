@@ -47,7 +47,19 @@ export const postGroupRouteController: RequestHandler = async (
             );
             // Extract inserted id and set this id as group foreign key in for newly grouped users
             const newGroupId = insertResponse.insertId;
-            console.log(newGroupId);
+            const updatePromises: Array<Promise<any>> = [];
+            // Update each user group id in parallel
+            usersFound.forEach((user) => {
+                updatePromises.push(
+                    SqlQueries.update(
+                        "users",
+                        ["group_id"],
+                        [newGroupId],
+                        ["id", SqlOperator["="], user.id]
+                    )
+                );
+            });
+            const updateUsersResult = await Promise.all(updatePromises);
         } else {
             // Respond with a 404, not enough people
             return res

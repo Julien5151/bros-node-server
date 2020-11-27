@@ -42,7 +42,12 @@ exports.postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0,
             const [insertResponse] = yield sql_queries_1.SqlQueries.insertInto("friend_groups", ["name", "type", "created_at"], [[newGroup.name, newGroup.type, newGroup.createdAt]]);
             // Extract inserted id and set this id as group foreign key in for newly grouped users
             const newGroupId = insertResponse.insertId;
-            console.log(newGroupId);
+            const updatePromises = [];
+            // Update each user group id in parallel
+            usersFound.forEach((user) => {
+                updatePromises.push(sql_queries_1.SqlQueries.update("users", ["group_id"], [newGroupId], ["id", enums_1.SqlOperator["="], user.id]));
+            });
+            const updateUsersResult = yield Promise.all(updatePromises);
         }
         else {
             // Respond with a 404, not enough people
