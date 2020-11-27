@@ -8,6 +8,7 @@ import { usersRouter } from "./users/users.routes";
 import { authController } from "./utils/middlewares/auth";
 import { groupsRouter } from "./groups/groups.routes";
 import { adminRouter } from "./admin/admin.routes";
+import { checkAdminRoleController } from "./utils/middlewares/admin";
 
 // Create express application
 const app = express();
@@ -30,7 +31,7 @@ app.use("/users", authController, usersRouter);
 app.use("/groups", authController, groupsRouter);
 
 // Admin routes
-app.use("/admin", authController, adminRouter);
+app.use("/admin", authController, checkAdminRoleController, adminRouter);
 
 // Error handling middleware
 app.use(errorsController);
