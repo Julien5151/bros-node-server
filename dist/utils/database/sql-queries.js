@@ -87,7 +87,38 @@ class SqlQueries {
                 }
                 sqlQuery += conditionsString;
             }
-            // Check that this user exists in database
+            return yield connectionPool_1.connectionPool.execute(sqlQuery, conditionsInputs);
+        });
+    }
+    /**
+     *
+     * @param tables table names from which data is extracted (2 tables only supported at the moment : ["table1", "table2"]) - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param joinFields table fields for join condition, array must respect the same order as "tables" argument
+     * ["name", "department"] will lead to the following join condition : "table1.name ON table2.department" - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param tableFieldNames field names which should be retrieved from table, "*" if argument is omitted - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param conditions array of values listing conditions, must respect the following pattern :
+     * [fieldName, SqlOperator, fieldValue, SqlChainingOperator,fieldName, SqlOperator, fieldValue, ...]
+     * Example : ["email", SqlOperator["="], "jclenovacom@gmail.com", SqlChainingOperator["AND"], "age", SqlOperator["<="], 12]
+     */
+    static selectFromInnerJoin(tables, joinFields, tableFieldNames, conditions) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            // Construct field names string
+            const fieldsString = tableFieldNames ? tableFieldNames.join(", ") : "*";
+            // Construct base query
+            let sqlQuery = `SELECT ${fieldsString} FROM ${tables[0]} INNER JOIN ${tables[0 + 1]} ON ${tables[0]}.${joinFields[0]} = ${tables[0 + 1]}.${joinFields[0 + 1]}`;
+            // Add conditions
+            const conditionsInputs = [];
+            if (conditions) {
+                let conditionsString = " WHERE ";
+                for (let i = 0; i < conditions.length; i += 4) {
+                    // Concatenate conditions
+                    conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${(_a = conditions[i + 3]) !== null && _a !== void 0 ? _a : ""}`;
+                    // Push field value to be used in placeholder
+                    conditionsInputs.push(conditions[i + 2]);
+                }
+                sqlQuery += conditionsString;
+            }
             return yield connectionPool_1.connectionPool.execute(sqlQuery, conditionsInputs);
         });
     }

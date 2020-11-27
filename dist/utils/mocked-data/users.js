@@ -28,7 +28,7 @@ exports.MockedUsers = [
     },
     {
         firstName: "Monica",
-        lastName: "GALLER",
+        lastName: "GELLER",
         password: "123456789",
         email: "monica.geller@friends.com",
         phone: "+33406060608",

@@ -49,6 +49,16 @@ exports.postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0,
             });
             // Wait for all promises to resolve
             yield Promise.all(updatePromises);
+            // Fetch all group data from both user and friend_groups tables
+            const [rows] = yield sql_queries_1.SqlQueries.selectFromInnerJoin(["users", "friend_groups"], ["group_id", "id"], [
+                "users.first_name",
+                "users.last_name",
+                "users.email",
+                "friend_groups.id",
+                "friend_groups.name",
+                "friend_groups.type",
+                "friend_groups.created_at",
+            ], ["friend_groups.id", enums_1.SqlOperator["="], newGroupId]);
             return res.status(201).json({ message: "You group was created" });
         }
         else {
