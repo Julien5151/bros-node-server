@@ -59,14 +59,16 @@ exports.postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, 
                 "created_at",
                 ...optionalFieldNames,
             ], [
-                newUser.firstName,
-                newUser.lastName,
-                newUser.email,
-                hashedPassword,
-                newUser.zipcode,
-                newUser.role,
-                newUser.createdAt,
-                ...optionalFieldValues,
+                [
+                    newUser.firstName,
+                    newUser.lastName,
+                    newUser.email,
+                    hashedPassword,
+                    newUser.zipcode,
+                    newUser.role,
+                    newUser.createdAt,
+                    ...optionalFieldValues,
+                ],
             ]);
             // If user is created successfully, get its id
             const createdUserId = insertResponse.insertId;

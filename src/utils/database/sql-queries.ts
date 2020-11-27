@@ -4,36 +4,55 @@ export class SqlQueries {
     // Create
     /**
      *
-     * @param table table name into which data are inserted - /!\ DIRECTLY INSERTED INTO QUERY /!\
-     * @param tableFieldNames field names to fill the new entry - array order must match values array - /!\ DIRECTLY INSERTED INTO QUERY /!\
-     * @param values field values to fill the new entry - array order must match tableFieldNames array
+     * @param table table name into which data is inserted - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param tableFieldNames field names to fill the new entries - array order must match values array - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param values array of arrays containing field values to fill the new entries - array order must match tableFieldNames array
      */
     static async insertInto(
         table: string,
         tableFieldNames: Array<string>,
-        values: Array<any>
+        values: Array<Array<any>>
     ): Promise<any> {
         // Construct field names string
         const fieldsString = tableFieldNames.join(", ");
-        // Construct values string which only holds the relevant number of placeholders
-        let valuesString = "";
+        // Global values string
+        let globalValuesString = "";
+        // Global values array
+        const valuesArray: Array<any> = [];
+        // Loop on each array of values
         for (let i = 0; i < values.length; i++) {
-            if (i < values.length - 1) {
-                valuesString += "?, ";
-            } else {
-                valuesString += "?";
+            const fieldValues = values[i];
+            // Open parenthesis for each value block
+            let valuesString = "(";
+            // Construct values string which only holds the relevant number of placeholders
+            for (let i = 0; i < fieldValues.length; i++) {
+                if (i < fieldValues.length - 1) {
+                    valuesString += "?, ";
+                } else {
+                    valuesString += "?";
+                }
             }
+            // Close parenthesis for each value block
+            valuesString += ")";
+            // Add value block to global value string
+            if (i < values.length - 1) {
+                globalValuesString += `${valuesString}, `;
+            } else {
+                globalValuesString += valuesString;
+            }
+            // Add values to global values array
+            valuesArray.push(...fieldValues);
         }
         // Construct query
-        const sqlQuery = `INSERT INTO ${table} (${fieldsString}) VALUES (${valuesString})`;
+        const sqlQuery = `INSERT INTO ${table} (${fieldsString}) VALUES ${globalValuesString}`;
         // Check that this user exists in database
-        return await connectionPool.execute(sqlQuery, values);
+        return await connectionPool.execute(sqlQuery, valuesArray);
     }
 
     // Read
     /**
      *
-     * @param fromTable table name from which data are extracted - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param fromTable table name from which data is extracted - /!\ DIRECTLY INSERTED INTO QUERY /!\
      * @param tableFieldNames field names which should be retrieved from table, "*" if argument is omitted - /!\ DIRECTLY INSERTED INTO QUERY /!\
      * @param conditions array of values listing conditions, must respect the following pattern :
      * [fieldName, SqlOperator, fieldValue, SqlChainingOperator,fieldName, SqlOperator, fieldValue, ...]
@@ -69,7 +88,7 @@ export class SqlQueries {
     // Update
     /**
      *
-     * @param table table name into which data are updated - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param table table name into which data is updated - /!\ DIRECTLY INSERTED INTO QUERY /!\
      * @param tableFieldNames field names to update - array order must match values array - /!\ DIRECTLY INSERTED INTO QUERY /!\
      * @param values field values to fill updated rows - array order must match tableFieldNames array
      * @param conditions array of values listing conditions, must respect the following pattern :
@@ -114,7 +133,7 @@ export class SqlQueries {
     // Delete
     /**
      *
-     * @param table table name from which data are deleted updated - /!\ DIRECTLY INSERTED INTO QUERY /!\
+     * @param table table name from which data is deleted - /!\ DIRECTLY INSERTED INTO QUERY /!\
      * @param conditions array of values listing conditions, must respect the following pattern :
      * [fieldName, SqlOperator, fieldValue, SqlChainingOperator,fieldName, SqlOperator, fieldValue, ...]
      * Example : ["email", SqlOperator["="], "jclenovacom@gmail.com", SqlChainingOperator["AND"], "age", SqlOperator["<="], 12]

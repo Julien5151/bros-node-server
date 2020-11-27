@@ -23,7 +23,7 @@ exports.postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0,
     };
     try {
         // Insert group into DB
-        const [insertResponse] = yield sql_queries_1.SqlQueries.insertInto("friend_groups", ["name", "type", "created_at"], [newGroup.name, newGroup.type, newGroup.createdAt]);
+        const [insertResponse] = yield sql_queries_1.SqlQueries.insertInto("friend_groups", ["name", "type", "created_at"], [[newGroup.name, newGroup.type, newGroup.createdAt]]);
         // If group is created successfully, get its id
         const createdGroupId = insertResponse.insertId;
         // Fetch created group and return it as a response

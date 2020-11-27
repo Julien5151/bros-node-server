@@ -23,7 +23,7 @@ export const postGroupRouteController: RequestHandler = async (
         const [insertResponse] = await SqlQueries.insertInto(
             "friend_groups",
             ["name", "type", "created_at"],
-            [newGroup.name, newGroup.type, newGroup.createdAt]
+            [[newGroup.name, newGroup.type, newGroup.createdAt]]
         );
         // If group is created successfully, get its id
         const createdGroupId = insertResponse.insertId;

@@ -56,14 +56,16 @@ export const postUserRouteController: RequestHandler = async (
                     ...optionalFieldNames,
                 ],
                 [
-                    newUser.firstName,
-                    newUser.lastName,
-                    newUser.email,
-                    hashedPassword,
-                    newUser.zipcode,
-                    newUser.role,
-                    newUser.createdAt,
-                    ...optionalFieldValues,
+                    [
+                        newUser.firstName,
+                        newUser.lastName,
+                        newUser.email,
+                        hashedPassword,
+                        newUser.zipcode,
+                        newUser.role,
+                        newUser.createdAt,
+                        ...optionalFieldValues,
+                    ],
                 ]
             );
             // If user is created successfully, get its id
