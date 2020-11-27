@@ -143,19 +143,28 @@ class SqlQueries {
     static deleteFrom(table, conditions) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            // Initiliaze conditions inputs to be used in prepared statements
-            const conditionsInputs = [];
-            let conditionsString = "";
-            for (let i = 0; i < conditions.length; i += 4) {
-                // Concatenate conditions
-                conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${(_a = conditions[i + 3]) !== null && _a !== void 0 ? _a : ""}`;
-                // Push field value to be used in placeholder
-                conditionsInputs.push(conditions[i + 2]);
+            // If conditions are provided
+            if (conditions) {
+                // Initiliaze conditions inputs to be used in prepared statements
+                const conditionsInputs = [];
+                let conditionsString = "";
+                for (let i = 0; i < conditions.length; i += 4) {
+                    // Concatenate conditions
+                    conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${(_a = conditions[i + 3]) !== null && _a !== void 0 ? _a : ""}`;
+                    // Push field value to be used in placeholder
+                    conditionsInputs.push(conditions[i + 2]);
+                }
+                // Construct query
+                const sqlQuery = `DELETE FROM ${table} WHERE ${conditionsString}`;
+                // Check that this user exists in database
+                return yield connectionPool_1.connectionPool.execute(sqlQuery, conditionsInputs);
             }
-            // Construct query
-            const sqlQuery = `DELETE FROM ${table} WHERE ${conditionsString}`;
-            // Check that this user exists in database
-            return yield connectionPool_1.connectionPool.execute(sqlQuery, conditionsInputs);
+            else {
+                // Wipe all entires from table
+                const sqlQuery = `DELETE FROM ${table}`;
+                // Check that this user exists in database
+                return yield connectionPool_1.connectionPool.execute(sqlQuery);
+            }
         });
     }
 }

@@ -140,22 +140,30 @@ export class SqlQueries {
      */
     static async deleteFrom(
         table: string,
-        conditions: Array<any>
+        conditions?: Array<any>
     ): Promise<any> {
-        // Initiliaze conditions inputs to be used in prepared statements
-        const conditionsInputs = [];
-        let conditionsString = "";
-        for (let i = 0; i < conditions.length; i += 4) {
-            // Concatenate conditions
-            conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${
-                conditions[i + 3] ?? ""
-            }`;
-            // Push field value to be used in placeholder
-            conditionsInputs.push(conditions[i + 2]);
+        // If conditions are provided
+        if (conditions) {
+            // Initiliaze conditions inputs to be used in prepared statements
+            const conditionsInputs = [];
+            let conditionsString = "";
+            for (let i = 0; i < conditions.length; i += 4) {
+                // Concatenate conditions
+                conditionsString += `${conditions[i]} ${conditions[i + 1]} ? ${
+                    conditions[i + 3] ?? ""
+                }`;
+                // Push field value to be used in placeholder
+                conditionsInputs.push(conditions[i + 2]);
+            }
+            // Construct query
+            const sqlQuery = `DELETE FROM ${table} WHERE ${conditionsString}`;
+            // Check that this user exists in database
+            return await connectionPool.execute(sqlQuery, conditionsInputs);
+        } else {
+            // Wipe all entires from table
+            const sqlQuery = `DELETE FROM ${table}`;
+            // Check that this user exists in database
+            return await connectionPool.execute(sqlQuery);
         }
-        // Construct query
-        const sqlQuery = `DELETE FROM ${table} WHERE ${conditionsString}`;
-        // Check that this user exists in database
-        return await connectionPool.execute(sqlQuery, conditionsInputs);
     }
 }
