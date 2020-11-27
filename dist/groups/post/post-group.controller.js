@@ -47,7 +47,9 @@ exports.postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0,
             usersFound.forEach((user) => {
                 updatePromises.push(sql_queries_1.SqlQueries.update("users", ["group_id"], [newGroupId], ["id", enums_1.SqlOperator["="], user.id]));
             });
-            const updateUsersResult = yield Promise.all(updatePromises);
+            // Wait for all promises to resolve
+            yield Promise.all(updatePromises);
+            return res.status(201).json({ message: "You group was created" });
         }
         else {
             // Respond with a 404, not enough people
@@ -55,17 +57,6 @@ exports.postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0,
                 .status(404)
                 .json({ message: "Not enough people found in your area" });
         }
-        // // If group is created successfully, get its id
-        // const createdGroupId = insertResponse.insertId;
-        // // Fetch created group and return it as a response
-        // const [rows] = await SqlQueries.selectFrom("friend_groups", undefined, [
-        //     "id",
-        //     SqlOperator["="],
-        //     createdGroupId,
-        // ]);
-        // const createdGroup = rows[0] as Group;
-        // If group successfully created, return the created group
-        return res.status(201).json({ message: "You group was created" });
     }
     catch (error) {
         // In case of SQL error, log the error
