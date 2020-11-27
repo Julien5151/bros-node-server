@@ -37,9 +37,9 @@ exports.authController = (req, res, next) => __awaiter(void 0, void 0, void 0, f
                 const [rows] = yield sql_queries_1.SqlQueries.selectFrom("users", ["role"], ["id", enums_1.SqlOperator["="], userId]);
                 // Extract user role
                 const userRole = rows[0].role;
-                // Add user id and role from to the request to make it a CustomRequest
-                req.userId = userId;
-                req.userRole = userRole;
+                // Add user id and role from to the res locals
+                res.locals.userId = userId;
+                res.locals.userRole = userRole;
                 // Proceed to next middlewares
                 next();
             }

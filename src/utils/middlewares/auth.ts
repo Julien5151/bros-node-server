@@ -31,9 +31,9 @@ export const authController: RequestHandler = async (req, res, next) => {
                 );
                 // Extract user role
                 const userRole = rows[0].role;
-                // Add user id and role from to the request to make it a CustomRequest
-                (req as any).userId = userId;
-                (req as any).userRole = userRole;
+                // Add user id and role from to the res locals
+                res.locals.userId = userId;
+                res.locals.userRole = userRole;
                 // Proceed to next middlewares
                 next();
             }

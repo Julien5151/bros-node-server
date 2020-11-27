@@ -6,9 +6,7 @@ export const postMockedUsersRouteController: RequestHandler = async (
     res,
     next
 ) => {
-    // Type request using custom interface
-    const reqCustom = req as CustomRequest;
-    console.log(reqCustom.userId);
-    console.log(reqCustom.userRole);
+    console.log(res.locals.userId);
+    console.log(res.locals.userRole);
     return res.status(200).json({ message: "Mocked users created" });
 };
