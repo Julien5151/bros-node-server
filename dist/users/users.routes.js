@@ -17,7 +17,7 @@ exports.usersRouter.post("/", [
     express_validator_1.body("firstName").isLength({ min: 1 }),
     express_validator_1.body("lastName").isLength({ min: 1 }),
     express_validator_1.body("email").isEmail(),
-    express_validator_1.body("zipcode").isPostalCode("FR"),
+    express_validator_1.body("zipcode").isInt({ min: 1, max: 99 }),
     express_validator_1.body("password").isLength({ min: 9 }),
     express_validator_1.body("confirmedPassword").isLength({ min: 9 }),
 ], validation_errors_1.validationErrorsController, post_user_controller_1.postUserRouteController);
@@ -25,7 +25,7 @@ exports.usersRouter.post("/", [
 exports.usersRouter.patch("/:id", [
     express_validator_1.body("email").isEmail(),
     express_validator_1.body("phone").isMobilePhone("fr-FR"),
-    express_validator_1.body("zipcode").isPostalCode("FR"),
+    express_validator_1.body("zipcode").isInt({ min: 1, max: 99 }),
     express_validator_1.body("password").isLength({ min: 9 }),
 ], partial_validation_errors_1.partialValidationErrorsController, patch_user_controller_1.patchUserRouteController);
 // DELETE /users/:id

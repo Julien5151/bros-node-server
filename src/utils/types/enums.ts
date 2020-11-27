@@ -10,6 +10,11 @@ export enum GroupType {
     himym = "himym",
 }
 
+export enum GroupSize {
+    friends = 6,
+    himym = 5,
+}
+
 export const groupTypeRegex = new RegExp(
     `^(${GroupType.friends}|${GroupType.himym})$`
 );

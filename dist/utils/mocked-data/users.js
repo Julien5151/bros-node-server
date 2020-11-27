@@ -8,7 +8,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "joey.tribiani@friends.com",
         phone: "+33106060608",
-        zipcode: 95150,
+        zipcode: 95,
     },
     {
         firstName: "Ross",
@@ -16,7 +16,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "ross.geller@friends.com",
         phone: "+33206060608",
-        zipcode: 95150,
+        zipcode: 95,
     },
     {
         firstName: "Chandler",
@@ -24,7 +24,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "chandler.bing@friends.com",
         phone: "+33306060608",
-        zipcode: 95150,
+        zipcode: 95,
     },
     {
         firstName: "Monica",
@@ -32,7 +32,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "monica.geller@friends.com",
         phone: "+33406060608",
-        zipcode: 95150,
+        zipcode: 95,
     },
     {
         firstName: "Phoebe",
@@ -40,7 +40,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "phoebe.buffay@friends.com",
         phone: "+33506060608",
-        zipcode: 95150,
+        zipcode: 95,
     },
     {
         firstName: "Rachel",
@@ -48,7 +48,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "rachel.green@friends.com",
         phone: "+33126060608",
-        zipcode: 95150,
+        zipcode: 95,
     },
     {
         firstName: "Barney",
@@ -56,7 +56,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "barney.strinson@himym.com",
         phone: "+33706060608",
-        zipcode: 78120,
+        zipcode: 78,
     },
     {
         firstName: "Marshall",
@@ -64,7 +64,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "marshall.eriksen@himym.com",
         phone: "+33806060608",
-        zipcode: 78120,
+        zipcode: 78,
     },
     {
         firstName: "Teodore-Evilyn",
@@ -72,7 +72,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "ted.mosby@himym.com",
         phone: "+33906060608",
-        zipcode: 78120,
+        zipcode: 78,
     },
     {
         firstName: "Lily",
@@ -80,7 +80,7 @@ exports.MockedUsers = [
         password: "123456789",
         email: "lily.aldrin@himym.com",
         phone: "+33106060610",
-        zipcode: 78120,
+        zipcode: 78,
     },
     {
         firstName: "Robin",
@@ -88,6 +88,6 @@ exports.MockedUsers = [
         password: "123456789",
         email: "robin.scherbatsky@himym.com",
         phone: "+33116060608",
-        zipcode: 78120,
+        zipcode: 78,
     },
 ];

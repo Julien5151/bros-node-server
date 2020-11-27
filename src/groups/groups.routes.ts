@@ -16,7 +16,10 @@ groupsRouter.get("/", getGroupsRouteController);
 // POST /groups
 groupsRouter.post(
     "/",
-    [body("name").isLength({ min: 2 }), body("type").matches(groupTypeRegex)],
+    [
+        body("zipcode").isInt({ min: 1, max: 99 }),
+        body("type").matches(groupTypeRegex),
+    ],
     validationErrorsController,
     postGroupRouteController
 );
@@ -24,7 +27,10 @@ groupsRouter.post(
 // PATCH /groups/:id
 groupsRouter.patch(
     "/:id",
-    [body("name").isLength({ min: 2 }), body("type").matches(groupTypeRegex)],
+    [
+        body("zipcode").isInt({ min: 1, max: 99 }),
+        body("type").matches(groupTypeRegex),
+    ],
     partialValidationErrorsController,
     patchGroupRouteController
 );

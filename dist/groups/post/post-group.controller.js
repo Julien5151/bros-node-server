@@ -15,26 +15,50 @@ const enums_1 = require("../../utils/types/enums");
 exports.postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
     const reqBody = req.body;
-    // Create new group object
-    const newGroup = {
-        name: reqBody.name,
-        type: reqBody.type,
-        createdAt: new Date(),
-    };
     try {
-        // Insert group into DB
-        const [insertResponse] = yield sql_queries_1.SqlQueries.insertInto("friend_groups", ["name", "type", "created_at"], [[newGroup.name, newGroup.type, newGroup.createdAt]]);
-        // If group is created successfully, get its id
-        const createdGroupId = insertResponse.insertId;
-        // Fetch created group and return it as a response
-        const [rows] = yield sql_queries_1.SqlQueries.selectFrom("friend_groups", undefined, [
-            "id",
+        // Search for users living in the same area
+        const fieldToExtract = ["id", "first_name", "last_name"];
+        // Extract rows from DB
+        const [rows] = yield sql_queries_1.SqlQueries.selectFrom("users", fieldToExtract, [
+            "zipcode",
             enums_1.SqlOperator["="],
-            createdGroupId,
+            reqBody.zipcode,
         ]);
-        const createdGroup = rows[0];
+        const usersFound = rows;
+        // Check if there are enough people to make a group of the requested type
+        if ((reqBody.type === enums_1.GroupType.friends &&
+            usersFound.length >= enums_1.GroupSize.friends) ||
+            (reqBody.type === enums_1.GroupType.himym &&
+                usersFound.length >= enums_1.GroupSize.himym)) {
+            // Create the group
+            const newGroup = {
+                name: reqBody.type === enums_1.GroupType.friends
+                    ? "New group - Friends"
+                    : "New group - How I Met Your Mother",
+                type: reqBody.type,
+                createdAt: new Date(),
+            };
+            // Insert group into DB
+            const [insertResponse] = yield sql_queries_1.SqlQueries.insertInto("friend_groups", ["name", "type", "created_at"], [[newGroup.name, newGroup.type, newGroup.createdAt]]);
+            console.log(usersFound);
+        }
+        else {
+            // Respond with a 404, not enough people
+            return res
+                .status(404)
+                .json({ message: "Not enough people found in your area" });
+        }
+        // // If group is created successfully, get its id
+        // const createdGroupId = insertResponse.insertId;
+        // // Fetch created group and return it as a response
+        // const [rows] = await SqlQueries.selectFrom("friend_groups", undefined, [
+        //     "id",
+        //     SqlOperator["="],
+        //     createdGroupId,
+        // ]);
+        // const createdGroup = rows[0] as Group;
         // If group successfully created, return the created group
-        return res.status(201).json(createdGroup);
+        return res.status(201).json({ message: "You group was created" });
     }
     catch (error) {
         // In case of SQL error, log the error
