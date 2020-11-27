@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import { CustomRequest } from "../../utils/types/interfaces";
 
 export const postMockedUsersRouteController: RequestHandler = async (
     req,
