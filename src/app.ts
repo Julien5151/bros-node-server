@@ -9,6 +9,7 @@ import { authController } from "./utils/middlewares/auth";
 import { groupsRouter } from "./groups/groups.routes";
 import { adminRouter } from "./admin/admin.routes";
 import { checkAdminRoleController } from "./utils/middlewares/admin";
+import { connectDb } from "./utils/database/db-connection";
 
 // Create express application
 const app = express();
@@ -36,5 +37,14 @@ app.use("/admin", authController, checkAdminRoleController, adminRouter);
 // Error handling middleware
 app.use(errorsController);
 
-// Start express app on port 3000
-app.listen(process.env.PORT);
+// Connect to DB and start server
+connectDb()
+    .then(() => {
+        // If success, start express app
+        app.listen(process.env.PORT);
+        console.log("Connected successfully");
+    })
+    .catch(() => {
+        // Log the error and don't start server test
+        console.error("Database connection failed, server stopped");
+    });

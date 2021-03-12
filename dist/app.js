@@ -14,6 +14,7 @@ const auth_1 = require("./utils/middlewares/auth");
 const groups_routes_1 = require("./groups/groups.routes");
 const admin_routes_1 = require("./admin/admin.routes");
 const admin_1 = require("./utils/middlewares/admin");
+const db_connection_1 = require("./utils/database/db-connection");
 // Create express application
 const app = express_1.default();
 // Body parsing middleware
@@ -32,5 +33,14 @@ app.use("/groups", auth_1.authController, groups_routes_1.groupsRouter);
 app.use("/admin", auth_1.authController, admin_1.checkAdminRoleController, admin_routes_1.adminRouter);
 // Error handling middleware
 app.use(errors_1.errorsController);
-// Start express app on port 3000
-app.listen(process.env.PORT);
+// Connect to DB and start server
+db_connection_1.connectDb()
+    .then(() => {
+    // If success, start express app
+    app.listen(process.env.PORT);
+    console.log("Connected successfully");
+})
+    .catch(() => {
+    // Log the error and don't start server test
+    console.error("Database connection failed, server stopped");
+});
