@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorsController = void 0;
-exports.errorsController = (err, req, res, next) => {
+const errorsController = (err, req, res, next) => {
     // Read or set default error status code
     const statusCode = err.statusCode || 500;
     // Error response body
@@ -19,3 +19,4 @@ exports.errorsController = (err, req, res, next) => {
     // Return error response
     return res.status(statusCode).json(errorResponseBody);
 };
+exports.errorsController = errorsController;

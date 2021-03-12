@@ -13,7 +13,7 @@ exports.getUsersRouteController = void 0;
 const db_connection_1 = require("../../utils/database/db-connection");
 const enums_1 = require("../../utils/types/enums");
 const user_1 = require("../../models/user");
-exports.getUsersRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getUsersRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Extract data from DB
         const usersData = yield db_connection_1.db
@@ -35,3 +35,4 @@ exports.getUsersRouteController = (req, res, next) => __awaiter(void 0, void 0, 
         return next(customError);
     }
 });
+exports.getUsersRouteController = getUsersRouteController;

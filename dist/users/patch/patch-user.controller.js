@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.patchUserRouteController = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = require("../../models/user");
-exports.patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body and user id from params
     const reqBody = req.body;
     const userId = req.params["id"];
@@ -76,3 +76,4 @@ exports.patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0,
         return next(customError);
     }
 });
+exports.patchUserRouteController = patchUserRouteController;

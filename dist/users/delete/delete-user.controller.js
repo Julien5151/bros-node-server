@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUserRouteController = void 0;
 const user_1 = require("../../models/user");
-exports.deleteUserRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteUserRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     // Extract user id from params
     const userId = req.params["id"];
@@ -37,3 +37,4 @@ exports.deleteUserRouteController = (req, res, next) => __awaiter(void 0, void 0
         return next(customError);
     }
 });
+exports.deleteUserRouteController = deleteUserRouteController;

@@ -4,7 +4,7 @@ exports.partialValidationErrorsController = void 0;
 const express_validator_1 = require("express-validator");
 // Handle validation errors and return 400 will relevant error message
 // Validates only fields present in the request. Only invalid fields will result in an error
-exports.partialValidationErrorsController = (req, res, next) => {
+const partialValidationErrorsController = (req, res, next) => {
     // Extract validation errors from request
     const validationErrors = express_validator_1.validationResult(req);
     // Make a list of failed parameters
@@ -27,3 +27,4 @@ exports.partialValidationErrorsController = (req, res, next) => {
         return next();
     }
 };
+exports.partialValidationErrorsController = partialValidationErrorsController;

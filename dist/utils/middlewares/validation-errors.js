@@ -4,7 +4,7 @@ exports.validationErrorsController = void 0;
 const express_validator_1 = require("express-validator");
 // Handle validation errors and return 400 will relevant error message
 // Validates ALL request fields : invalid and missing fields result in an error
-exports.validationErrorsController = (req, res, next) => {
+const validationErrorsController = (req, res, next) => {
     // Extract validation errors from request
     const validationErrors = express_validator_1.validationResult(req);
     // If there are validation errors, throw a 400 with a list of failed parameters
@@ -38,3 +38,4 @@ exports.validationErrorsController = (req, res, next) => {
         return next();
     }
 };
+exports.validationErrorsController = validationErrorsController;

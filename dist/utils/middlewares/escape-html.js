@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.escapeHtmlController = void 0;
 // Escape special chars to avoid XSS script injection
-exports.escapeHtmlController = (req, res, next) => {
+const escapeHtmlController = (req, res, next) => {
     // Escaping map
     const map = {
         "&": "&amp;",
@@ -22,3 +22,4 @@ exports.escapeHtmlController = (req, res, next) => {
     // Forward request to next middlewares
     next();
 };
+exports.escapeHtmlController = escapeHtmlController;

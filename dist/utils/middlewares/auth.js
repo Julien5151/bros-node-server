@@ -16,7 +16,7 @@ exports.authController = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const sql_queries_1 = require("../database/sql-queries");
 const enums_1 = require("../types/enums");
-exports.authController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const authController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract token from request
     const token = req.get("Authorization");
     // If a token is found, verify it
@@ -64,3 +64,4 @@ exports.authController = (req, res, next) => __awaiter(void 0, void 0, void 0, f
         next(missingTokenError);
     }
 });
+exports.authController = authController;

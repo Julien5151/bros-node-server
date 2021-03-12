@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postUserRouteController = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = require("../../models/user");
-exports.postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
     const reqBody = req.body;
     // Check if passwords match
@@ -67,3 +67,4 @@ exports.postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, 
         return next(error);
     }
 });
+exports.postUserRouteController = postUserRouteController;
