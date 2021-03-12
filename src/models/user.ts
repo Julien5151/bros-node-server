@@ -1,7 +1,11 @@
 import { MongoCollection, UserRole } from "../utils/types/enums";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../utils/database/db-connection";
-import { InsertOneWriteOpResult, UpdateWriteOpResult } from "mongodb";
+import {
+    DeleteWriteOpResultObject,
+    InsertOneWriteOpResult,
+    UpdateWriteOpResult,
+} from "mongodb";
 
 export class User {
     /**
@@ -14,6 +18,14 @@ export class User {
             .collection(MongoCollection.users)
             .findOne({ _id: userId });
         return new this(userData);
+    }
+
+    /**
+     * Delete user from DB using its _id.
+     */
+    static async delete(userId: string): Promise<DeleteWriteOpResultObject> {
+        // Delete user from DB
+        return db.collection(MongoCollection.users).deleteOne({ _id: userId });
     }
 
     // Mandatory properties
@@ -57,10 +69,20 @@ export class User {
     }
 
     /**
-     * Save user in DB
+     * Create user in DB
      */
     async create(): Promise<InsertOneWriteOpResult<any>> {
         return db.collection(MongoCollection.users).insertOne(this);
+    }
+
+    /**
+     * Delete user from DB
+     */
+    async delete(): Promise<DeleteWriteOpResultObject> {
+        // Delete user from DB
+        return db
+            .collection(MongoCollection.users)
+            .deleteOne({ _id: this._id });
     }
 
     /**

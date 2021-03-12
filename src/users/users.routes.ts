@@ -5,6 +5,7 @@ import { validationErrorsController } from "../utils/middlewares/validation-erro
 import { getUsersRouteController } from "./get/get-users.controller";
 import { partialValidationErrorsController } from "../utils/middlewares/partial-validation-errors";
 import { patchUserRouteController } from "./patch/patch-user.controller";
+import { deleteUserRouteController } from "./delete/delete-user.controller";
 
 export const usersRouter = Router();
 
@@ -40,4 +41,4 @@ usersRouter.patch(
 );
 
 // DELETE /users/:id
-// usersRouter.delete("/:id", deleteUserRouteController);
+usersRouter.delete("/:id", deleteUserRouteController);

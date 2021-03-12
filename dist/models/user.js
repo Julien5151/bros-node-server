@@ -42,11 +42,31 @@ class User {
         });
     }
     /**
-     * Save user in DB
+     * Delete user from DB using its _id.
+     */
+    static delete(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Delete user from DB
+            return db_connection_1.db.collection(enums_1.MongoCollection.users).deleteOne({ _id: userId });
+        });
+    }
+    /**
+     * Create user in DB
      */
     create() {
         return __awaiter(this, void 0, void 0, function* () {
             return db_connection_1.db.collection(enums_1.MongoCollection.users).insertOne(this);
+        });
+    }
+    /**
+     * Delete user from DB
+     */
+    delete() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Delete user from DB
+            return db_connection_1.db
+                .collection(enums_1.MongoCollection.users)
+                .deleteOne({ _id: this._id });
         });
     }
     /**
