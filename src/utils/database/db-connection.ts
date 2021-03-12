@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { Db, MongoClient } from "mongodb";
 
 const dbUri = `mongodb+srv://db-bros-admin:${process.env.DB_PASSWORD}@bros-mongo-development.nbukm.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const mongoClient = new MongoClient(dbUri, {
@@ -6,6 +6,14 @@ const mongoClient = new MongoClient(dbUri, {
     useUnifiedTopology: true,
 });
 
+// DB object to be used for all queries
+export let db: Db;
+
 export async function connectDb(): Promise<MongoClient> {
-    return mongoClient.connect();
+    return mongoClient.connect().then((mongoClient) => {
+        // Set DB variable after successfull connection
+        db = mongoClient.db(process.env.DB_NAME);
+        // Return client
+        return mongoClient;
+    });
 }

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDb = void 0;
+exports.connectDb = exports.db = void 0;
 const mongodb_1 = require("mongodb");
 const dbUri = `mongodb+srv://db-bros-admin:${process.env.DB_PASSWORD}@bros-mongo-development.nbukm.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const mongoClient = new mongodb_1.MongoClient(dbUri, {
@@ -18,7 +18,12 @@ const mongoClient = new mongodb_1.MongoClient(dbUri, {
 });
 function connectDb() {
     return __awaiter(this, void 0, void 0, function* () {
-        return mongoClient.connect();
+        return mongoClient.connect().then((mongoClient) => {
+            // Set DB variable after successfull connection
+            exports.db = mongoClient.db(process.env.DB_NAME);
+            // Return client
+            return mongoClient;
+        });
     });
 }
 exports.connectDb = connectDb;
