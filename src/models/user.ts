@@ -1,9 +1,21 @@
 import { MongoCollection, UserRole } from "../utils/types/enums";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "../utils/database/db-connection";
-import { InsertOneWriteOpResult } from "mongodb";
+import { InsertOneWriteOpResult, UpdateWriteOpResult } from "mongodb";
 
 export class User {
+    /**
+     * Loads user from DB using its _id. The same can be achieved by passing all
+     * arguments to constructor
+     */
+    static async load(userId: string): Promise<User> {
+        // Fetch user data from DB
+        const userData = await db
+            .collection(MongoCollection.users)
+            .findOne({ _id: userId });
+        return new this(userData);
+    }
+
     // Mandatory properties
     firstName: string;
     lastName: string;
@@ -49,6 +61,23 @@ export class User {
      */
     async create(): Promise<InsertOneWriteOpResult<any>> {
         return db.collection(MongoCollection.users).insertOne(this);
+    }
+
+    /**
+     * Update user in DB, replaces all fields (except _id)
+     */
+    async update(): Promise<UpdateWriteOpResult> {
+        // Deep copy of object and removes methods
+        const thisCopy = JSON.parse(JSON.stringify(this));
+        // Remove _id property
+        delete thisCopy._id;
+        // Mutate object in DB
+        return db.collection(MongoCollection.users).updateOne(
+            { _id: this._id },
+            {
+                $set: thisCopy,
+            }
+        );
     }
 
     /**

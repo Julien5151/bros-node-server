@@ -29,11 +29,39 @@ class User {
         this.role = (_e = userObject.role) !== null && _e !== void 0 ? _e : enums_1.UserRole.visitor;
     }
     /**
+     * Loads user from DB using its _id. The same can be achieved by passing all
+     * arguments to constructor
+     */
+    static load(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Fetch user data from DB
+            const userData = yield db_connection_1.db
+                .collection(enums_1.MongoCollection.users)
+                .findOne({ _id: userId });
+            return new this(userData);
+        });
+    }
+    /**
      * Save user in DB
      */
     create() {
         return __awaiter(this, void 0, void 0, function* () {
             return db_connection_1.db.collection(enums_1.MongoCollection.users).insertOne(this);
+        });
+    }
+    /**
+     * Update user in DB, replaces all fields (except _id)
+     */
+    update() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Deep copy of object and removes methods
+            const thisCopy = JSON.parse(JSON.stringify(this));
+            // Remove _id property
+            delete thisCopy._id;
+            // Mutate object in DB
+            return db_connection_1.db.collection(enums_1.MongoCollection.users).updateOne({ _id: this._id }, {
+                $set: thisCopy,
+            });
         });
     }
     /**
