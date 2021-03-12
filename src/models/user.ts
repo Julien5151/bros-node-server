@@ -5,38 +5,49 @@ import { InsertOneWriteOpResult } from "mongodb";
 
 export class User {
     // Mandatory properties
-    _id: string;
     firstName: string;
     lastName: string;
     email: string;
     zipcode: number;
     password: string;
-    createdAt: Date;
     // Optional properties
-    phone = "";
-    address = "";
-    role: UserRole = UserRole.visitor;
+    _id: string;
+    createdAt: Date;
+    phone: string;
+    address: string;
+    role: UserRole;
 
-    constructor(
-        firstName: string,
-        lastName: string,
-        email: string,
-        zipcode: number,
-        password: string
-    ) {
-        this._id = uuidv4();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.zipcode = zipcode;
-        this.password = password;
-        this.createdAt = new Date();
+    constructor(userObject: {
+        // Provided when creating a new user
+        firstName: string;
+        lastName: string;
+        email: string;
+        zipcode: number;
+        password: string;
+        // Provided, when user is retrieved from DB
+        _id?: string;
+        createdAt?: Date;
+        phone?: string;
+        address?: string;
+        role?: UserRole;
+    }) {
+        this.firstName = userObject.firstName;
+        this.lastName = userObject.lastName;
+        this.email = userObject.email;
+        this.zipcode = userObject.zipcode;
+        this.password = userObject.password;
+        //
+        this._id = userObject._id ?? uuidv4();
+        this.createdAt = userObject.createdAt ?? new Date();
+        this.phone = userObject.phone ?? "";
+        this.address = userObject.address ?? "";
+        this.role = userObject.role ?? UserRole.visitor;
     }
 
     /**
      * Save user in DB
      */
-    async save(): Promise<InsertOneWriteOpResult<any>> {
+    async create(): Promise<InsertOneWriteOpResult<any>> {
         return db.collection(MongoCollection.users).insertOne(this);
     }
 

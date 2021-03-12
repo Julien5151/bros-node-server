@@ -25,7 +25,13 @@ exports.postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, 
             // Hash password using bcrypt
             const hashedPassword = yield bcryptjs_1.default.hash(reqBody.password, 12);
             // Create new user object mandatory fields (visitor at signup)
-            const newUser = new user_1.User(reqBody.firstName, reqBody.lastName, reqBody.email, reqBody.zipcode, hashedPassword);
+            const newUser = new user_1.User({
+                firstName: reqBody.firstName,
+                lastName: reqBody.lastName,
+                email: reqBody.email,
+                zipcode: reqBody.zipcode,
+                password: hashedPassword,
+            });
             //
             if (reqBody.phone) {
                 newUser.phone = reqBody.phone;
@@ -34,7 +40,7 @@ exports.postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, 
                 newUser.address = reqBody.address;
             }
             // Insert new user in DB
-            yield newUser.save();
+            yield newUser.create();
             // If user successfully created, return the created user
             return res.status(201).json(newUser.getPlainObject());
         }

@@ -18,13 +18,13 @@ export const postUserRouteController: RequestHandler = async (
             // Hash password using bcrypt
             const hashedPassword = await bcrypt.hash(reqBody.password, 12);
             // Create new user object mandatory fields (visitor at signup)
-            const newUser = new User(
-                reqBody.firstName,
-                reqBody.lastName,
-                reqBody.email,
-                reqBody.zipcode,
-                hashedPassword
-            );
+            const newUser = new User({
+                firstName: reqBody.firstName,
+                lastName: reqBody.lastName,
+                email: reqBody.email,
+                zipcode: reqBody.zipcode,
+                password: hashedPassword,
+            });
             //
             if (reqBody.phone) {
                 newUser.phone = reqBody.phone;
@@ -33,7 +33,7 @@ export const postUserRouteController: RequestHandler = async (
                 newUser.address = reqBody.address;
             }
             // Insert new user in DB
-            await newUser.save();
+            await newUser.create();
             // If user successfully created, return the created user
             return res.status(201).json(newUser.getPlainObject());
         } catch (error) {

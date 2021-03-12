@@ -2,11 +2,12 @@ import { Router } from "express";
 import { body } from "express-validator";
 import { postUserRouteController } from "./post/post-user.controller";
 import { validationErrorsController } from "../utils/middlewares/validation-errors";
+import { getUsersRouteController } from "./get/get-users.controller";
 
 export const usersRouter = Router();
 
 // GET /users
-// usersRouter.get("/", getUsersRouteController);
+usersRouter.get("/", getUsersRouteController);
 
 // POST /users
 usersRouter.post(

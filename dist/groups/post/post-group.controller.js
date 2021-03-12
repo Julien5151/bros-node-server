@@ -84,7 +84,7 @@
 //                 .json({ message: "Not enough people found in your area" });
 //         }
 //     } catch (error) {
-//         // In case of SQL error, log the error
+//         // In case of DB error, log the error
 //         console.error(error.message);
 //         // Return a generic message to client
 //         const customError: CustomError = {

@@ -5,9 +5,10 @@ const express_1 = require("express");
 const express_validator_1 = require("express-validator");
 const post_user_controller_1 = require("./post/post-user.controller");
 const validation_errors_1 = require("../utils/middlewares/validation-errors");
+const get_users_controller_1 = require("./get/get-users.controller");
 exports.usersRouter = express_1.Router();
 // GET /users
-// usersRouter.get("/", getUsersRouteController);
+exports.usersRouter.get("/", get_users_controller_1.getUsersRouteController);
 // POST /users
 exports.usersRouter.post("/", [
     express_validator_1.body("firstName").isLength({ min: 1 }),
