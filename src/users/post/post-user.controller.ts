@@ -39,13 +39,15 @@ export const postUserRouteController: RequestHandler = async (
             // If user successfully created, return the created user
             return res.status(201).json(newUser);
         } catch (error) {
-            // In case of DB error, log the error
-            console.error(error.message);
-            // Return a generic message to client
             const customError: CustomError = {
                 statusCode: 500,
                 message: "Something went wrong",
             };
+            if (error.code === 11000) {
+                // Duplicate email (error code 11000)
+                customError.statusCode = 409;
+                customError.message = "This user already exists";
+            }
             return next(customError);
         }
     } else {
