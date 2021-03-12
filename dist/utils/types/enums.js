@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SqlChainingOperator = exports.SqlOperator = exports.groupTypeRegex = exports.GroupSize = exports.GroupType = exports.UserRole = void 0;
+exports.SqlChainingOperator = exports.SqlOperator = exports.groupTypeRegex = exports.GroupSize = exports.GroupType = exports.UserRole = exports.MongoCollection = void 0;
+var MongoCollection;
+(function (MongoCollection) {
+    MongoCollection["users"] = "users";
+    MongoCollection["groups"] = "groups";
+})(MongoCollection = exports.MongoCollection || (exports.MongoCollection = {}));
 var UserRole;
 (function (UserRole) {
     UserRole["visitor"] = "visitor";

@@ -38,18 +38,6 @@ db_connection_1.connectDb()
     .then(() => {
     // If success, start express app
     app.listen(process.env.PORT);
-    // Use the collection "people"
-    const col = db_connection_1.db.collection("people");
-    // Construct a document
-    const personDocument = {
-        name: { first: "Alan", last: "Turing" },
-        birth: new Date(1912, 5, 23),
-        death: new Date(1954, 5, 7),
-        contribs: ["Turing machine", "Turing test", "Turingery"],
-        views: 1250000,
-    };
-    // Insert a single document, wait for promise so we can read it back
-    col.insertOne(personDocument);
 })
     .catch(() => {
     // Log the error and don't start server test

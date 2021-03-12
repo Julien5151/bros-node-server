@@ -1,81 +1,96 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.postGroupRouteController = void 0;
-const sql_queries_1 = require("../../utils/database/sql-queries");
-const enums_1 = require("../../utils/types/enums");
-exports.postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // Extract data from body
-    const reqBody = req.body;
-    try {
-        // Search for users living in the same area
-        const fieldToExtract = ["id", "first_name", "last_name"];
-        // Extract rows from DB
-        const [rows] = yield sql_queries_1.SqlQueries.selectFrom("users", fieldToExtract, [
-            "zipcode",
-            enums_1.SqlOperator["="],
-            reqBody.zipcode,
-        ]);
-        const usersFound = rows;
-        // Check if there are enough people to make a group of the requested type
-        if ((reqBody.type === enums_1.GroupType.friends &&
-            usersFound.length >= enums_1.GroupSize.friends) ||
-            (reqBody.type === enums_1.GroupType.himym &&
-                usersFound.length >= enums_1.GroupSize.himym)) {
-            // Create the group
-            const newGroup = {
-                name: reqBody.type === enums_1.GroupType.friends
-                    ? "New group - Friends"
-                    : "New group - How I Met Your Mother",
-                type: reqBody.type,
-                createdAt: new Date(),
-            };
-            // Insert group into DB
-            const [insertResponse] = yield sql_queries_1.SqlQueries.insertInto("friend_groups", ["name", "type", "created_at"], [[newGroup.name, newGroup.type, newGroup.createdAt]]);
-            // Extract inserted id and set this id as group foreign key in for newly grouped users
-            const newGroupId = insertResponse.insertId;
-            const updatePromises = [];
-            // Update each user group id in parallel
-            usersFound.forEach((user) => {
-                updatePromises.push(sql_queries_1.SqlQueries.update("users", ["group_id"], [newGroupId], ["id", enums_1.SqlOperator["="], user.id]));
-            });
-            // Wait for all promises to resolve
-            yield Promise.all(updatePromises);
-            // Fetch all group data from both user and friend_groups tables
-            const [rows] = yield sql_queries_1.SqlQueries.selectFromInnerJoin(["users", "friend_groups"], ["group_id", "id"], [
-                "users.first_name",
-                "users.last_name",
-                "users.email",
-                "friend_groups.id",
-                "friend_groups.name",
-                "friend_groups.type",
-                "friend_groups.created_at",
-            ], ["friend_groups.id", enums_1.SqlOperator["="], newGroupId]);
-            return res.status(201).json({ message: "You group was created" });
-        }
-        else {
-            // Respond with a 404, not enough people
-            return res
-                .status(404)
-                .json({ message: "Not enough people found in your area" });
-        }
-    }
-    catch (error) {
-        // In case of SQL error, log the error
-        console.error(error.message);
-        // Return a generic message to client
-        const customError = {
-            statusCode: 500,
-            message: "Something went wrong",
-        };
-        return next(customError);
-    }
-});
+// import { RequestHandler } from "express";
+// import { Group } from "../../models/group";
+// import { User } from "../../models/user";
+// import { SqlQueries } from "../../utils/database/sql-queries";
+// import { GroupType, GroupSize, SqlOperator } from "../../utils/types/enums";
+// import { CustomError } from "../../utils/types/interfaces";
+// import { GroupPostRequest } from "./post-group.types";
+// export const postGroupRouteController: RequestHandler = async (
+//     req,
+//     res,
+//     next
+// ) => {
+//     // Extract data from body
+//     const reqBody = req.body as GroupPostRequest;
+//     try {
+//         // Search for users living in the same area
+//         const fieldToExtract = ["id", "first_name", "last_name"];
+//         // Extract rows from DB
+//         const [rows] = await SqlQueries.selectFrom("users", fieldToExtract, [
+//             "zipcode",
+//             SqlOperator["="],
+//             reqBody.zipcode,
+//         ]);
+//         const usersFound = rows as Array<User>;
+//         // Check if there are enough people to make a group of the requested type
+//         if (
+//             (reqBody.type === GroupType.friends &&
+//                 usersFound.length >= GroupSize.friends) ||
+//             (reqBody.type === GroupType.himym &&
+//                 usersFound.length >= GroupSize.himym)
+//         ) {
+//             // Create the group
+//             const newGroup: Group = {
+//                 name:
+//                     reqBody.type === GroupType.friends
+//                         ? "New group - Friends"
+//                         : "New group - How I Met Your Mother",
+//                 type: reqBody.type,
+//                 createdAt: new Date(),
+//             };
+//             // Insert group into DB
+//             const [insertResponse] = await SqlQueries.insertInto(
+//                 "friend_groups",
+//                 ["name", "type", "created_at"],
+//                 [[newGroup.name, newGroup.type, newGroup.createdAt]]
+//             );
+//             // Extract inserted id and set this id as group foreign key in for newly grouped users
+//             const newGroupId = insertResponse.insertId;
+//             const updatePromises: Array<Promise<any>> = [];
+//             // Update each user group id in parallel
+//             usersFound.forEach((user) => {
+//                 updatePromises.push(
+//                     SqlQueries.update(
+//                         "users",
+//                         ["group_id"],
+//                         [newGroupId],
+//                         ["id", SqlOperator["="], user.id]
+//                     )
+//                 );
+//             });
+//             // Wait for all promises to resolve
+//             await Promise.all(updatePromises);
+//             // Fetch all group data from both user and friend_groups tables
+//             const [rows] = await SqlQueries.selectFromInnerJoin(
+//                 ["users", "friend_groups"],
+//                 ["group_id", "id"],
+//                 [
+//                     "users.first_name",
+//                     "users.last_name",
+//                     "users.email",
+//                     "friend_groups.id",
+//                     "friend_groups.name",
+//                     "friend_groups.type",
+//                     "friend_groups.created_at",
+//                 ],
+//                 ["friend_groups.id", SqlOperator["="], newGroupId]
+//             );
+//             return res.status(201).json({ message: "You group was created" });
+//         } else {
+//             // Respond with a 404, not enough people
+//             return res
+//                 .status(404)
+//                 .json({ message: "Not enough people found in your area" });
+//         }
+//     } catch (error) {
+//         // In case of SQL error, log the error
+//         console.error(error.message);
+//         // Return a generic message to client
+//         const customError: CustomError = {
+//             statusCode: 500,
+//             message: "Something went wrong",
+//         };
+//         return next(customError);
+//     }
+// };
