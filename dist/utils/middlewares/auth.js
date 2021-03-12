@@ -8,13 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const sql_queries_1 = require("../database/sql-queries");
 const enums_1 = require("../types/enums");
 const authController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract token from request
@@ -31,19 +26,26 @@ const authController = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 next();
             }
             else {
-                // We're in production, verify token
-                const decodedToken = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET);
-                // Extract user id to fetch role from DB
-                const userId = decodedToken.id;
-                // Extract rows from DB
-                const [rows] = yield sql_queries_1.SqlQueries.selectFrom("users", ["role"], ["id", enums_1.SqlOperator["="], userId]);
-                // Extract user role
-                const userRole = rows[0].role;
-                // Add user id and role from to the res locals
-                res.locals.userId = userId;
-                res.locals.userRole = userRole;
-                // Proceed to next middlewares
-                next();
+                // // We're in production, verify token
+                // const decodedToken = jwt.verify(
+                //     token,
+                //     process.env.TOKEN_SECRET as Secret
+                // );
+                // // Extract user id to fetch role from DB
+                // const userId = (decodedToken as any).id;
+                // // Extract rows from DB
+                // const [rows] = await SqlQueries.selectFrom(
+                //     "users",
+                //     ["role"],
+                //     ["id", SqlOperator["="], userId]
+                // );
+                // // Extract user role
+                // const userRole = rows[0].role;
+                // // Add user id and role from to the res locals
+                // res.locals.userId = userId;
+                // res.locals.userRole = userRole;
+                // // Proceed to next middlewares
+                // next();
             }
         }
         catch (err) {

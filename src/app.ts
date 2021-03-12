@@ -9,7 +9,7 @@ import { authController } from "./utils/middlewares/auth";
 import { groupsRouter } from "./groups/groups.routes";
 import { adminRouter } from "./admin/admin.routes";
 import { checkAdminRoleController } from "./utils/middlewares/admin";
-import { connectDb, db } from "./utils/database/db-connection";
+import { connectDb } from "./utils/database/db-connection";
 
 // Create express application
 const app = express();

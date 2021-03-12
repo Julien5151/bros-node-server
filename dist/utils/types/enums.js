@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SqlChainingOperator = exports.SqlOperator = exports.groupTypeRegex = exports.GroupSize = exports.GroupType = exports.UserRole = exports.MongoCollection = void 0;
+exports.groupTypeRegex = exports.GroupSize = exports.GroupType = exports.UserRole = exports.MongoCollection = void 0;
 var MongoCollection;
 (function (MongoCollection) {
     MongoCollection["users"] = "users";
@@ -24,18 +24,3 @@ var GroupSize;
     GroupSize[GroupSize["himym"] = 5] = "himym";
 })(GroupSize = exports.GroupSize || (exports.GroupSize = {}));
 exports.groupTypeRegex = new RegExp(`^(${GroupType.friends}|${GroupType.himym})$`);
-var SqlOperator;
-(function (SqlOperator) {
-    SqlOperator["="] = "=";
-    SqlOperator["<>"] = "<>";
-    SqlOperator["!="] = "!=";
-    SqlOperator[">"] = ">";
-    SqlOperator["<"] = "<";
-    SqlOperator[">="] = ">=";
-    SqlOperator["<="] = "<=";
-})(SqlOperator = exports.SqlOperator || (exports.SqlOperator = {}));
-var SqlChainingOperator;
-(function (SqlChainingOperator) {
-    SqlChainingOperator["AND"] = "AND";
-    SqlChainingOperator["OR"] = "OR";
-})(SqlChainingOperator = exports.SqlChainingOperator || (exports.SqlChainingOperator = {}));

@@ -23,18 +23,3 @@ export enum GroupSize {
 export const groupTypeRegex = new RegExp(
     `^(${GroupType.friends}|${GroupType.himym})$`
 );
-
-export enum SqlOperator {
-    "=" = "=",
-    "<>" = "<>",
-    "!=" = "!=",
-    ">" = ">",
-    "<" = "<",
-    ">=" = ">=",
-    "<=" = "<=",
-}
-
-export enum SqlChainingOperator {
-    "AND" = "AND",
-    "OR" = "OR",
-}
