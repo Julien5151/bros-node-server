@@ -36,7 +36,7 @@ exports.postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, 
             // Insert new user in DB
             yield newUser.save();
             // If user successfully created, return the created user
-            return res.status(201).json(newUser);
+            return res.status(201).json(newUser.getPlainObject());
         }
         catch (error) {
             const customError = {

@@ -1,6 +1,4 @@
 import { RequestHandler } from "express";
-import { SqlQueries } from "../../utils/database/sql-queries";
-import { SqlOperator, UserRole } from "../../utils/types/enums";
 import { CustomError } from "../../utils/types/interfaces";
 import { UserPostRequest } from "./post-user.types";
 import bcrypt from "bcryptjs";
@@ -37,7 +35,7 @@ export const postUserRouteController: RequestHandler = async (
             // Insert new user in DB
             await newUser.save();
             // If user successfully created, return the created user
-            return res.status(201).json(newUser);
+            return res.status(201).json(newUser.getPlainObject());
         } catch (error) {
             const customError: CustomError = {
                 statusCode: 500,

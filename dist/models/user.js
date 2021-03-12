@@ -27,11 +27,24 @@ class User {
         this.password = password;
         this.createdAt = new Date();
     }
-    // Save user in DB
+    /**
+     * Save user in DB
+     */
     save() {
         return __awaiter(this, void 0, void 0, function* () {
             return db_connection_1.db.collection(enums_1.MongoCollection.users).insertOne(this);
         });
+    }
+    /**
+     * Returns a copy of object data (without method or sensitive information - aka password)
+     */
+    getPlainObject() {
+        // Deep copy of object and removes methods
+        const thisCopy = JSON.parse(JSON.stringify(this));
+        // Remove sensitive information
+        delete thisCopy.password;
+        // Return copy of object (minus)
+        return thisCopy;
     }
 }
 exports.User = User;

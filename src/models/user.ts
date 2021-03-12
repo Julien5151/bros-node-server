@@ -33,8 +33,22 @@ export class User {
         this.createdAt = new Date();
     }
 
-    // Save user in DB
+    /**
+     * Save user in DB
+     */
     async save(): Promise<InsertOneWriteOpResult<any>> {
         return db.collection(MongoCollection.users).insertOne(this);
+    }
+
+    /**
+     * Returns a copy of object data (without method or sensitive information - aka password)
+     */
+    getPlainObject(): User {
+        // Deep copy of object and removes methods
+        const thisCopy = JSON.parse(JSON.stringify(this));
+        // Remove sensitive information
+        delete thisCopy.password;
+        // Return copy of object (minus)
+        return thisCopy;
     }
 }
