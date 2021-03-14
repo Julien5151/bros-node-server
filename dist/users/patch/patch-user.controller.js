@@ -21,7 +21,7 @@ const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, v
     const userId = req.params["id"];
     try {
         // Load user from DB
-        const patchedUser = yield user_1.User.load(userId);
+        const patchedUser = yield user_1.User.loadFromId(userId);
         // Fill arrays based on request content
         for (const key in reqBody) {
             let hashedPassword = "";

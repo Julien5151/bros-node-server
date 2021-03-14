@@ -14,7 +14,7 @@ export const patchUserRouteController: RequestHandler = async (
     const userId = req.params["id"];
     try {
         // Load user from DB
-        const patchedUser = await User.load(userId);
+        const patchedUser = await User.loadFromId(userId);
         // Fill arrays based on request content
         for (const key in reqBody) {
             let hashedPassword = "";

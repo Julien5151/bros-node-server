@@ -6,18 +6,51 @@ import {
     InsertOneWriteOpResult,
     UpdateWriteOpResult,
 } from "mongodb";
+import { CustomError } from "../utils/types/interfaces";
 
 export class User {
     /**
      * Loads user from DB using its _id. The same can be achieved by passing all
      * arguments to constructor
      */
-    static async load(userId: string): Promise<User> {
+    static async loadFromId(userId: string): Promise<User> {
         // Fetch user data from DB
         const userData = await db
             .collection(MongoCollection.users)
             .findOne({ _id: userId });
-        return new this(userData);
+        // If a user is found, instanciate it and return the user
+        if (userData) {
+            return new this(userData);
+        } else {
+            // Throw not found error
+            const notFoundError: CustomError = {
+                statusCode: 404,
+                message: "User not found",
+            };
+            throw notFoundError;
+        }
+    }
+
+    /**
+     * Loads user from DB using its email. The same can be achieved by passing all
+     * arguments to constructor
+     */
+    static async loadFromEmail(userEmail: string): Promise<User> {
+        // Fetch user data from DB
+        const userData = await db
+            .collection(MongoCollection.users)
+            .findOne({ email: userEmail });
+        // If a user is found, instanciate it and return the user
+        if (userData) {
+            return new this(userData);
+        } else {
+            // Throw not found error
+            const notFoundError: CustomError = {
+                statusCode: 404,
+                message: "User not found",
+            };
+            throw notFoundError;
+        }
     }
 
     /**

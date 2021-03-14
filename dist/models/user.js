@@ -32,13 +32,48 @@ class User {
      * Loads user from DB using its _id. The same can be achieved by passing all
      * arguments to constructor
      */
-    static load(userId) {
+    static loadFromId(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             // Fetch user data from DB
             const userData = yield db_connection_1.db
                 .collection(enums_1.MongoCollection.users)
                 .findOne({ _id: userId });
-            return new this(userData);
+            // If a user is found, instanciate it and return the user
+            if (userData) {
+                return new this(userData);
+            }
+            else {
+                // Throw not found error
+                const notFoundError = {
+                    statusCode: 404,
+                    message: "User not found",
+                };
+                throw notFoundError;
+            }
+        });
+    }
+    /**
+     * Loads user from DB using its email. The same can be achieved by passing all
+     * arguments to constructor
+     */
+    static loadFromEmail(userEmail) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Fetch user data from DB
+            const userData = yield db_connection_1.db
+                .collection(enums_1.MongoCollection.users)
+                .findOne({ email: userEmail });
+            // If a user is found, instanciate it and return the user
+            if (userData) {
+                return new this(userData);
+            }
+            else {
+                // Throw not found error
+                const notFoundError = {
+                    statusCode: 404,
+                    message: "User not found",
+                };
+                throw notFoundError;
+            }
         });
     }
     /**
