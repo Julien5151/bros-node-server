@@ -10,36 +10,24 @@ import { CustomError } from "../utils/types/interfaces";
 
 export class User {
     /**
-     * Loads user from DB using its _id. The same can be achieved by passing all
+     * Loads user from DB using its _id or email. The same can be achieved by passing all
      * arguments to constructor
+     * @param identifier _id or email of the user
      */
-    static async loadFromId(userId: string): Promise<User> {
-        // Fetch user data from DB
-        const userData = await db
-            .collection(MongoCollection.users)
-            .findOne({ _id: userId });
-        // If a user is found, instanciate it and return the user
-        if (userData) {
-            return new this(userData);
+    static async load(identifier: string): Promise<User> {
+        let userData;
+        // Check whether an email or id was used as an identifier
+        if (identifier.includes("@")) {
+            // Using and email
+            userData = await db
+                .collection(MongoCollection.users)
+                .findOne({ email: { $eq: identifier } });
         } else {
-            // Throw not found error
-            const notFoundError: CustomError = {
-                statusCode: 404,
-                message: "User not found",
-            };
-            throw notFoundError;
+            // Using an _id
+            userData = await db
+                .collection(MongoCollection.users)
+                .findOne({ _id: { $eq: identifier } });
         }
-    }
-
-    /**
-     * Loads user from DB using its email. The same can be achieved by passing all
-     * arguments to constructor
-     */
-    static async loadFromEmail(userEmail: string): Promise<User> {
-        // Fetch user data from DB
-        const userData = await db
-            .collection(MongoCollection.users)
-            .findOne({ email: userEmail });
         // If a user is found, instanciate it and return the user
         if (userData) {
             return new this(userData);

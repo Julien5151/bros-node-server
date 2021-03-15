@@ -13,7 +13,7 @@ export const signinRouteController: RequestHandler = async (req, res, next) => {
     const password = reqBody.password;
     try {
         // Fetch user from DB
-        const user = await User.loadFromEmail(email);
+        const user = await User.load(email);
         // Compare passwords
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
         // If password is correct, generate a token and return it to the user

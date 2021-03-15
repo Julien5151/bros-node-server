@@ -24,7 +24,7 @@ const signinRouteController = (req, res, next) => __awaiter(void 0, void 0, void
     const password = reqBody.password;
     try {
         // Fetch user from DB
-        const user = yield user_1.User.loadFromEmail(email);
+        const user = yield user_1.User.load(email);
         // Compare passwords
         const isPasswordCorrect = yield bcryptjs_1.default.compare(password, user.password);
         // If password is correct, generate a token and return it to the user

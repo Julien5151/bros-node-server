@@ -21,7 +21,7 @@ const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, v
     const userId = req.params["id"];
     try {
         // Load user from DB
-        const patchedUser = yield user_1.User.loadFromId(userId);
+        const patchedUser = yield user_1.User.load(userId);
         // Fill arrays based on request content
         for (const key in reqBody) {
             let hashedPassword = "";
@@ -66,14 +66,20 @@ const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, v
         return res.status(201).json(patchedUser.getPlainObject());
     }
     catch (error) {
-        // In case of DB error, log the error
-        console.error(error.message);
-        // Return a generic message to client
-        const customError = {
-            statusCode: 500,
-            message: "Something went wrong",
-        };
-        return next(customError);
+        // If user not found return 404 error
+        if (error.statusCode === 404) {
+            next(error);
+        }
+        else {
+            // Other kind of DB error
+            console.error(error.message);
+            // Return a generic message to client
+            const customError = {
+                statusCode: 500,
+                message: "Something went wrong",
+            };
+            return next(customError);
+        }
     }
 });
 exports.patchUserRouteController = patchUserRouteController;

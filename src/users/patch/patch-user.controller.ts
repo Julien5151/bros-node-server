@@ -14,7 +14,7 @@ export const patchUserRouteController: RequestHandler = async (
     const userId = req.params["id"];
     try {
         // Load user from DB
-        const patchedUser = await User.loadFromId(userId);
+        const patchedUser = await User.load(userId);
         // Fill arrays based on request content
         for (const key in reqBody) {
             let hashedPassword = "";
@@ -61,13 +61,18 @@ export const patchUserRouteController: RequestHandler = async (
         // If user successfully patched, return the updated user
         return res.status(201).json(patchedUser.getPlainObject());
     } catch (error) {
-        // In case of DB error, log the error
-        console.error(error.message);
-        // Return a generic message to client
-        const customError: CustomError = {
-            statusCode: 500,
-            message: "Something went wrong",
-        };
-        return next(customError);
+        // If user not found return 404 error
+        if (error.statusCode === 404) {
+            next(error);
+        } else {
+            // Other kind of DB error
+            console.error(error.message);
+            // Return a generic message to client
+            const customError: CustomError = {
+                statusCode: 500,
+                message: "Something went wrong",
+            };
+            return next(customError);
+        }
     }
 };
