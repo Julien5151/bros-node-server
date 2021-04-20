@@ -101,3 +101,6 @@ typings/
 
 # TernJS port file
 .tern-port
+
+# Nodemon environment config
+nodemon.json
