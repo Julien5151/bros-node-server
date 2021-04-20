@@ -1,9 +1,0 @@
-{
-    "env": {
-        "PORT": 3000,
-        "TOKEN_SECRET": "*qah;?oiez8è@=}[fhzuiFhfèfzç98èf*%@'é&-",
-        "DB_PASSWORD": "iFfKs0EooI22QVcv",
-        "DB_NAME": "bros-development",
-        "DEV_TOKEN": "dfFjg!_Ffmp4f6FqA5d-5MlkY508fj"
-    }
-}
