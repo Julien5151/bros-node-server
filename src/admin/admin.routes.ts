@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { deleteAllUsersRouteController } from "./delete/delete-all-users.controller";
 import { postMockedUsersRouteController } from "./post/post-mocked-users.controller";
 
 export const adminRouter = Router();
@@ -7,4 +8,4 @@ export const adminRouter = Router();
 adminRouter.post("/create-mocked-users", postMockedUsersRouteController);
 
 // DELETE /users
-//adminRouter.delete("/users", deleteAllUsersRouteController);
+adminRouter.delete("/users", deleteAllUsersRouteController);

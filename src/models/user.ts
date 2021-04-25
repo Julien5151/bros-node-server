@@ -49,6 +49,14 @@ export class User {
         return db.collection(MongoCollection.users).deleteOne({ _id: userId });
     }
 
+    /**
+     * WARNING : Delete ALL user documents
+     */
+    static async deleteAll(): Promise<DeleteWriteOpResultObject> {
+        // Delete all user documents from DB
+        return db.collection(MongoCollection.users).deleteMany({});
+    }
+
     // Mandatory properties
     firstName: string;
     lastName: string;

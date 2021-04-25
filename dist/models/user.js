@@ -73,6 +73,15 @@ class User {
         });
     }
     /**
+     * WARNING : Delete ALL user documents
+     */
+    static deleteAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Delete all user documents from DB
+            return db_connection_1.db.collection(enums_1.MongoCollection.users).deleteMany({});
+        });
+    }
+    /**
      * Create user in DB
      */
     create() {
