@@ -1,9 +1,10 @@
 import { Router } from "express";
+import { postMockedUsersRouteController } from "./post/post-mocked-users.controller";
 
 export const adminRouter = Router();
 
 // POST /create-mocked-users
-//adminRouter.post("/create-mocked-users", postMockedUsersRouteController);
+adminRouter.post("/create-mocked-users", postMockedUsersRouteController);
 
 // DELETE /users
-// adminRouter.delete("/users", deleteAllUsersRouteController);
+//adminRouter.delete("/users", deleteAllUsersRouteController);

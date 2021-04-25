@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminRouter = void 0;
 const express_1 = require("express");
+const post_mocked_users_controller_1 = require("./post/post-mocked-users.controller");
 exports.adminRouter = express_1.Router();
 // POST /create-mocked-users
-//adminRouter.post("/create-mocked-users", postMockedUsersRouteController);
+exports.adminRouter.post("/create-mocked-users", post_mocked_users_controller_1.postMockedUsersRouteController);
 // DELETE /users
-// adminRouter.delete("/users", deleteAllUsersRouteController);
+//adminRouter.delete("/users", deleteAllUsersRouteController);
