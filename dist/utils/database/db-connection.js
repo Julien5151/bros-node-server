@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDb = exports.db = void 0;
 const mongodb_1 = require("mongodb");
-const dbUri = `mongodb+srv://db-bros-admin:${process.env.DB_PASSWORD}@bros-mongo-development.nbukm.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const dbUri = process.env.DB_URL;
 const mongoClient = new mongodb_1.MongoClient(dbUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
