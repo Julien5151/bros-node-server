@@ -120,15 +120,11 @@ export class User {
      * Update user in DB, replaces all fields (except _id)
      */
     async update(): Promise<UpdateWriteOpResult> {
-        // Deep copy of object and removes methods
-        const thisCopy = JSON.parse(JSON.stringify(this));
-        // Remove _id property
-        delete thisCopy._id;
         // Mutate object in DB
         return db.collection(MongoCollection.users).updateOne(
             { _id: { $eq: this._id } },
             {
-                $set: thisCopy,
+                $set: this,
             }
         );
     }

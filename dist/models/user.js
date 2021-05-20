@@ -107,13 +107,9 @@ class User {
      */
     update() {
         return __awaiter(this, void 0, void 0, function* () {
-            // Deep copy of object and removes methods
-            const thisCopy = JSON.parse(JSON.stringify(this));
-            // Remove _id property
-            delete thisCopy._id;
             // Mutate object in DB
             return db_connection_1.db.collection(enums_1.MongoCollection.users).updateOne({ _id: { $eq: this._id } }, {
-                $set: thisCopy,
+                $set: this,
             });
         });
     }
