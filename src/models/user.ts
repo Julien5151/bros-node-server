@@ -46,7 +46,9 @@ export class User {
      */
     static async delete(userId: string): Promise<DeleteWriteOpResultObject> {
         // Delete user from DB
-        return db.collection(MongoCollection.users).deleteOne({ _id: userId });
+        return db
+            .collection(MongoCollection.users)
+            .deleteOne({ _id: { $eq: userId } });
     }
 
     /**
@@ -111,7 +113,7 @@ export class User {
         // Delete user from DB
         return db
             .collection(MongoCollection.users)
-            .deleteOne({ _id: this._id });
+            .deleteOne({ _id: { $eq: this._id } });
     }
 
     /**
@@ -124,7 +126,7 @@ export class User {
         delete thisCopy._id;
         // Mutate object in DB
         return db.collection(MongoCollection.users).updateOne(
-            { _id: this._id },
+            { _id: { $eq: this._id } },
             {
                 $set: thisCopy,
             }

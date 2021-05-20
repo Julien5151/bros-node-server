@@ -69,7 +69,9 @@ class User {
     static delete(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             // Delete user from DB
-            return db_connection_1.db.collection(enums_1.MongoCollection.users).deleteOne({ _id: userId });
+            return db_connection_1.db
+                .collection(enums_1.MongoCollection.users)
+                .deleteOne({ _id: { $eq: userId } });
         });
     }
     /**
@@ -97,7 +99,7 @@ class User {
             // Delete user from DB
             return db_connection_1.db
                 .collection(enums_1.MongoCollection.users)
-                .deleteOne({ _id: this._id });
+                .deleteOne({ _id: { $eq: this._id } });
         });
     }
     /**
@@ -110,7 +112,7 @@ class User {
             // Remove _id property
             delete thisCopy._id;
             // Mutate object in DB
-            return db_connection_1.db.collection(enums_1.MongoCollection.users).updateOne({ _id: this._id }, {
+            return db_connection_1.db.collection(enums_1.MongoCollection.users).updateOne({ _id: { $eq: this._id } }, {
                 $set: thisCopy,
             });
         });
