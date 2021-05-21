@@ -36,11 +36,8 @@ const authController = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 // Extract user id to fetch role from DB
                 const userId = decodedToken.id;
                 const user = yield user_1.User.load(userId);
-                // Extract user role
-                const userRole = user.role;
-                // Add user id and role from to the res locals
-                res.locals.userId = userId;
-                res.locals.userRole = userRole;
+                // Add user to locals
+                res.locals.user = user;
                 // Proceed to next middlewares
                 next();
             }

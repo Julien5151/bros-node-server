@@ -26,11 +26,8 @@ export const authController: RequestHandler = async (req, res, next) => {
                 // Extract user id to fetch role from DB
                 const userId = (decodedToken as any).id;
                 const user = await User.load(userId);
-                // Extract user role
-                const userRole = user.role;
-                // Add user id and role from to the res locals
-                res.locals.userId = userId;
-                res.locals.userRole = userRole;
+                // Add user to locals
+                res.locals.user = user;
                 // Proceed to next middlewares
                 next();
             }

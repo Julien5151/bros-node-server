@@ -10,8 +10,10 @@ export const postGroupRouteController: RequestHandler = async (
     res,
     next
 ) => {
-    // Extract data from body
-    const reqBody = req.body as GroupPostRequest;
+    // Extract group type
+    const groupType = (req.body as GroupPostRequest).type;
+    // Extract user initiating group request
+    const user = res.locals.user as User;
     try {
         // Fetch all group data from both user and friend_groups tables
         return res.status(200).json({ message: "You group was created" });

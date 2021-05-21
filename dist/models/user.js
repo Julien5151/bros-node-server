@@ -15,7 +15,7 @@ const uuid_1 = require("uuid");
 const db_connection_1 = require("../utils/database/db-connection");
 class User {
     constructor(userObject) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         this.firstName = userObject.firstName;
         this.lastName = userObject.lastName;
         this.email = userObject.email;
@@ -27,6 +27,8 @@ class User {
         this.phone = (_c = userObject.phone) !== null && _c !== void 0 ? _c : "";
         this.address = (_d = userObject.address) !== null && _d !== void 0 ? _d : "";
         this.role = (_e = userObject.role) !== null && _e !== void 0 ? _e : enums_1.UserRole.visitor;
+        this.grouped = (_f = userObject.grouped) !== null && _f !== void 0 ? _f : false;
+        this.availableForGrouping = (_g = userObject.availableForGrouping) !== null && _g !== void 0 ? _g : false;
     }
     /**
      * Loads user from DB using its _id or email. The same can be achieved by passing all

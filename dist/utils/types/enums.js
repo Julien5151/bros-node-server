@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.groupTypeRegex = exports.GroupSize = exports.GroupType = exports.UserRole = exports.MongoCollection = void 0;
+exports.GroupSize = exports.GroupType = exports.UserRole = exports.MongoCollection = void 0;
 var MongoCollection;
 (function (MongoCollection) {
     MongoCollection["users"] = "users";
@@ -15,12 +15,11 @@ var UserRole;
 })(UserRole = exports.UserRole || (exports.UserRole = {}));
 var GroupType;
 (function (GroupType) {
-    GroupType["friends"] = "friends";
-    GroupType["himym"] = "himym";
+    GroupType["beer"] = "beer";
+    GroupType["coffee"] = "coffee";
 })(GroupType = exports.GroupType || (exports.GroupType = {}));
 var GroupSize;
 (function (GroupSize) {
-    GroupSize[GroupSize["friends"] = 6] = "friends";
-    GroupSize[GroupSize["himym"] = 5] = "himym";
+    GroupSize[GroupSize["beer"] = 6] = "beer";
+    GroupSize[GroupSize["coffee"] = 5] = "coffee";
 })(GroupSize = exports.GroupSize || (exports.GroupSize = {}));
-exports.groupTypeRegex = new RegExp(`^(${GroupType.friends}|${GroupType.himym})$`);

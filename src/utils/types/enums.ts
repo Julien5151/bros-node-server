@@ -11,11 +11,11 @@ export enum UserRole {
 }
 
 export enum GroupType {
-    friends = "friends",
-    himym = "himym",
+    beer = "beer",
+    coffee = "coffee",
 }
 
 export enum GroupSize {
-    friends = 6,
-    himym = 5,
+    beer = 6,
+    coffee = 5,
 }

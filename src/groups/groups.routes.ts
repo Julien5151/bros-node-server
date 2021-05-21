@@ -12,7 +12,7 @@ export const groupsRouter = Router();
 // POST /groups
 groupsRouter.post(
     "/",
-    [body("type").isIn([GroupType.friends, GroupType.friends])],
+    [body("type").isIn([GroupType.beer, GroupType.coffee])],
     validationErrorsController,
     postGroupRouteController
 );
