@@ -32,13 +32,18 @@ export const postGroupRouteController: RequestHandler = async (
         // Fetch all group data from both user and friend_groups tables
         return res.status(200).json({ userList: finalList });
     } catch (error) {
-        // In case of DB error, log the error
-        console.error(error.message);
-        // Return a generic message to client
-        const customError: CustomError = {
-            statusCode: 500,
-            message: "Something went wrong",
-        };
-        return next(customError);
+        // If not enough user found, return 404 error
+        if (error.statusCode === 404) {
+            next(error);
+        } else {
+            // Other case of DB error, log the error
+            console.error(error.message);
+            // Return a generic message to client
+            const customError: CustomError = {
+                statusCode: 500,
+                message: "Something went wrong",
+            };
+            return next(customError);
+        }
     }
 };
