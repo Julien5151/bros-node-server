@@ -8,6 +8,7 @@ import { InsertOneWriteOpResult } from "mongodb";
 export class Group {
     // Mandatory properties
     type: GroupType;
+    zipcode: number;
     users: Array<User>;
     // Optional properties
     _id: string;
@@ -17,6 +18,7 @@ export class Group {
     constructor(groupObject: {
         // Provided when creating a new group
         type: GroupType;
+        zipcode: number;
         users: Array<User>;
         // Provided, when group is retrieved from DB
         _id?: string;
@@ -24,6 +26,7 @@ export class Group {
         createdAt?: Date;
     }) {
         this.type = groupObject.type;
+        this.zipcode = groupObject.zipcode;
         this.users = groupObject.users;
         //
         this._id = groupObject._id ?? uuidv4();

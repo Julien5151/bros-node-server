@@ -71,6 +71,8 @@ export class User {
     phone: string;
     address: string;
     role: UserRole;
+    grouped: boolean;
+    availableForGrouping: boolean;
 
     constructor(userObject: {
         // Provided when creating a new user
@@ -85,6 +87,8 @@ export class User {
         phone?: string;
         address?: string;
         role?: UserRole;
+        grouped?: boolean;
+        availableForGrouping?: boolean;
     }) {
         this.firstName = userObject.firstName;
         this.lastName = userObject.lastName;
@@ -97,6 +101,8 @@ export class User {
         this.phone = userObject.phone ?? "";
         this.address = userObject.address ?? "";
         this.role = userObject.role ?? UserRole.visitor;
+        this.grouped = userObject.grouped ?? false;
+        this.availableForGrouping = userObject.availableForGrouping ?? false;
     }
 
     /**

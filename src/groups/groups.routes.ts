@@ -1,21 +1,21 @@
 import { Router } from "express";
 import { body } from "express-validator";
+import { validationErrorsController } from "../utils/middlewares/validation-errors";
+import { GroupType } from "../utils/types/enums";
+import { postGroupRouteController } from "./post/post-group.controller";
 
 export const groupsRouter = Router();
 
 // // GET /groups
 // groupsRouter.get("/", getGroupsRouteController);
 
-// // POST /groups
-// groupsRouter.post(
-//     "/",
-//     [
-//         body("zipcode").isInt({ min: 1, max: 99 }),
-//         body("type").matches(groupTypeRegex),
-//     ],
-//     validationErrorsController,
-//     postGroupRouteController
-// );
+// POST /groups
+groupsRouter.post(
+    "/",
+    [body("type").isIn([GroupType.friends, GroupType.friends])],
+    validationErrorsController,
+    postGroupRouteController
+);
 
 // // PATCH /groups/:id
 // groupsRouter.patch(
