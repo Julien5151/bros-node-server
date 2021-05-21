@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
-import { Group } from "../../models/group";
 import { User } from "../../models/user";
-import { GroupType, GroupSize } from "../../utils/types/enums";
+import { GroupSize } from "../../utils/types/enums";
 import { CustomError } from "../../utils/types/interfaces";
 import { GroupPostRequest } from "./post-group.types";
 
