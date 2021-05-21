@@ -59,6 +59,38 @@ export class User {
         return db.collection(MongoCollection.users).deleteMany({});
     }
 
+    /**
+     * Randomly fetch a sample of users based on a sample size and a zipcode
+     * @param sampleSize size of the sample
+     * @param zipcode zipcode for locating users
+     */
+    static async findRandomSample(
+        sampleSize: number,
+        zipcode: number
+    ): Promise<Array<User>> {
+        const userListData = await db
+            .collection(MongoCollection.users)
+            .aggregate([
+                { $match: { zipcode: { $eq: zipcode } } },
+                { $sample: { size: sampleSize } },
+            ])
+            .toArray();
+        // If there are not enough people in region, send 404
+        // with relevant error message
+        if (userListData.length < sampleSize) {
+            // Throw not enought people found error
+            const notFoundError: CustomError = {
+                statusCode: 404,
+                message: "Not enough people found in this region",
+            };
+            throw notFoundError;
+        } else {
+            // Instanciate all users in the array
+            const userList = userListData.map((userData) => new this(userData));
+            return userList;
+        }
+    }
+
     // Mandatory properties
     firstName: string;
     lastName: string;

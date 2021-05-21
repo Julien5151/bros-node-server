@@ -10,14 +10,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postGroupRouteController = void 0;
+const user_1 = require("../../models/user");
+const enums_1 = require("../../utils/types/enums");
 const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract group type
     const groupType = req.body.type;
     // Extract user initiating group request
     const user = res.locals.user;
+    // Check that it's a real user, not dev admin
+    if (!user) {
+        const customError = {
+            statusCode: 400,
+            message: "Groups must be created using a real user",
+        };
+        return next(customError);
+    }
+    // Start composing the group
     try {
+        const userList = yield user_1.User.findRandomSample(enums_1.GroupSize[groupType], user.zipcode);
+        const finalList = userList.map((user) => user.getPlainObject());
         // Fetch all group data from both user and friend_groups tables
-        return res.status(200).json({ message: "You group was created" });
+        return res.status(200).json({ userList: finalList });
     }
     catch (error) {
         // In case of DB error, log the error

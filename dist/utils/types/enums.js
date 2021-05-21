@@ -18,8 +18,7 @@ var GroupType;
     GroupType["beer"] = "beer";
     GroupType["coffee"] = "coffee";
 })(GroupType = exports.GroupType || (exports.GroupType = {}));
-var GroupSize;
-(function (GroupSize) {
-    GroupSize[GroupSize["beer"] = 6] = "beer";
-    GroupSize[GroupSize["coffee"] = 5] = "coffee";
-})(GroupSize = exports.GroupSize || (exports.GroupSize = {}));
+exports.GroupSize = {
+    [GroupType.beer]: 5,
+    [GroupType.coffee]: 6,
+};

@@ -14,9 +14,23 @@ export const postGroupRouteController: RequestHandler = async (
     const groupType = (req.body as GroupPostRequest).type;
     // Extract user initiating group request
     const user = res.locals.user as User;
+    // Check that it's a real user, not dev admin
+    if (!user) {
+        const customError: CustomError = {
+            statusCode: 400,
+            message: "Groups must be created using a real user",
+        };
+        return next(customError);
+    }
+    // Start composing the group
     try {
+        const userList = await User.findRandomSample(
+            GroupSize[groupType],
+            user.zipcode
+        );
+        const finalList = userList.map((user) => user.getPlainObject());
         // Fetch all group data from both user and friend_groups tables
-        return res.status(200).json({ message: "You group was created" });
+        return res.status(200).json({ userList: finalList });
     } catch (error) {
         // In case of DB error, log the error
         console.error(error.message);

@@ -15,7 +15,7 @@ export enum GroupType {
     coffee = "coffee",
 }
 
-export enum GroupSize {
-    beer = 6,
-    coffee = 5,
-}
+export const GroupSize = {
+    [GroupType.beer]: 5,
+    [GroupType.coffee]: 6,
+};

@@ -86,6 +86,37 @@ class User {
         });
     }
     /**
+     * Randomly fetch a sample of users based on a sample size and a zipcode
+     * @param sampleSize size of the sample
+     * @param zipcode zipcode for locating users
+     */
+    static findRandomSample(sampleSize, zipcode) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userListData = yield db_connection_1.db
+                .collection(enums_1.MongoCollection.users)
+                .aggregate([
+                { $match: { zipcode: { $eq: zipcode } } },
+                { $sample: { size: sampleSize } },
+            ])
+                .toArray();
+            // If there are not enough people in region, send 404
+            // with relevant error message
+            if (userListData.length < sampleSize) {
+                // Throw not enought people found error
+                const notFoundError = {
+                    statusCode: 404,
+                    message: "Not enough people found in this region",
+                };
+                throw notFoundError;
+            }
+            else {
+                // Instanciate all users in the array
+                const userList = userListData.map((userData) => new this(userData));
+                return userList;
+            }
+        });
+    }
+    /**
      * Create user in DB
      */
     create() {
