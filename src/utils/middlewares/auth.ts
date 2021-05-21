@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import jwt, { Secret } from "jsonwebtoken";
+import { User } from "../../models/user";
 import { UserRole } from "../types/enums";
 import { CustomError } from "../types/interfaces";
 
@@ -17,26 +18,21 @@ export const authController: RequestHandler = async (req, res, next) => {
                 res.locals.userRole = UserRole.admin;
                 next();
             } else {
-                // // We're in production, verify token
-                // const decodedToken = jwt.verify(
-                //     token,
-                //     process.env.TOKEN_SECRET as Secret
-                // );
-                // // Extract user id to fetch role from DB
-                // const userId = (decodedToken as any).id;
-                // // Extract rows from DB
-                // const [rows] = await SqlQueries.selectFrom(
-                //     "users",
-                //     ["role"],
-                //     ["id", SqlOperator["="], userId]
-                // );
-                // // Extract user role
-                // const userRole = rows[0].role;
-                // // Add user id and role from to the res locals
-                // res.locals.userId = userId;
-                // res.locals.userRole = userRole;
-                // // Proceed to next middlewares
-                // next();
+                // We're in production, verify token
+                const decodedToken = jwt.verify(
+                    token,
+                    process.env.TOKEN_SECRET as Secret
+                );
+                // Extract user id to fetch role from DB
+                const userId = (decodedToken as any).id;
+                const user = await User.load(userId);
+                // Extract user role
+                const userRole = user.role;
+                // Add user id and role from to the res locals
+                res.locals.userId = userId;
+                res.locals.userRole = userRole;
+                // Proceed to next middlewares
+                next();
             }
         } catch (err) {
             // If token couldn't be verified, throw 401 error
