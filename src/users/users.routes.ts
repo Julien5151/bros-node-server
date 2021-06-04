@@ -6,6 +6,7 @@ import { getUsersRouteController } from "./get/get-users.controller";
 import { partialValidationErrorsController } from "../utils/middlewares/partial-validation-errors";
 import { patchUserRouteController } from "./patch/patch-user.controller";
 import { deleteUserRouteController } from "./delete/delete-user.controller";
+import { UserRole } from "../utils/types/enums";
 
 export const usersRouter = Router();
 
@@ -35,6 +36,12 @@ usersRouter.patch(
         body("phone").isMobilePhone("fr-FR"),
         body("zipcode").isInt({ min: 1, max: 99 }),
         body("password").isLength({ min: 9 }),
+        body("role").isIn([
+            UserRole.visitor,
+            UserRole.bro,
+            UserRole.corporate,
+            UserRole.admin,
+        ]),
         body("grouped").isBoolean(),
         body("availableForGrouping").isBoolean(),
     ],
