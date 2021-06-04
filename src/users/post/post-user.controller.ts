@@ -25,13 +25,6 @@ export const postUserRouteController: RequestHandler = async (
                 zipcode: reqBody.zipcode,
                 password: hashedPassword,
             });
-            //
-            if (reqBody.phone) {
-                newUser.phone = reqBody.phone;
-            }
-            if (reqBody.address) {
-                newUser.address = reqBody.address;
-            }
             // Insert new user in DB
             await newUser.create();
             // If user successfully created, return the created user

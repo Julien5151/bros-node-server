@@ -32,13 +32,6 @@ const postUserRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
                 zipcode: reqBody.zipcode,
                 password: hashedPassword,
             });
-            //
-            if (reqBody.phone) {
-                newUser.phone = reqBody.phone;
-            }
-            if (reqBody.address) {
-                newUser.address = reqBody.address;
-            }
             // Insert new user in DB
             yield newUser.create();
             // If user successfully created, return the created user

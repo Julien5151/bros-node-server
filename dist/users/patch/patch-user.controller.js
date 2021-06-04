@@ -37,31 +37,16 @@ const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, v
                 case "lastName":
                     patchedUser.lastName = reqBody[key];
                     break;
-                case "email":
-                    patchedUser.email = reqBody[key];
-                    break;
                 case "phone":
                     patchedUser.phone = reqBody[key];
                     break;
                 case "address":
                     patchedUser.address = reqBody[key];
                     break;
-                case "zipcode":
-                    patchedUser.zipcode = reqBody[key];
-                    break;
                 case "password":
                     // Hash password using bcrypt
                     hashedPassword = yield bcryptjs_1.default.hash(reqBody[key], 12);
                     patchedUser.password = hashedPassword;
-                    break;
-                case "role":
-                    patchedUser.role = reqBody[key];
-                    break;
-                case "groupId":
-                    patchedUser.groupId = reqBody[key];
-                    break;
-                case "availableForGrouping":
-                    patchedUser.availableForGrouping = reqBody[key];
                     break;
                 default:
                     // Unauthorized field name detected, return a 400

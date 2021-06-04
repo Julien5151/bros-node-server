@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import { UserPatchRequest } from "./patch-user.types";
 import { CustomError } from "../../utils/types/interfaces";
 import { User } from "../../models/user";
-import { UserRole } from "../../utils/types/enums";
 
 export const patchUserRouteController: RequestHandler = async (
     req,
@@ -31,17 +30,11 @@ export const patchUserRouteController: RequestHandler = async (
                 case "lastName":
                     patchedUser.lastName = reqBody[key] as string;
                     break;
-                case "email":
-                    patchedUser.email = reqBody[key] as string;
-                    break;
                 case "phone":
                     patchedUser.phone = reqBody[key] as string;
                     break;
                 case "address":
                     patchedUser.address = reqBody[key] as string;
-                    break;
-                case "zipcode":
-                    patchedUser.zipcode = reqBody[key] as number;
                     break;
                 case "password":
                     // Hash password using bcrypt
@@ -50,15 +43,6 @@ export const patchUserRouteController: RequestHandler = async (
                         12
                     );
                     patchedUser.password = hashedPassword as string;
-                    break;
-                case "role":
-                    patchedUser.role = reqBody[key] as UserRole;
-                    break;
-                case "groupId":
-                    patchedUser.groupId = reqBody[key] as string;
-                    break;
-                case "availableForGrouping":
-                    patchedUser.availableForGrouping = reqBody[key] as boolean;
                     break;
                 default:
                     // Unauthorized field name detected, return a 400
