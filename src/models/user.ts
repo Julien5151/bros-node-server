@@ -60,25 +60,38 @@ export class User {
     }
 
     /**
-     * Randomly fetch a sample of users based on a sample size and a zipcode
+     * Randomly fetch a sample of users based on a sample size and a zipcode, only select
+     * users that are both availableForGrouping
      * @param sampleSize size of the sample
      * @param zipcode zipcode for locating users
      */
     static async findRandomSample(
         sampleSize: number,
-        zipcode: number
+        zipcode: number,
+        excludeId?: string
     ): Promise<Array<User>> {
+        // Base aggregation pipeline
+        const aggregationPipeline: Array<any> = [
+            {
+                $match: {
+                    zipcode: { $eq: zipcode },
+                    availableForGrouping: { $eq: true },
+                },
+            },
+            { $sample: { size: sampleSize } },
+        ];
+        // Exclude id if provided as an argument
+        if (excludeId) {
+            aggregationPipeline[0].$match._id = { $ne: excludeId };
+        }
         const userListData = await db
             .collection(MongoCollection.users)
-            .aggregate([
-                { $match: { zipcode: { $eq: zipcode } } },
-                { $sample: { size: sampleSize } },
-            ])
+            .aggregate(aggregationPipeline)
             .toArray();
         // If there are not enough people in region, send 404
         // with relevant error message
         if (userListData.length < sampleSize) {
-            // Throw not enought people found error
+            // Throw not enough people found error
             const notFoundError: CustomError = {
                 statusCode: 404,
                 message: "Not enough people found in this region",

@@ -24,8 +24,9 @@ export const postGroupRouteController: RequestHandler = async (
     // Start composing the group
     try {
         const userList = await User.findRandomSample(
-            GroupSize[groupType],
-            user.zipcode
+            GroupSize[groupType] - 1,
+            user.zipcode,
+            user._id
         );
         const finalList = userList.map((user) => user.getPlainObject());
         // Fetch all group data from both user and friend_groups tables

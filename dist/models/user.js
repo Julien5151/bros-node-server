@@ -86,23 +86,35 @@ class User {
         });
     }
     /**
-     * Randomly fetch a sample of users based on a sample size and a zipcode
+     * Randomly fetch a sample of users based on a sample size and a zipcode, only select
+     * users that are both availableForGrouping
      * @param sampleSize size of the sample
      * @param zipcode zipcode for locating users
      */
-    static findRandomSample(sampleSize, zipcode) {
+    static findRandomSample(sampleSize, zipcode, excludeId) {
         return __awaiter(this, void 0, void 0, function* () {
+            // Base aggregation pipeline
+            const aggregationPipeline = [
+                {
+                    $match: {
+                        zipcode: { $eq: zipcode },
+                        availableForGrouping: { $eq: true },
+                    },
+                },
+                { $sample: { size: sampleSize } },
+            ];
+            // Exclude id if provided as an argument
+            if (excludeId) {
+                aggregationPipeline[0].$match._id = { $ne: excludeId };
+            }
             const userListData = yield db_connection_1.db
                 .collection(enums_1.MongoCollection.users)
-                .aggregate([
-                { $match: { zipcode: { $eq: zipcode } } },
-                { $sample: { size: sampleSize } },
-            ])
+                .aggregate(aggregationPipeline)
                 .toArray();
             // If there are not enough people in region, send 404
             // with relevant error message
             if (userListData.length < sampleSize) {
-                // Throw not enought people found error
+                // Throw not enough people found error
                 const notFoundError = {
                     statusCode: 404,
                     message: "Not enough people found in this region",

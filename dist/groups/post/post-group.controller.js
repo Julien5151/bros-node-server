@@ -27,7 +27,7 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
     }
     // Start composing the group
     try {
-        const userList = yield user_1.User.findRandomSample(enums_1.GroupSize[groupType], user.zipcode);
+        const userList = yield user_1.User.findRandomSample(enums_1.GroupSize[groupType] - 1, user.zipcode, user._id);
         const finalList = userList.map((user) => user.getPlainObject());
         // Fetch all group data from both user and friend_groups tables
         return res.status(200).json({ userList: finalList });
