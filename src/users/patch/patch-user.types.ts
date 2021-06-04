@@ -9,6 +9,6 @@ export interface UserPatchRequest {
     zipcode?: number;
     password?: string;
     role?: UserRole;
-    grouped?: boolean;
+    groupId?: string;
     availableForGrouping?: boolean;
 }

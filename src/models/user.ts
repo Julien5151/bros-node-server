@@ -152,10 +152,10 @@ export class User {
     // Optional properties
     _id: string;
     createdAt: Date;
-    phone: string;
-    address: string;
+    phone: string | null;
+    address: string | null;
     role: UserRole;
-    grouped: boolean;
+    groupId: string | null;
     availableForGrouping: boolean;
 
     constructor(userObject: {
@@ -171,7 +171,7 @@ export class User {
         phone?: string;
         address?: string;
         role?: UserRole;
-        grouped?: boolean;
+        groupId?: string;
         availableForGrouping?: boolean;
     }) {
         this.firstName = userObject.firstName;
@@ -185,7 +185,7 @@ export class User {
         this.phone = userObject.phone ?? "";
         this.address = userObject.address ?? "";
         this.role = userObject.role ?? UserRole.bro;
-        this.grouped = userObject.grouped ?? false;
+        this.groupId = userObject.groupId ?? null;
         this.availableForGrouping = userObject.availableForGrouping ?? false;
     }
 

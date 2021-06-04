@@ -27,7 +27,7 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
         return next(customError);
     }
     // If user is already grouped, can't create another group
-    if (user.grouped) {
+    if (user.groupId) {
         const customError = {
             statusCode: 403,
             message: "User already in a group. Must leave current group before joining a new one",
@@ -37,6 +37,11 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
     // Start composing the group
     try {
         const brosList = yield user_1.User.findRandomSample(enums_1.GroupSize[groupType] - 1, user.zipcode, user._id);
+        // Instanciate new group
+        const brosGroup = new group_1.Group({
+            type: groupType,
+            zipcode: user.zipcode,
+        });
         // If group creation is successfull, mark all users as grouped
         // and no longer available for grouping
         const completeBrosList = [user, ...brosList];
@@ -44,15 +49,9 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
         const completeBrosListIds = completeBrosList.map((user) => user._id);
         yield user_1.User.updateMany(completeBrosListIds, {
             $set: {
-                grouped: true,
+                groupId: brosGroup._id,
                 availableForGrouping: false,
             },
-        });
-        // Instanciate new group
-        const brosGroup = new group_1.Group({
-            type: groupType,
-            zipcode: user.zipcode,
-            userIds: completeBrosListIds,
         });
         // Insert new group in DB
         yield brosGroup.create();

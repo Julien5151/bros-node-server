@@ -39,7 +39,7 @@ usersRouter.patch(
         body("zipcode").isInt({ min: 1, max: 99 }),
         body("password").isLength({ min: 9 }),
         body("role").isIn([UserRole.bro, UserRole.corporate, UserRole.admin]),
-        body("grouped").isBoolean(),
+        body("groupId").isLength({ min: 9 }),
         body("availableForGrouping").isBoolean(),
     ],
     partialValidationErrorsController,

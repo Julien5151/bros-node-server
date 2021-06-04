@@ -57,8 +57,8 @@ const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, v
                 case "role":
                     patchedUser.role = reqBody[key];
                     break;
-                case "grouped":
-                    patchedUser.grouped = reqBody[key];
+                case "groupId":
+                    patchedUser.groupId = reqBody[key];
                     break;
                 case "availableForGrouping":
                     patchedUser.availableForGrouping = reqBody[key];

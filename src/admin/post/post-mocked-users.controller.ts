@@ -25,7 +25,7 @@ export const postMockedUsersRouteController: RequestHandler = async (
                 email: mockedUsers[i].email,
                 zipcode: mockedUsers[i].zipcode,
                 password: mockedUsers[i].password,
-                grouped: mockedUsers[i].grouped,
+                groupId: mockedUsers[i].groupId,
                 availableForGrouping: mockedUsers[i].availableForGrouping,
             });
             // Insert new user in DB

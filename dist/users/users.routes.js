@@ -31,7 +31,7 @@ exports.usersRouter.patch("/:id", [
     express_validator_1.body("zipcode").isInt({ min: 1, max: 99 }),
     express_validator_1.body("password").isLength({ min: 9 }),
     express_validator_1.body("role").isIn([enums_1.UserRole.bro, enums_1.UserRole.corporate, enums_1.UserRole.admin]),
-    express_validator_1.body("grouped").isBoolean(),
+    express_validator_1.body("groupId").isLength({ min: 9 }),
     express_validator_1.body("availableForGrouping").isBoolean(),
 ], partial_validation_errors_1.partialValidationErrorsController, patch_user_controller_1.patchUserRouteController);
 // DELETE /users/:id

@@ -18,7 +18,6 @@ class Group {
         var _a, _b, _c;
         this.type = groupObject.type;
         this.zipcode = groupObject.zipcode;
-        this.userIds = groupObject.userIds;
         //
         this._id = (_a = groupObject._id) !== null && _a !== void 0 ? _a : uuid_1.v4();
         this.name = (_b = groupObject.name) !== null && _b !== void 0 ? _b : `New ${groupObject.type} group`;

@@ -23,7 +23,7 @@ export const postGroupRouteController: RequestHandler = async (
         return next(customError);
     }
     // If user is already grouped, can't create another group
-    if (user.grouped) {
+    if (user.groupId) {
         const customError: CustomError = {
             statusCode: 403,
             message:
@@ -38,6 +38,11 @@ export const postGroupRouteController: RequestHandler = async (
             user.zipcode,
             user._id
         );
+        // Instanciate new group
+        const brosGroup = new Group({
+            type: groupType,
+            zipcode: user.zipcode,
+        });
         // If group creation is successfull, mark all users as grouped
         // and no longer available for grouping
         const completeBrosList = [user, ...brosList];
@@ -45,15 +50,9 @@ export const postGroupRouteController: RequestHandler = async (
         const completeBrosListIds = completeBrosList.map((user) => user._id);
         await User.updateMany(completeBrosListIds, {
             $set: {
-                grouped: true,
+                groupId: brosGroup._id,
                 availableForGrouping: false,
             },
-        });
-        // Instanciate new group
-        const brosGroup = new Group({
-            type: groupType,
-            zipcode: user.zipcode,
-            userIds: completeBrosListIds,
         });
         // Insert new group in DB
         await brosGroup.create();

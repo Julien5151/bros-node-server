@@ -8,7 +8,6 @@ export class Group {
     // Mandatory properties
     type: GroupType;
     zipcode: number;
-    userIds: Array<string>;
     // Optional properties
     _id: string;
     name: string;
@@ -18,7 +17,6 @@ export class Group {
         // Provided when creating a new group
         type: GroupType;
         zipcode: number;
-        userIds: Array<string>;
         // Provided, when group is retrieved from DB
         _id?: string;
         name?: string;
@@ -26,7 +24,6 @@ export class Group {
     }) {
         this.type = groupObject.type;
         this.zipcode = groupObject.zipcode;
-        this.userIds = groupObject.userIds;
         //
         this._id = groupObject._id ?? uuidv4();
         this.name = groupObject.name ?? `New ${groupObject.type} group`;

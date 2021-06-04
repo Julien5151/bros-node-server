@@ -10,7 +10,7 @@ exports.MockedUsers = [
         email: "joey.tribiani@friends.com",
         phone: "+33106060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -20,7 +20,7 @@ exports.MockedUsers = [
         email: "ross.geller@friends.com",
         phone: "+33206060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -30,7 +30,7 @@ exports.MockedUsers = [
         email: "chandler.bing@friends.com",
         phone: "+33306060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -40,7 +40,7 @@ exports.MockedUsers = [
         email: "monica.geller@friends.com",
         phone: "+33406060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -50,7 +50,7 @@ exports.MockedUsers = [
         email: "phoebe.buffay@friends.com",
         phone: "+33506060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -60,7 +60,7 @@ exports.MockedUsers = [
         email: "rachel.green@friends.com",
         phone: "+33126060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -70,7 +70,7 @@ exports.MockedUsers = [
         email: "edouard.bracame@jbt.com",
         phone: "+33106060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -80,7 +80,7 @@ exports.MockedUsers = [
         email: "guido.brasletti@jbt.com",
         phone: "+33206060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -90,7 +90,7 @@ exports.MockedUsers = [
         email: "jr.ducable@jbt.com",
         phone: "+33306060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -100,7 +100,7 @@ exports.MockedUsers = [
         email: "jean.manchzek@jbt.com",
         phone: "+33406060608",
         zipcode: 95,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     // Zipcode 78 - 5 users
@@ -111,7 +111,7 @@ exports.MockedUsers = [
         email: "barney.strinson@himym.com",
         phone: "+33706060608",
         zipcode: 78,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -121,7 +121,7 @@ exports.MockedUsers = [
         email: "marshall.eriksen@himym.com",
         phone: "+33806060608",
         zipcode: 78,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -131,7 +131,7 @@ exports.MockedUsers = [
         email: "ted.mosby@himym.com",
         phone: "+33906060608",
         zipcode: 78,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -141,7 +141,7 @@ exports.MockedUsers = [
         email: "lily.aldrin@himym.com",
         phone: "+33106060610",
         zipcode: 78,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
     {
@@ -151,7 +151,7 @@ exports.MockedUsers = [
         email: "robin.scherbatsky@himym.com",
         phone: "+33116060608",
         zipcode: 78,
-        grouped: false,
+        groupId: null,
         availableForGrouping: true,
     },
 ];

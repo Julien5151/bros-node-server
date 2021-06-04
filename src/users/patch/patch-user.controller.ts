@@ -54,8 +54,8 @@ export const patchUserRouteController: RequestHandler = async (
                 case "role":
                     patchedUser.role = reqBody[key] as UserRole;
                     break;
-                case "grouped":
-                    patchedUser.grouped = reqBody[key] as boolean;
+                case "groupId":
+                    patchedUser.groupId = reqBody[key] as string;
                     break;
                 case "availableForGrouping":
                     patchedUser.availableForGrouping = reqBody[key] as boolean;
