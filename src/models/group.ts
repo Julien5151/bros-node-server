@@ -40,4 +40,16 @@ export class Group {
     async create(): Promise<InsertOneWriteOpResult<any>> {
         return db.collection(MongoCollection.groups).insertOne(this);
     }
+
+    /**
+     * Returns a copy of object data (without method or sensitive information
+     */
+    getPlainObject(): Group {
+        // Deep copy of object and removes methods
+        const thisCopy = JSON.parse(JSON.stringify(this));
+        // Remove sensitive information from users
+        thisCopy.users = this.users.map((user) => user.getPlainObject());
+        // Return copy of object (minus)
+        return thisCopy;
+    }
 }

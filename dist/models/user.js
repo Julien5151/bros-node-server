@@ -33,7 +33,6 @@ class User {
     /**
      * Loads user from DB using its _id or email. The same can be achieved by passing all
      * arguments to constructor
-     * @param identifier _id or email of the user
      */
     static load(identifier) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -77,6 +76,17 @@ class User {
         });
     }
     /**
+     * Update multiple user at once based on provided update query
+     */
+    static updateMany(userIds, updateQuery) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Delete user from DB
+            return db_connection_1.db
+                .collection(enums_1.MongoCollection.users)
+                .updateMany({ _id: { $in: userIds } }, updateQuery);
+        });
+    }
+    /**
      * WARNING : Delete ALL user documents
      */
     static deleteAll() {
@@ -87,9 +97,7 @@ class User {
     }
     /**
      * Randomly fetch a sample of users based on a sample size and a zipcode, only select
-     * users that are both availableForGrouping
-     * @param sampleSize size of the sample
-     * @param zipcode zipcode for locating users
+     * users that are availableForGrouping
      */
     static findRandomSample(sampleSize, zipcode, excludeId) {
         return __awaiter(this, void 0, void 0, function* () {

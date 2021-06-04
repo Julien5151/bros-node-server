@@ -4,6 +4,7 @@ import { db } from "../utils/database/db-connection";
 import {
     DeleteWriteOpResultObject,
     InsertOneWriteOpResult,
+    UpdateQuery,
     UpdateWriteOpResult,
 } from "mongodb";
 import { CustomError } from "../utils/types/interfaces";
@@ -12,7 +13,6 @@ export class User {
     /**
      * Loads user from DB using its _id or email. The same can be achieved by passing all
      * arguments to constructor
-     * @param identifier _id or email of the user
      */
     static async load(identifier: string): Promise<User> {
         let userData;
@@ -52,6 +52,19 @@ export class User {
     }
 
     /**
+     * Update multiple user at once based on provided update query
+     */
+    static async updateMany(
+        userIds: Array<string>,
+        updateQuery: UpdateQuery<User>
+    ): Promise<UpdateWriteOpResult> {
+        // Delete user from DB
+        return db
+            .collection(MongoCollection.users)
+            .updateMany({ _id: { $in: userIds } }, updateQuery);
+    }
+
+    /**
      * WARNING : Delete ALL user documents
      */
     static async deleteAll(): Promise<DeleteWriteOpResultObject> {
@@ -61,9 +74,7 @@ export class User {
 
     /**
      * Randomly fetch a sample of users based on a sample size and a zipcode, only select
-     * users that are both availableForGrouping
-     * @param sampleSize size of the sample
-     * @param zipcode zipcode for locating users
+     * users that are availableForGrouping
      */
     static async findRandomSample(
         sampleSize: number,

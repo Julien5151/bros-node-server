@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postGroupRouteController = void 0;
+const group_1 = require("../../models/group");
 const user_1 = require("../../models/user");
 const enums_1 = require("../../utils/types/enums");
 const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,10 +28,26 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
     }
     // Start composing the group
     try {
-        const userList = yield user_1.User.findRandomSample(enums_1.GroupSize[groupType] - 1, user.zipcode, user._id);
-        const finalList = userList.map((user) => user.getPlainObject());
-        // Fetch all group data from both user and friend_groups tables
-        return res.status(200).json({ userList: finalList });
+        const brosList = yield user_1.User.findRandomSample(enums_1.GroupSize[groupType] - 1, user.zipcode, user._id);
+        // If group creation is successfull, mark all users as grouped
+        // and no longer available for grouping
+        const completeBrosList = [user, ...brosList];
+        // List
+        const completeBrosListIds = completeBrosList.map((user) => user._id);
+        yield user_1.User.updateMany(completeBrosListIds, {
+            $set: {
+                grouped: true,
+                availableForGrouping: false,
+            },
+        });
+        // Instanciate new group
+        const brosGroup = new group_1.Group({
+            type: groupType,
+            zipcode: user.zipcode,
+            users: completeBrosList,
+        });
+        // If group successfully created, return the created group
+        return res.status(201).json(brosGroup.getPlainObject());
     }
     catch (error) {
         // If not enough user found, return 404 error

@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { Group } from "../../models/group";
 import { User } from "../../models/user";
 import { GroupSize } from "../../utils/types/enums";
 import { CustomError } from "../../utils/types/interfaces";
@@ -23,14 +24,30 @@ export const postGroupRouteController: RequestHandler = async (
     }
     // Start composing the group
     try {
-        const userList = await User.findRandomSample(
+        const brosList = await User.findRandomSample(
             GroupSize[groupType] - 1,
             user.zipcode,
             user._id
         );
-        const finalList = userList.map((user) => user.getPlainObject());
-        // Fetch all group data from both user and friend_groups tables
-        return res.status(200).json({ userList: finalList });
+        // If group creation is successfull, mark all users as grouped
+        // and no longer available for grouping
+        const completeBrosList = [user, ...brosList];
+        // List
+        const completeBrosListIds = completeBrosList.map((user) => user._id);
+        await User.updateMany(completeBrosListIds, {
+            $set: {
+                grouped: true,
+                availableForGrouping: false,
+            },
+        });
+        // Instanciate new group
+        const brosGroup = new Group({
+            type: groupType,
+            zipcode: user.zipcode,
+            users: completeBrosList,
+        });
+        // If group successfully created, return the created group
+        return res.status(201).json(brosGroup.getPlainObject());
     } catch (error) {
         // If not enough user found, return 404 error
         if (error.statusCode === 404) {
