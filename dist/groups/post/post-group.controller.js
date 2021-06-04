@@ -54,6 +54,8 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
             zipcode: user.zipcode,
             userIds: completeBrosListIds,
         });
+        // Insert new group in DB
+        yield brosGroup.create();
         // If group successfully created, return the created group
         return res.status(201).json(brosGroup.getPlainObject());
     }

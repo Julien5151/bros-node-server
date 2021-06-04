@@ -55,6 +55,8 @@ export const postGroupRouteController: RequestHandler = async (
             zipcode: user.zipcode,
             userIds: completeBrosListIds,
         });
+        // Insert new group in DB
+        await brosGroup.create();
         // If group successfully created, return the created group
         return res.status(201).json(brosGroup.getPlainObject());
     } catch (error) {
