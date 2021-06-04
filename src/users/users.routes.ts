@@ -15,12 +15,12 @@ usersRouter.get("/", getUsersRouteController);
 usersRouter.post(
     "/",
     [
-        body("firstName").isLength({ min: 1 }),
-        body("lastName").isLength({ min: 1 }),
+        body("firstName").isString().isLength({ min: 1 }),
+        body("lastName").isString().isLength({ min: 1 }),
         body("email").isEmail(),
         body("zipcode").isInt({ min: 1, max: 99 }),
-        body("password").isLength({ min: 9 }),
-        body("confirmedPassword").isLength({ min: 9 }),
+        body("password").isString().isLength({ min: 9 }),
+        body("confirmedPassword").isString().isLength({ min: 9 }),
     ],
     validationErrorsController,
     postUserRouteController
@@ -30,9 +30,9 @@ usersRouter.post(
 usersRouter.patch(
     "/:id",
     [
-        body("firstName").isLength({ min: 1 }),
-        body("lastName").isLength({ min: 1 }),
-        body("password").isLength({ min: 9 }),
+        body("firstName").isString().isLength({ min: 1 }),
+        body("lastName").isString().isLength({ min: 1 }),
+        body("password").isString().isLength({ min: 9 }),
         body("phone").isMobilePhone("fr-FR"),
         body("address").isString(),
     ],
