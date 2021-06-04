@@ -65,6 +65,36 @@ class User {
         });
     }
     /**
+     * Loads multiple users from DB using their _id or email
+     */
+    static loadMany(identifiers) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Using and email
+            const usersData = yield db_connection_1.db
+                .collection(enums_1.MongoCollection.users)
+                .find({
+                $or: [
+                    { email: { $in: identifiers } },
+                    { _id: { $in: identifiers } },
+                ],
+            })
+                .toArray();
+            // If users are found, instanciate them and return the array
+            if (usersData.length > 0) {
+                const users = usersData.map((userData) => new this(userData));
+                return users;
+            }
+            else {
+                // Throw not found error
+                const notFoundError = {
+                    statusCode: 404,
+                    message: "No user found",
+                };
+                throw notFoundError;
+            }
+        });
+    }
+    /**
      * Delete user from DB using its _id.
      */
     static delete(userId) {

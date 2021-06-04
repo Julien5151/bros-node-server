@@ -42,6 +42,34 @@ export class User {
     }
 
     /**
+     * Loads multiple users from DB using their _id or email
+     */
+    static async loadMany(identifiers: Array<string>): Promise<Array<User>> {
+        // Using and email
+        const usersData = await db
+            .collection(MongoCollection.users)
+            .find({
+                $or: [
+                    { email: { $in: identifiers } },
+                    { _id: { $in: identifiers } },
+                ],
+            })
+            .toArray();
+        // If users are found, instanciate them and return the array
+        if (usersData.length > 0) {
+            const users = usersData.map((userData) => new this(userData));
+            return users;
+        } else {
+            // Throw not found error
+            const notFoundError: CustomError = {
+                statusCode: 404,
+                message: "No user found",
+            };
+            throw notFoundError;
+        }
+    }
+
+    /**
      * Delete user from DB using its _id.
      */
     static async delete(userId: string): Promise<DeleteWriteOpResultObject> {
