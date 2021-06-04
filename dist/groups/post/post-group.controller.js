@@ -38,6 +38,7 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
             $set: {
                 grouped: true,
                 availableForGrouping: false,
+                role: enums_1.UserRole.bro,
             },
         });
         // Instanciate new group
