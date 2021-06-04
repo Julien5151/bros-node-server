@@ -4,7 +4,6 @@ export enum MongoCollection {
 }
 
 export enum UserRole {
-    visitor = "visitor",
     bro = "bro",
     corporate = "corporate",
     admin = "admin",

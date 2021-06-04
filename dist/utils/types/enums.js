@@ -8,7 +8,6 @@ var MongoCollection;
 })(MongoCollection = exports.MongoCollection || (exports.MongoCollection = {}));
 var UserRole;
 (function (UserRole) {
-    UserRole["visitor"] = "visitor";
     UserRole["bro"] = "bro";
     UserRole["corporate"] = "corporate";
     UserRole["admin"] = "admin";

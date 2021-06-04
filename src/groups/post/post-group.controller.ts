@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { Group } from "../../models/group";
 import { User } from "../../models/user";
-import { GroupSize, UserRole } from "../../utils/types/enums";
+import { GroupSize } from "../../utils/types/enums";
 import { CustomError } from "../../utils/types/interfaces";
 import { GroupPostRequest } from "./post-group.types";
 
@@ -47,14 +47,13 @@ export const postGroupRouteController: RequestHandler = async (
             $set: {
                 grouped: true,
                 availableForGrouping: false,
-                role: UserRole.bro,
             },
         });
         // Instanciate new group
         const brosGroup = new Group({
             type: groupType,
             zipcode: user.zipcode,
-            users: completeBrosList,
+            userIds: completeBrosListIds,
         });
         // If group successfully created, return the created group
         return res.status(201).json(brosGroup.getPlainObject());

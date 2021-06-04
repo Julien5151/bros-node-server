@@ -184,7 +184,7 @@ export class User {
         this.createdAt = userObject.createdAt ?? new Date();
         this.phone = userObject.phone ?? "";
         this.address = userObject.address ?? "";
-        this.role = userObject.role ?? UserRole.visitor;
+        this.role = userObject.role ?? UserRole.bro;
         this.grouped = userObject.grouped ?? false;
         this.availableForGrouping = userObject.availableForGrouping ?? false;
     }
@@ -227,7 +227,7 @@ export class User {
         const thisCopy = JSON.parse(JSON.stringify(this));
         // Remove sensitive information
         delete thisCopy.password;
-        // Return copy of object (minus)
+        // Return copy of object
         return thisCopy;
     }
 }

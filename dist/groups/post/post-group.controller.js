@@ -46,14 +46,13 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
             $set: {
                 grouped: true,
                 availableForGrouping: false,
-                role: enums_1.UserRole.bro,
             },
         });
         // Instanciate new group
         const brosGroup = new group_1.Group({
             type: groupType,
             zipcode: user.zipcode,
-            users: completeBrosList,
+            userIds: completeBrosListIds,
         });
         // If group successfully created, return the created group
         return res.status(201).json(brosGroup.getPlainObject());

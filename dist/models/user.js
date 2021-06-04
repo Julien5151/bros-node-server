@@ -26,7 +26,7 @@ class User {
         this.createdAt = (_b = userObject.createdAt) !== null && _b !== void 0 ? _b : new Date();
         this.phone = (_c = userObject.phone) !== null && _c !== void 0 ? _c : "";
         this.address = (_d = userObject.address) !== null && _d !== void 0 ? _d : "";
-        this.role = (_e = userObject.role) !== null && _e !== void 0 ? _e : enums_1.UserRole.visitor;
+        this.role = (_e = userObject.role) !== null && _e !== void 0 ? _e : enums_1.UserRole.bro;
         this.grouped = (_f = userObject.grouped) !== null && _f !== void 0 ? _f : false;
         this.availableForGrouping = (_g = userObject.availableForGrouping) !== null && _g !== void 0 ? _g : false;
     }
@@ -204,7 +204,7 @@ class User {
         const thisCopy = JSON.parse(JSON.stringify(this));
         // Remove sensitive information
         delete thisCopy.password;
-        // Return copy of object (minus)
+        // Return copy of object
         return thisCopy;
     }
 }
