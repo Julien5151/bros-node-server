@@ -3,4 +3,5 @@ export interface CustomError {
     message: string;
     invalidFields?: Array<string>;
     missingFields?: Array<string>;
+    forbiddenFields?: Array<string>;
 }

@@ -16,6 +16,10 @@ const errorsController = (err, req, res, next) => {
     if (err.missingFields) {
         errorResponseBody["missingFields"] = err.missingFields;
     }
+    // If there are forbidden fields, add forbidden fields to the response
+    if (err.forbiddenFields) {
+        errorResponseBody["forbiddenFields"] = err.forbiddenFields;
+    }
     // Return error response
     return res.status(statusCode).json(errorResponseBody);
 };
