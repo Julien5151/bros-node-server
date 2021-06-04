@@ -6,7 +6,6 @@ import { getUsersRouteController } from "./get/get-users.controller";
 import { partialValidationErrorsController } from "../utils/middlewares/partial-validation-errors";
 import { patchUserRouteController } from "./patch/patch-user.controller";
 import { deleteUserRouteController } from "./delete/delete-user.controller";
-import { UserRole } from "../utils/types/enums";
 
 export const usersRouter = Router();
 
