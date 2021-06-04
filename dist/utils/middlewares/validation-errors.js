@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validationErrorsController = void 0;
 const express_validator_1 = require("express-validator");
+const enums_1 = require("../types/enums");
 // Handle validation errors and return 400 will relevant error message
 // Validates ALL request fields : invalid and missing fields result in an error
 const validationErrorsController = (req, res, next) => {
@@ -24,13 +25,19 @@ const validationErrorsController = (req, res, next) => {
             statusCode: 400,
             message: "Invalid request body",
         };
-        // Only add missing or failed params if it's relevant
-        if (missingParams.length > 0) {
-            validationError.missingFields = missingParams;
-        }
+        // Add failed params to response
         if (failedParams.length > 0) {
             validationError.invalidFields = failedParams;
         }
+        else if (req.method === enums_1.HttpMethods.PATCH) {
+            // PATCH requests : only failed params lead to an error
+            return next();
+        }
+        // POST requests : both missing and failed params lead to an error
+        if (missingParams.length > 0 && req.method === enums_1.HttpMethods.POST) {
+            validationError.missingFields = missingParams;
+        }
+        // Forward error to error handling middleware
         return next(validationError);
     }
     else {

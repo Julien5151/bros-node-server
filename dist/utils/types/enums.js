@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GroupSize = exports.GroupType = exports.UserRole = exports.MongoCollection = void 0;
+exports.GroupSize = exports.HttpMethods = exports.GroupType = exports.UserRole = exports.MongoCollection = void 0;
 var MongoCollection;
 (function (MongoCollection) {
     MongoCollection["users"] = "users";
@@ -17,6 +17,11 @@ var GroupType;
     GroupType["beer"] = "beer";
     GroupType["coffee"] = "coffee";
 })(GroupType = exports.GroupType || (exports.GroupType = {}));
+var HttpMethods;
+(function (HttpMethods) {
+    HttpMethods["POST"] = "POST";
+    HttpMethods["PATCH"] = "PATCH";
+})(HttpMethods = exports.HttpMethods || (exports.HttpMethods = {}));
 exports.GroupSize = {
     [GroupType.beer]: 5,
     [GroupType.coffee]: 6,

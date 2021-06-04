@@ -14,6 +14,11 @@ export enum GroupType {
     coffee = "coffee",
 }
 
+export enum HttpMethods {
+    POST = "POST",
+    PATCH = "PATCH",
+}
+
 export const GroupSize = {
     [GroupType.beer]: 5,
     [GroupType.coffee]: 6,

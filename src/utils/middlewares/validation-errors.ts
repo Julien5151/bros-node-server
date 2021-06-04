@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { validationResult } from "express-validator";
+import { HttpMethods } from "../types/enums";
 import { CustomError } from "../types/interfaces";
 
 // Handle validation errors and return 400 will relevant error message
@@ -24,13 +25,18 @@ export const validationErrorsController: RequestHandler = (req, res, next) => {
             statusCode: 400,
             message: "Invalid request body",
         };
-        // Only add missing or failed params if it's relevant
-        if (missingParams.length > 0) {
-            validationError.missingFields = missingParams;
-        }
+        // Add failed params to response
         if (failedParams.length > 0) {
             validationError.invalidFields = failedParams;
+        } else if (req.method === HttpMethods.PATCH) {
+            // PATCH requests : only failed params lead to an error
+            return next();
         }
+        // POST requests : both missing and failed params lead to an error
+        if (missingParams.length > 0 && req.method === HttpMethods.POST) {
+            validationError.missingFields = missingParams;
+        }
+        // Forward error to error handling middleware
         return next(validationError);
     } else {
         // Otherwise, continue with next middlewares

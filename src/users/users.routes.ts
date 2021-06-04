@@ -3,7 +3,6 @@ import { body } from "express-validator";
 import { postUserRouteController } from "./post/post-user.controller";
 import { validationErrorsController } from "../utils/middlewares/validation-errors";
 import { getUsersRouteController } from "./get/get-users.controller";
-import { partialValidationErrorsController } from "../utils/middlewares/partial-validation-errors";
 import { patchUserRouteController } from "./patch/patch-user.controller";
 import { deleteUserRouteController } from "./delete/delete-user.controller";
 
@@ -37,7 +36,7 @@ usersRouter.patch(
         body("phone").isMobilePhone("fr-FR"),
         body("address").isString(),
     ],
-    partialValidationErrorsController,
+    validationErrorsController,
     patchUserRouteController
 );
 
