@@ -30,6 +30,8 @@ const postMockedUsersRouteController = (req, res, next) => __awaiter(void 0, voi
                 email: mockedUsers[i].email,
                 zipcode: mockedUsers[i].zipcode,
                 password: mockedUsers[i].password,
+                grouped: mockedUsers[i].grouped,
+                availableForGrouping: mockedUsers[i].availableForGrouping,
             });
             // Insert new user in DB
             yield newUser.create();

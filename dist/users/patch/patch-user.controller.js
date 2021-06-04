@@ -54,6 +54,15 @@ const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, v
                     hashedPassword = yield bcryptjs_1.default.hash(reqBody[key], 12);
                     patchedUser.password = hashedPassword;
                     break;
+                case "role":
+                    patchedUser.role = reqBody[key];
+                    break;
+                case "grouped":
+                    patchedUser.grouped = reqBody[key];
+                    break;
+                case "availableForGrouping":
+                    patchedUser.availableForGrouping = reqBody[key];
+                    break;
                 default:
                     // Unauthorized field name detected, return a 400
                     customError.message += key;

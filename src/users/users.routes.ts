@@ -35,6 +35,8 @@ usersRouter.patch(
         body("phone").isMobilePhone("fr-FR"),
         body("zipcode").isInt({ min: 1, max: 99 }),
         body("password").isLength({ min: 9 }),
+        body("grouped").isBoolean(),
+        body("availableForGrouping").isBoolean(),
     ],
     partialValidationErrorsController,
     patchUserRouteController
