@@ -17,37 +17,20 @@ export const patchUserRouteController: RequestHandler = async (
         const patchedUser = await User.load(userId);
         // Fill arrays based on request content
         for (const key in reqBody) {
-            let hashedPassword = "";
-            // Unauthorized field
-            const customError: CustomError = {
-                statusCode: 400,
-                message: "Unauthorized field : ",
-            };
-            switch (key) {
-                case "firstName":
-                    patchedUser.firstName = reqBody[key] as string;
-                    break;
-                case "lastName":
-                    patchedUser.lastName = reqBody[key] as string;
-                    break;
-                case "phone":
-                    patchedUser.phone = reqBody[key] as string;
-                    break;
-                case "address":
-                    patchedUser.address = reqBody[key] as string;
-                    break;
-                case "password":
-                    // Hash password using bcrypt
-                    hashedPassword = await bcrypt.hash(
-                        reqBody[key] as string,
-                        12
-                    );
-                    patchedUser.password = hashedPassword as string;
-                    break;
-                default:
-                    // Unauthorized field name detected, return a 400
-                    customError.message += key;
-                    return next(customError);
+            // For password key, needs to be hashed
+            if (key === "password") {
+                // Hash password using bcrypt
+                const hashedPassword = await bcrypt.hash(
+                    reqBody[key] as string,
+                    12
+                );
+                patchedUser.password = hashedPassword as string;
+            } else {
+                // We know key will be of the relevant type thanks to validationErrorsController
+                // as never is a weird typescript typing but is necessary
+                patchedUser[key as keyof User] = reqBody[
+                    key as keyof UserPatchRequest
+                ] as never;
             }
         }
         // Update user in DB

@@ -24,34 +24,16 @@ const patchUserRouteController = (req, res, next) => __awaiter(void 0, void 0, v
         const patchedUser = yield user_1.User.load(userId);
         // Fill arrays based on request content
         for (const key in reqBody) {
-            let hashedPassword = "";
-            // Unauthorized field
-            const customError = {
-                statusCode: 400,
-                message: "Unauthorized field : ",
-            };
-            switch (key) {
-                case "firstName":
-                    patchedUser.firstName = reqBody[key];
-                    break;
-                case "lastName":
-                    patchedUser.lastName = reqBody[key];
-                    break;
-                case "phone":
-                    patchedUser.phone = reqBody[key];
-                    break;
-                case "address":
-                    patchedUser.address = reqBody[key];
-                    break;
-                case "password":
-                    // Hash password using bcrypt
-                    hashedPassword = yield bcryptjs_1.default.hash(reqBody[key], 12);
-                    patchedUser.password = hashedPassword;
-                    break;
-                default:
-                    // Unauthorized field name detected, return a 400
-                    customError.message += key;
-                    return next(customError);
+            // For password key, needs to be hashed
+            if (key === "password") {
+                // Hash password using bcrypt
+                const hashedPassword = yield bcryptjs_1.default.hash(reqBody[key], 12);
+                patchedUser.password = hashedPassword;
+            }
+            else {
+                // We know key will be of the relevant type thanks to validationErrorsController
+                // as never is a weird typescript typing but is necessary
+                patchedUser[key] = reqBody[key];
             }
         }
         // Update user in DB
