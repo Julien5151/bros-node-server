@@ -12,7 +12,9 @@ export const validationErrorsController: RequestHandler = (req, res, next) => {
         message: "Invalid request body",
     };
     // Check that there are no forbidden (aka not validated) extra body param
-    const validatedParams = Object.keys(matchedData(req));
+    const validatedParams = Object.keys(
+        matchedData(req, { onlyValidData: false })
+    );
     const forbiddenParams: Array<string> = [];
     Object.keys(req.body).forEach((key) => {
         if (!validatedParams.includes(key)) {
@@ -28,16 +30,19 @@ export const validationErrorsController: RequestHandler = (req, res, next) => {
     // If there are validation errors, throw a 400 with a list of failed parameters
     if (!validationErrors.isEmpty()) {
         // Make a list of missing parameters
-        const missingParams = validationErrors
+        let missingParams = validationErrors
             .array()
             .filter((validationError) => validationError.value === undefined)
             .map((validationError) => validationError.param);
+        // Remove duplicates (duplicate occurs when there are multiple validators on the same property)
+        missingParams = [...new Set(missingParams)];
         // Make a list of failed parameters
-        const failedParams = validationErrors
+        let failedParams = validationErrors
             .array()
             .filter((validationError) => validationError.value !== undefined)
             .map((validationError) => validationError.param);
-
+        // Remove duplicates
+        failedParams = [...new Set(failedParams)];
         // Add failed params to response
         if (failedParams.length > 0) {
             validationCustomError.invalidFields = failedParams;
