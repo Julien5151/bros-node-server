@@ -14,8 +14,8 @@ import { connectDb } from "./utils/database/db-connection";
 // Create express application
 const app = express();
 
-// Body parsing middleware
-app.use(bodyParser.json()); // application/json
+// Body parsing middleware application/json
+app.use(bodyParser.json());
 // Allow all CORS requests
 app.use(cors());
 
