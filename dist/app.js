@@ -17,8 +17,8 @@ const admin_1 = require("./utils/middlewares/admin");
 const db_connection_1 = require("./utils/database/db-connection");
 // Create express application
 const app = express_1.default();
-// Body parsing middleware
-app.use(body_parser_1.default.json()); // application/json
+// Body parsing middleware application/json
+app.use(body_parser_1.default.json());
 // Allow all CORS requests
 app.use(cors_1.default());
 // Html special chars escaping route
