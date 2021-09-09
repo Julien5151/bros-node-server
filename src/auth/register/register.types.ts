@@ -3,5 +3,5 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
-    publicKeyCredentialsRequestOption: PublicKeyCredentialRequestOptions;
+    credentialCreationOptions: any;
 }
