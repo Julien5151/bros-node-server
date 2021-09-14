@@ -19,7 +19,7 @@ const registerRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
     // Create publicKeyCredentialCreationOptions object
     const publicKeyCredentialCreationOptions = {
         // The challenge is produced by the server; see the Security Considerations
-        challenge: [21, 31, 105],
+        challenge: "this is a random but static challenge which should be improved in the future come on man ! do it !",
         // Relying Party:
         rp: {
             name: "Bros application",

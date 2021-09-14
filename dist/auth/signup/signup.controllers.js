@@ -14,7 +14,6 @@ const signupRouteController = (req, res, next) => __awaiter(void 0, void 0, void
     // Extract data from body
     const reqBody = req.body;
     // Parse signup request
-    console.log(JSON.parse(Buffer.from(reqBody.publicKeyCredential.response.clientDataJSON, "base64").toString()));
     // Create response object
     const response = {
         message: "Signup successfull",

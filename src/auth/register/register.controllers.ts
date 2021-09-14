@@ -14,7 +14,8 @@ export const registerRouteController: RequestHandler = async (
     // Create publicKeyCredentialCreationOptions object
     const publicKeyCredentialCreationOptions: any = {
         // The challenge is produced by the server; see the Security Considerations
-        challenge: [21, 31, 105],
+        challenge:
+            "this is a random but static challenge which should be improved in the future come on man ! do it !",
 
         // Relying Party:
         rp: {
