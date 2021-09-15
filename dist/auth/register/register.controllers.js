@@ -45,6 +45,7 @@ const registerRouteController = (req, res, next) => __awaiter(void 0, void 0, vo
         authenticatorSelection: {
             // Try to use UV if possible. This is also the default.
             userVerification: "preferred",
+            authenticatorAttachment: "platform",
         },
         timeout: 360000, // 6 minutes
         // excludeCredentials: [
