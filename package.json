@@ -4,12 +4,12 @@
     "description": "Bros - NodeJS backend server",
     "scripts": {
         "start": "node ./dist/app.js",
-        "start-dev": "concurrently 'npm run compile-watch' 'npm run start-nodemon'",
+        "start-dev": "npm run copy-statics && concurrently 'npm run compile-watch' 'npm run start-nodemon'",
         "start-nodemon": "nodemon ./dist/app.js",
         "compile-watch": "tsc --watch",
-        "compile": "tsc",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "deploy": "npm run compile && git push heroku master"
+        "compile": "npm run copy-statics && tsc",
+        "copy-statics": "node ./scripts/copy-statics.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
@@ -37,6 +37,7 @@
         "concurrently": "^6.0.0",
         "eslint": "^7.31.0",
         "eslint-config-prettier": "^8.1.0",
+        "fs-extra": "^10.0.0",
         "nodemon": "^2.0.12",
         "typescript": "^4.3.5"
     },

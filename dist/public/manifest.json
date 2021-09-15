@@ -1,0 +1,17 @@
+{
+    "short_name": "Bros",
+    "name": "Bros - Find bros in your area",
+    "description": "Bros - Find bros in your area",
+    "icons": [
+        {
+            "src": "./assets/images/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#3f51b5",
+    "background_color": "#ffffff",
+    "orientation": "portrait-primary"
+}

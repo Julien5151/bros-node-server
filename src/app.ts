@@ -10,6 +10,8 @@ import { groupsRouter } from "./groups/groups.routes";
 import { adminRouter } from "./admin/admin.routes";
 import { checkAdminRoleController } from "./utils/middlewares/admin";
 import { connectDb } from "./utils/database/db-connection";
+import path from "path";
+import { spaController } from "./utils/middlewares/spa";
 
 // Create express application
 const app = express();
@@ -22,6 +24,9 @@ app.use(cors());
 // Html special chars escaping route
 app.use(escapeHtmlController);
 
+// Serve statics
+app.use(express.static(path.join(__dirname, "public")));
+
 // Authentication routes
 app.use("/auth", authRouter);
 
@@ -33,6 +38,9 @@ app.use("/groups", authController, groupsRouter);
 
 // Admin routes
 app.use("/admin", authController, checkAdminRoleController, adminRouter);
+
+// SPA route
+app.use("*", spaController);
 
 // Error handling middleware
 app.use(errorsController);

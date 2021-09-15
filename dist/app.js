@@ -15,6 +15,8 @@ const groups_routes_1 = require("./groups/groups.routes");
 const admin_routes_1 = require("./admin/admin.routes");
 const admin_1 = require("./utils/middlewares/admin");
 const db_connection_1 = require("./utils/database/db-connection");
+const path_1 = __importDefault(require("path"));
+const spa_1 = require("./utils/middlewares/spa");
 // Create express application
 const app = express_1.default();
 // Body parsing middleware application/json
@@ -23,6 +25,8 @@ app.use(body_parser_1.default.json());
 app.use(cors_1.default());
 // Html special chars escaping route
 app.use(escape_html_1.escapeHtmlController);
+// Serve statics
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 // Authentication routes
 app.use("/auth", auth_routes_1.authRouter);
 // Users routes
@@ -31,6 +35,8 @@ app.use("/users", auth_1.authController, users_routes_1.usersRouter);
 app.use("/groups", auth_1.authController, groups_routes_1.groupsRouter);
 // Admin routes
 app.use("/admin", auth_1.authController, admin_1.checkAdminRoleController, admin_routes_1.adminRouter);
+// SPA route
+app.use("*", spa_1.spaController);
 // Error handling middleware
 app.use(errors_1.errorsController);
 // Connect to DB and start server
