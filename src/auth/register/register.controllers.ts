@@ -45,6 +45,7 @@ export const registerRouteController: RequestHandler = async (
         authenticatorSelection: {
             // Try to use UV if possible. This is also the default.
             userVerification: "preferred",
+            authenticatorAttachment: "platform",
         },
 
         timeout: 360000, // 6 minutes
