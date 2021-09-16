@@ -21,8 +21,10 @@ const spa_1 = require("./utils/middlewares/spa");
 const app = express_1.default();
 // Body parsing middleware application/json
 app.use(body_parser_1.default.json());
-// Allow all CORS requests
-app.use(cors_1.default());
+// Only allow CORS in development
+if (process.env.ENVIRONMENT === "development") {
+    app.use(cors_1.default());
+}
 // Html special chars escaping route
 app.use(escape_html_1.escapeHtmlController);
 // Serve statics

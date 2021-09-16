@@ -18,8 +18,11 @@ const app = express();
 
 // Body parsing middleware application/json
 app.use(bodyParser.json());
-// Allow all CORS requests
-app.use(cors());
+
+// Only allow CORS in development
+if (process.env.ENVIRONMENT === "development") {
+    app.use(cors());
+}
 
 // Html special chars escaping route
 app.use(escapeHtmlController);
