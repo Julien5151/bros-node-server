@@ -17,6 +17,7 @@ const admin_1 = require("./utils/middlewares/admin");
 const db_connection_1 = require("./utils/database/db-connection");
 const path_1 = __importDefault(require("path"));
 const spa_1 = require("./utils/middlewares/spa");
+const profile_routes_1 = require("./profile/profile.routes");
 // Create express application
 const app = express_1.default();
 // Body parsing middleware application/json
@@ -35,6 +36,8 @@ app.use("/auth", auth_routes_1.authRouter);
 app.use("/users", auth_1.authController, users_routes_1.usersRouter);
 // Groups routes
 app.use("/groups", auth_1.authController, groups_routes_1.groupsRouter);
+// Profile routes
+app.use("/profile", auth_1.authController, profile_routes_1.profileRouter);
 // Admin routes
 app.use("/admin", auth_1.authController, admin_1.checkAdminRoleController, admin_routes_1.adminRouter);
 // SPA route

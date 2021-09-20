@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 import { User } from "../../models/user";
-import { UserRole } from "../types/enums";
+import { SpecialUsers, UserRole } from "../types/enums";
 import { CustomError } from "../types/interfaces";
 
 export const authController: RequestHandler = async (req, res, next) => {
@@ -14,7 +14,7 @@ export const authController: RequestHandler = async (req, res, next) => {
             // If environment variable DEV_TOKEN exists we're not in prod
             if (process.env.DEV_TOKEN && token === process.env.DEV_TOKEN) {
                 // If correct dev token is used, proceed to next middlewares with dev admin role
-                res.locals.userId = "dev-admin";
+                res.locals.userId = SpecialUsers["dev-admin"];
                 res.locals.userRole = UserRole.admin;
                 next();
             } else {

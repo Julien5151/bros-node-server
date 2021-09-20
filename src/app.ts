@@ -12,6 +12,7 @@ import { checkAdminRoleController } from "./utils/middlewares/admin";
 import { connectDb } from "./utils/database/db-connection";
 import path from "path";
 import { spaController } from "./utils/middlewares/spa";
+import { profileRouter } from "./profile/profile.routes";
 
 // Create express application
 const app = express();
@@ -38,6 +39,9 @@ app.use("/users", authController, usersRouter);
 
 // Groups routes
 app.use("/groups", authController, groupsRouter);
+
+// Profile routes
+app.use("/profile", authController, profileRouter);
 
 // Admin routes
 app.use("/admin", authController, checkAdminRoleController, adminRouter);

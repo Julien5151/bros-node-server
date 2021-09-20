@@ -9,6 +9,10 @@ export enum UserRole {
     admin = "admin",
 }
 
+export enum SpecialUsers {
+    "dev-admin" = "dev-admin",
+}
+
 export enum GroupType {
     beer = "beer",
     coffee = "coffee",
