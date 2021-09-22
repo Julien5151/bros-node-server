@@ -10,9 +10,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postSubscriptionRouteController = void 0;
+const subscription_1 = require("../../models/subscription");
 const postSubscriptionRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // Extract data from body
     const reqBody = req.body;
-    return res.status(200).json({ message: "new subscription saved !" });
+    // Create new subscription object mandatory fields
+    const newSubscription = new subscription_1.Subscription({
+        endpoint: reqBody.endpoint,
+        keys: {
+            auth: reqBody.keys.auth,
+            p256dh: reqBody.keys.p256dh,
+        },
+    });
+    // Insert new subcription in DB
+    yield newSubscription.create();
+    // If user successfully created, return the created user
+    return res.status(201).json(newSubscription.getPlainObject());
 });
 exports.postSubscriptionRouteController = postSubscriptionRouteController;

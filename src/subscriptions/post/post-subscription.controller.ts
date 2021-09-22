@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { Subscription } from "../../models/subscription";
 
 export const postSubscriptionRouteController: RequestHandler = async (
     req,
@@ -7,5 +8,16 @@ export const postSubscriptionRouteController: RequestHandler = async (
 ) => {
     // Extract data from body
     const reqBody = req.body;
-    return res.status(200).json({ message: "new subscription saved !" });
+    // Create new subscription object mandatory fields
+    const newSubscription = new Subscription({
+        endpoint: reqBody.endpoint,
+        keys: {
+            auth: reqBody.keys.auth,
+            p256dh: reqBody.keys.p256dh,
+        },
+    });
+    // Insert new subcription in DB
+    await newSubscription.create();
+    // If user successfully created, return the created user
+    return res.status(201).json(newSubscription.getPlainObject());
 };

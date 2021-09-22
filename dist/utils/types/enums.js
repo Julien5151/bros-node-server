@@ -5,6 +5,7 @@ var MongoCollection;
 (function (MongoCollection) {
     MongoCollection["users"] = "users";
     MongoCollection["groups"] = "groups";
+    MongoCollection["subscriptions"] = "subscriptions";
 })(MongoCollection = exports.MongoCollection || (exports.MongoCollection = {}));
 var UserRole;
 (function (UserRole) {

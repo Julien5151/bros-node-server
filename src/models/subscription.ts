@@ -11,48 +11,47 @@ import { CustomError } from "../utils/types/interfaces";
 
 export class Subscription {
     // Mandatory properties
-    firstName: string;
-    lastName: string;
-    email: string;
-    zipcode: number;
-    password: string;
+    endpoint: string;
+    keys: {
+        auth: string;
+        p256dh: string;
+    };
     // Optional properties
     _id: string;
     createdAt: Date;
-    phone: string | null;
-    address: string | null;
-    role: UserRole;
-    groupId: string | null;
-    availableForGrouping: boolean;
 
-    constructor(userObject: {
-        // Provided when creating a new user
-        firstName: string;
-        lastName: string;
-        email: string;
-        zipcode: number;
-        password: string;
+    constructor(subscriptionObject: {
+        // Provided when creating a new subscription
+        endpoint: string;
+        keys: {
+            auth: string;
+            p256dh: string;
+        };
         // Provided, when user is retrieved from DB
         _id?: string;
         createdAt?: Date;
-        phone?: string;
-        address?: string;
-        role?: UserRole;
-        groupId?: string;
-        availableForGrouping?: boolean;
     }) {
-        this.firstName = userObject.firstName;
-        this.lastName = userObject.lastName;
-        this.email = userObject.email;
-        this.zipcode = userObject.zipcode;
-        this.password = userObject.password;
+        this.endpoint = subscriptionObject.endpoint;
+        this.keys = subscriptionObject.keys;
         //
-        this._id = userObject._id ?? uuidv4();
-        this.createdAt = userObject.createdAt ?? new Date();
-        this.phone = userObject.phone ?? "";
-        this.address = userObject.address ?? "";
-        this.role = userObject.role ?? UserRole.bro;
-        this.groupId = userObject.groupId ?? null;
-        this.availableForGrouping = userObject.availableForGrouping ?? false;
+        this._id = subscriptionObject._id ?? uuidv4();
+        this.createdAt = subscriptionObject.createdAt ?? new Date();
+    }
+
+    /**
+     * Create subscription in DB
+     */
+    async create(): Promise<InsertOneWriteOpResult<any>> {
+        return db.collection(MongoCollection.subscriptions).insertOne(this);
+    }
+
+    /**
+     * Returns a copy of object data (without method or sensitive information - aka password)
+     */
+    getPlainObject(): Subscription {
+        // Deep copy of object and removes methods
+        const thisCopy = JSON.parse(JSON.stringify(this));
+        // Return copy of object
+        return thisCopy;
     }
 }

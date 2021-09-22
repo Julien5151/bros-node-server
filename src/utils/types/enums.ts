@@ -1,6 +1,7 @@
 export enum MongoCollection {
     "users" = "users",
     "groups" = "groups",
+    "subscriptions" = "subscriptions",
 }
 
 export enum UserRole {
