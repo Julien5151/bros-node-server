@@ -19,6 +19,8 @@ const path_1 = __importDefault(require("path"));
 const spa_1 = require("./utils/middlewares/spa");
 const profile_routes_1 = require("./profile/profile.routes");
 const subscriptions_routes_1 = require("./subscriptions/subscriptions.routes");
+const web_push_1 = require("./utils/web-push/web-push");
+const notifications_routes_1 = require("./notifications/notifications.routes");
 // Create express application
 const app = express_1.default();
 // Body parsing middleware application/json
@@ -35,14 +37,16 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use("/auth", auth_routes_1.authRouter);
 // Users routes
 app.use("/users", auth_1.authController, users_routes_1.usersRouter);
-// Subscriptions routes
-app.use("/subscriptions", auth_1.authController, subscriptions_routes_1.subscriptionsRouter);
 // Groups routes
 app.use("/groups", auth_1.authController, groups_routes_1.groupsRouter);
 // Profile routes
 app.use("/profile", auth_1.authController, profile_routes_1.profileRouter);
+// Subscriptions routes
+app.use("/subscriptions", auth_1.authController, subscriptions_routes_1.subscriptionsRouter);
 // Admin routes
 app.use("/admin", auth_1.authController, admin_1.checkAdminRoleController, admin_routes_1.adminRouter);
+// Notifications routes
+app.use("/notifications", auth_1.authController, admin_1.checkAdminRoleController, notifications_routes_1.notificationsRouter);
 // SPA route
 app.use("*", spa_1.spaController);
 // Error handling middleware
@@ -52,6 +56,8 @@ db_connection_1.connectDb()
     .then(() => {
     // If success, start express app
     app.listen(process.env.PORT);
+    // Setup push notifications
+    web_push_1.webPushSetup();
 })
     .catch(() => {
     // Log the error and don't start server test

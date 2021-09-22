@@ -14,6 +14,8 @@ import path from "path";
 import { spaController } from "./utils/middlewares/spa";
 import { profileRouter } from "./profile/profile.routes";
 import { subscriptionsRouter } from "./subscriptions/subscriptions.routes";
+import { webPushSetup } from "./utils/web-push/web-push";
+import { notificationsRouter } from "./notifications/notifications.routes";
 
 // Create express application
 const app = express();
@@ -38,17 +40,25 @@ app.use("/auth", authRouter);
 // Users routes
 app.use("/users", authController, usersRouter);
 
-// Subscriptions routes
-app.use("/subscriptions", authController, subscriptionsRouter);
-
 // Groups routes
 app.use("/groups", authController, groupsRouter);
 
 // Profile routes
 app.use("/profile", authController, profileRouter);
 
+// Subscriptions routes
+app.use("/subscriptions", authController, subscriptionsRouter);
+
 // Admin routes
 app.use("/admin", authController, checkAdminRoleController, adminRouter);
+
+// Notifications routes
+app.use(
+    "/notifications",
+    authController,
+    checkAdminRoleController,
+    notificationsRouter
+);
 
 // SPA route
 app.use("*", spaController);
@@ -61,6 +71,8 @@ connectDb()
     .then(() => {
         // If success, start express app
         app.listen(process.env.PORT);
+        // Setup push notifications
+        webPushSetup();
     })
     .catch(() => {
         // Log the error and don't start server test
