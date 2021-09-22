@@ -18,6 +18,7 @@ const db_connection_1 = require("./utils/database/db-connection");
 const path_1 = __importDefault(require("path"));
 const spa_1 = require("./utils/middlewares/spa");
 const profile_routes_1 = require("./profile/profile.routes");
+const subscriptions_routes_1 = require("./subscriptions/subscriptions.routes");
 // Create express application
 const app = express_1.default();
 // Body parsing middleware application/json
@@ -34,6 +35,8 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use("/auth", auth_routes_1.authRouter);
 // Users routes
 app.use("/users", auth_1.authController, users_routes_1.usersRouter);
+// Subscriptions routes
+app.use("/subscriptions", auth_1.authController, subscriptions_routes_1.subscriptionsRouter);
 // Groups routes
 app.use("/groups", auth_1.authController, groups_routes_1.groupsRouter);
 // Profile routes

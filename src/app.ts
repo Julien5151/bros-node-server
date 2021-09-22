@@ -13,6 +13,7 @@ import { connectDb } from "./utils/database/db-connection";
 import path from "path";
 import { spaController } from "./utils/middlewares/spa";
 import { profileRouter } from "./profile/profile.routes";
+import { subscriptionsRouter } from "./subscriptions/subscriptions.routes";
 
 // Create express application
 const app = express();
@@ -36,6 +37,9 @@ app.use("/auth", authRouter);
 
 // Users routes
 app.use("/users", authController, usersRouter);
+
+// Subscriptions routes
+app.use("/subscriptions", authController, subscriptionsRouter);
 
 // Groups routes
 app.use("/groups", authController, groupsRouter);
