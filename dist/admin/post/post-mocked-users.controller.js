@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,7 +7,7 @@ exports.postMockedUsersRouteController = void 0;
 const user_1 = require("../../models/user");
 const users_1 = require("../../utils/mocked-data/users");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const postMockedUsersRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const postMockedUsersRouteController = async (req, res, next) => {
     // Deep copy of original array
     const mockedUsers = JSON.parse(JSON.stringify(users_1.MockedUsers));
     // Create mocked user with hashed password in DB
@@ -34,7 +25,7 @@ const postMockedUsersRouteController = (req, res, next) => __awaiter(void 0, voi
                 availableForGrouping: mockedUsers[i].availableForGrouping,
             });
             // Insert new user in DB
-            yield newUser.create();
+            await newUser.create();
         }
         // Users were created successfully
         return res.status(201).json({
@@ -51,5 +42,5 @@ const postMockedUsersRouteController = (req, res, next) => __awaiter(void 0, voi
         };
         return next(customError);
     }
-});
+};
 exports.postMockedUsersRouteController = postMockedUsersRouteController;

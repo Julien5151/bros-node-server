@@ -1,19 +1,10 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postGroupRouteController = void 0;
 const group_1 = require("../../models/group");
 const user_1 = require("../../models/user");
 const enums_1 = require("../../utils/types/enums");
-const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const postGroupRouteController = async (req, res, next) => {
     // Extract group type
     const groupType = req.body.type;
     // Extract user initiating group request
@@ -36,7 +27,7 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
     }
     // Start composing the group
     try {
-        const brosList = yield user_1.User.findRandomSample(enums_1.GroupSize[groupType] - 1, user.zipcode, user._id);
+        const brosList = await user_1.User.findRandomSample(enums_1.GroupSize[groupType] - 1, user.zipcode, user._id);
         // Instanciate new group
         const brosGroup = new group_1.Group({
             type: groupType,
@@ -47,14 +38,14 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
         const completeBrosList = [user, ...brosList];
         // List
         const completeBrosListIds = completeBrosList.map((user) => user._id);
-        yield user_1.User.updateMany(completeBrosListIds, {
+        await user_1.User.updateMany(completeBrosListIds, {
             $set: {
                 groupId: brosGroup._id,
                 availableForGrouping: false,
             },
         });
         // Insert new group in DB
-        yield brosGroup.create();
+        await brosGroup.create();
         // If group successfully created, return the created group
         return res.status(201).json(brosGroup.getPlainObject());
     }
@@ -74,5 +65,5 @@ const postGroupRouteController = (req, res, next) => __awaiter(void 0, void 0, v
             return next(customError);
         }
     }
-});
+};
 exports.postGroupRouteController = postGroupRouteController;
